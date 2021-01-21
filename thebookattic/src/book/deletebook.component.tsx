@@ -1,7 +1,9 @@
 import React from 'react';
-import { View, Text, Image, Button } from 'react-native';
+import { View, Button } from 'react-native';
 
 export default function DeleteBookComponent() {
+    //TODO get book: will we store a book in redux or use props?
+
     //TODO make this actually do something
     function deleteBook() {
         console.log('Delete this book');
