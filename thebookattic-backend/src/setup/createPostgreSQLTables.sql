@@ -12,3 +12,14 @@ create table books
 	constraint fk_authorid foreign key (authorid) references authors (id),
 	constraint fk_genreid foreign key (genreid) references genres (id)
 );
+
+create table authors
+(
+	id serial primary key,
+	userid int not null
+	firstname varchar(25),
+	lastname varchar(25),
+	avgrating int not null,
+	bio varchar(500) not null,
+	picture varchar(100) not null
+)
