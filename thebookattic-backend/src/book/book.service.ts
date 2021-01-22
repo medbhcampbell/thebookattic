@@ -1,7 +1,7 @@
-import { Pool, PoolClient } from 'pg';
+import { Pool } from 'pg';
 import dotenv from 'dotenv';
-import { Book } from './book';
 
+//class to get lists of books and information about them
 class BookService {
     private pool: Pool;
 
@@ -10,13 +10,20 @@ class BookService {
         this.pool = new Pool();
     }
 
-    // function getAllBooks(): Book[] {
-    //     const res = await this.pool.query('select * from books');
-    //     res.rows.array.map(book => {
-    //         return new Book(book.)
-    //     });
-    // }
+    //get all the books in the database
+    getAllBooks(): void {
+        this.pool.query('select * from books').then((res) => {
+            console.log(res.rows);
+            this.pool.end();
+            process.exit();
+        }).catch(err => {
+            console.log(err);
+        });
+    }
 }
 
 const bookService = new BookService();
 export default bookService;
+
+//testing
+bookService.getAllBooks();
