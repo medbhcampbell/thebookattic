@@ -29,7 +29,25 @@ create table reviews
     id serial primary key,
     rating int not null,
     content text not null,
-    username varchar(10) references user(username) not null,
+    username varchar(10) not null,
     bookid int not null references books(id) not null,
     approved boolean default false
 );
+
+create table genres
+(
+	id serial primary key,
+	name varchar(25) not null
+);
+
+
+-- Populating with some sample entries, feel free to add/remove
+insert into genres (name) values ('action');
+insert into genres (name) values ('adventure');
+insert into genres (name) values ('nonfiction');
+insert into genres (name) values ('classic');
+insert into genres (name) values ('fantasy');
+insert into genres (name) values ('mystery');
+insert into genres (name) values ('romance');
+insert into genres (name) values ('sci-fi');
+insert into genres (name) values ('young adult');
