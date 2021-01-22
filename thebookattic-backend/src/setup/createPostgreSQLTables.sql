@@ -16,7 +16,7 @@ create table books
 create table authors
 (
 	id serial primary key,
-	userid int not null
+	userid int not null,
 	firstname varchar(25),
 	lastname varchar(25),
 	avgrating float not null,
