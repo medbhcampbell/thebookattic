@@ -1,3 +1,20 @@
+create table authors
+(
+	id serial primary key,
+	userid int not null,
+	firstname varchar(25),
+	lastname varchar(25),
+	avgrating float not null,
+	bio varchar(500) not null,
+	picture varchar(100) not null
+);
+
+create table genres
+(
+	id serial primary key,
+	name varchar(25) not null
+);
+
 create table books
 (
 	id serial primary key,
@@ -13,17 +30,6 @@ create table books
 	constraint fk_genreid foreign key (genreid) references genres (id)
 );
 
-create table authors
-(
-	id serial primary key,
-	userid int not null,
-	firstname varchar(25),
-	lastname varchar(25),
-	avgrating float not null,
-	bio varchar(500) not null,
-	picture varchar(100) not null
-);
-
 create table reviews
 (
     id serial primary key,
@@ -33,13 +39,6 @@ create table reviews
     bookid int not null references books(id) not null,
     approved boolean default false
 );
-
-create table genres
-(
-	id serial primary key,
-	name varchar(25) not null
-);
-
 
 -- Populating with some sample entries, feel free to add/remove
 insert into genres (name) values ('action');
