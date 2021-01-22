@@ -1,3 +1,8 @@
+drop table reviews;
+drop table books;
+drop table authors;
+drop table genres;
+
 create table authors
 (
 	id serial primary key,
@@ -50,3 +55,5 @@ insert into genres (name) values ('mystery');
 insert into genres (name) values ('romance');
 insert into genres (name) values ('sci-fi');
 insert into genres (name) values ('young adult');
+
+insert into authors (userid, firstname, lastname, avgrating, bio, picture) values (1, 'Tamora', 'Pierce', 4.5, 'American YA fantasy author', 'temp.com');
