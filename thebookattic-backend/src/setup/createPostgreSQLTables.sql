@@ -16,10 +16,20 @@ create table books
 create table authors
 (
 	id serial primary key,
-	userid int not null
+	userid int not null,
 	firstname varchar(25),
 	lastname varchar(25),
 	avgrating float not null,
 	bio varchar(500) not null,
 	picture varchar(100) not null
-)
+);
+
+create table reviews
+(
+    id serial primary key,
+    rating int not null,
+    content text not null,
+    username varchar(10) references user(username) not null,
+    bookid int not null references books(id) not null,
+    approved boolean default false
+);
