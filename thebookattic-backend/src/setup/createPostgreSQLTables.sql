@@ -1,3 +1,8 @@
+drop table if exists reviews;
+drop table if exists books;
+drop table if exists genres;
+drop table if exists authors;
+
 create table authors
 (
 	id serial primary key,
