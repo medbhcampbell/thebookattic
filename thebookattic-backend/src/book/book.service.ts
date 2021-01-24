@@ -23,9 +23,10 @@ function getBooksByAuthor(): void {
 
   //get APPROVED books by genre(s)
   //get book by id
-//add a book to the database (as an author)
-//delete a book from the database (as an author/admin)
-//approve a book (as an admin)
+  //add a book to the database (as an author)
+  //delete a book from the database (as an author/admin)
+  //get UNAPPROVED books (as an admin)
+  //approve a book (as an admin)
 
 function quit() {
     pool.end();
