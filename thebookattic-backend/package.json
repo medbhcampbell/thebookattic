@@ -16,8 +16,7 @@
     "express-session": "^1.17.1",
     "http-errors": "~1.6.3",
     "log4js": "^6.3.0",
-    "memorystore": "^1.6.4",
-    "pg": "^8.5.1"
+    "memorystore": "^1.6.4"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
