@@ -1,16 +1,10 @@
 import { Pool } from 'pg';
 import dotenv from 'dotenv';
-import readline from 'readline';
 
 import logger from '../log';
 import { Author } from './author';
 
 dotenv.config();
-
-export const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-});
 
 const pool = new Pool();
 
