@@ -25,7 +25,9 @@ export const handler = async (event: BookEvent): Promise<any> => {
 }
 
 async function addBook(book: Book): Promise<boolean> {
-    return pool.query(`insert into books (authorid, title, cover, blurb, page_count, link, genreid) values(${book.authorId}, ${book.title}, ${book.cover}, ${book.blurb}, ${book.pageCount}, ${book.link}, ${book.genre});`).then((res) => {
+    const q = 'insert into books (authorid, title, cover, blurb, page_count, link, genreid) values($1::integer, $2::text, $3::text, $4::text, $5::integer, $6::text, $7::integer)';
+    const args = [book.authorId, book.title, book.cover, book.blurb, book.pageCount, book.link, book.genre];
+    return pool.query(q, args).then((res) => {
         return true;
     }).catch((err) => {
         console.log(err);

@@ -25,7 +25,7 @@ export const handler = async (event: GenreEvent): Promise<any> => {
 }
 
 async function getApprovedBooksByGenre(genreid: number): Promise<Book[] | null> {
-    return pool.query(`select * from thebookattic.books where approved=true and genreid=${genreid}`).then((res) => {
+    return pool.query('select * from thebookattic.books where approved=true and genreid=$1::integer', [genreid]).then((res) => {
         return res.rows as Book[];
     }).catch((err) => {
         console.log(err);

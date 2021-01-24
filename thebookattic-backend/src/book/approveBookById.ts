@@ -23,7 +23,7 @@ export const handler = async (event: BookEvent): Promise<any> => {
 }
 
 async function approveBookById(bookid: number): Promise<boolean> {
-    return pool.query(`update thebookattic.books set approved = true where id=${bookid}`).then((res) => {
+    return pool.query('update thebookattic.books set approved = true where id=$1::integer', [ bookid ]).then((res) => {
         return true;
     }).catch((err) => {
         console.log(err);

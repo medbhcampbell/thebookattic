@@ -27,7 +27,7 @@ export const handler = async (event: BookEvent): Promise<any> => {
 }
 
 async function deleteBookById(bookid: number): Promise<Book | null> {
-    return pool.query(`delete from thebookattic.books where id=${bookid}`).then((res) => {
+    return pool.query('delete from thebookattic.books where id=$1::integer', [bookid]).then((res) => {
         return res.rows[0] as Book;
     }).catch((err) => {
         console.log(err);

@@ -27,7 +27,7 @@ export const handler = async (event: BookEvent): Promise<any> => {
 }
 
 async function getBookById(bookid: number): Promise<Book | null> {
-    return pool.query(`select * from thebookattic.books where approved=true and id=${bookid}`).then((res) => {
+    return pool.query('select * from thebookattic.books where approved=true and id=$1::integer', [bookid]).then((res) => {
         return res.rows[0] as Book;
     }).catch((err) => {
         console.log(err);
