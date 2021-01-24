@@ -57,3 +57,4 @@ insert into genres (name) values ('sci-fi');
 insert into genres (name) values ('young adult');
 
 insert into authors (userid, firstname, lastname, avgrating, bio, picture) values (1, 'Tamora', 'Pierce', 4.5, 'American YA fantasy author', 'temp.com');
+insert into books (authorid, title, cover, blurb, page_count, genreid) values((select id from authors where userid = 1), 'Wild Magic', 'temp.com/bla.jpg', 'blablabla', 50, 8);

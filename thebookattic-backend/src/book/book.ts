@@ -1,8 +1,14 @@
 export class Book {
 
+    //ID from SQL
+    public id: number = 0;
+
+    //book's status on our site
+    public rating: number = 0;
+    public isApproved: boolean = false;
+
     constructor(
         //IDs from SQL
-        public bookId: number,
         public authorId: number,
         //Info about book
         public title: string,
@@ -10,10 +16,7 @@ export class Book {
         public blurb: string,
         public pageCount: number,
         public link: string,
-        public genre: number,
-        //book's status on our site
-        public rating: number,
-        public isApproved: boolean
+        public genre: number
     ){}
     
 }

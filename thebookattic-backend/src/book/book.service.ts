@@ -1,29 +1,38 @@
 import { Pool } from 'pg';
 import dotenv from 'dotenv';
 
-//class to get lists of books and information about them
-class BookService {
-    private pool: Pool;
+dotenv.config();
+console.log(process.env.PGHOST);
 
-    constructor() {
-        dotenv.config();
-        this.pool = new Pool();
-    }
+const pool = new Pool();
 
-    //get all the books in the database
-    getAllBooks(): void {
-        this.pool.query('select * from books').then((res) => {
-            console.log(res.rows);
-            this.pool.end();
-            process.exit();
-        }).catch(err => {
-            console.log(err);
-        });
-    }
+  //get all the APPROVED books in the database (as a user)
+function getAllBooks() {
+  pool.query('select * from thebookattic.books where approved=true').then((res) => {
+      console.log(res.rows);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 }
 
-const bookService = new BookService();
-export default bookService;
+  //get APPROVED books by author (as a user)
+function getBooksByAuthor(): void {
+
+}
+
+  //get APPROVED books by genre(s)
+  //get book by id
+//add a book to the database (as an author)
+//delete a book from the database (as an author/admin)
+//approve a book (as an admin)
+
+function quit() {
+    pool.end();
+}
 
 //testing
-bookService.getAllBooks();
+getAllBooks();
+
+
+quit();
