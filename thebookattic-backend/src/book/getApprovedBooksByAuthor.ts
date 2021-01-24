@@ -1,4 +1,5 @@
 // Author's page will contain a list of books by that author
+// Not sure how the route will look for this: authors/:authorid should get info about author AND this list.
 
 import { Pool } from 'pg';
 import dotenv from 'dotenv';
@@ -17,6 +18,7 @@ export const handler = async (event: AuthorEvent): Promise<any> => {
     console.log(`fetching books by author ${authorid}`);
 
     const books = await getApprovedBooksByAuthor(authorid);
+    pool.end();
     if(books) {
         return {statusCode: 200, body: JSON.stringify(books)};
     } else {

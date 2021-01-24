@@ -15,6 +15,7 @@ export const handler = async (event: BookEvent): Promise<any> => {
     console.log(`approving book ${bookid}`);
 
     const approved = await approveBookById(bookid);
+    pool.end();
     if(approved) {
         return {statusCode: 200, body: JSON.stringify({})};
     } else {

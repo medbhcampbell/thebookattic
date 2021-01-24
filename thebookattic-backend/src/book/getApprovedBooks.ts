@@ -10,6 +10,7 @@ const pool = new Pool();
 
 export const handler = async (): Promise<any> => {
     const books = await getApprovedBooks();
+    pool.end();
     if(books) {
         return {statusCode: 200, body: JSON.stringify(books)};
     } else {

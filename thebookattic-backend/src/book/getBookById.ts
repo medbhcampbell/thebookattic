@@ -19,7 +19,9 @@ export const handler = async (event: BookEvent): Promise<any> => {
     console.log(`fetching book ${bookid}`);
 
     const book = await getBookById(bookid);
+    pool.end();
     if(book) {
+        console.log(JSON.stringify(book));
         return {statusCode: 200, body: JSON.stringify(book)};
     } else {
         return {statusCode: 404, body: JSON.stringify({})};
@@ -28,6 +30,7 @@ export const handler = async (event: BookEvent): Promise<any> => {
 
 async function getBookById(bookid: number): Promise<Book | null> {
     return pool.query('select * from thebookattic.books where approved=true and id=$1::integer', [bookid]).then((res) => {
+        console.log(JSON.stringify(res.rows));
         return res.rows[0] as Book;
     }).catch((err) => {
         console.log(err);

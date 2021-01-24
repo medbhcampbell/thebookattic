@@ -17,6 +17,7 @@ export const handler = async (event: BookEvent): Promise<any> => {
     console.log(`adding book ${JSON.stringify(book)}`);
 
     const added = await addBook(book);
+    pool.end();
     if(added) {
         return {statusCode: 201, body: JSON.stringify(book)};
     } else {

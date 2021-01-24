@@ -19,6 +19,7 @@ export const handler = async (event: BookEvent): Promise<any> => {
     console.log(`deleting book ${bookid}`);
 
     const book = await deleteBookById(bookid);
+    pool.end();
     if(book) {
         return {statusCode: 204, body: JSON.stringify(book)};
     } else {
