@@ -21,7 +21,7 @@ class AuthorService {
         const query = 'select * from authors;';
         const result = await pool.query(query);
         pool.end();
-        if (result) {
+        if (result.rowCount) {
             logger.debug('Backend: Succesfully retrieved author list');
             logger.trace(result.rows);
             return result.rows;
@@ -36,7 +36,7 @@ class AuthorService {
         const query = `select * from authors where id = '${authorId}'`;
         const result = await pool.query(query);
         pool.end();
-        if (result) {
+        if (result.rowCount === 1) {
             logger.debug('Backend: Successfully retrieved author');
             logger.trace(result.rows[0]);
             return result.rows[0];
@@ -111,35 +111,3 @@ class AuthorService {
 
 const authorService = new AuthorService();
 export default authorService;
-
-const updatedAuthor: Author = new Author(1, 111111, 'Jane', 'Aus', 4.4, 'English romance author for the nobility', 'url');
-
-function menu() {
-    console.log('Choose an option:\n1.getAllAuthors\n2.getAuthorbyId(1)\n3.addAuthor(111116, \'Mark\', \'Twain\', 4.3, \'Participated in Confederate militia\', \'url\'\n4.updateAuthor(updatedAuthor)\n5.removeAuthor(6)\n6.Quit');
-    rl.question('', async (answer) => {
-        switch(answer) {
-            case '1':
-                authorService.getAllAuthors();
-                break;
-            case '2':
-                authorService.getAuthorById(1);
-                break;
-            case '3':
-                authorService.addAuthor(111116, 'Mark', 'Twain', 4.3, 'Participated in Confederate militia', 'url');
-                break;
-            case '4':
-                authorService.updateAuthor(updatedAuthor);
-                break;
-            case '5':
-                authorService.removeAuthor(6);
-                break;
-            case '6':
-                process.exit();
-            default:
-                menu();
-        }
-    });
-}
-
-menu();
-

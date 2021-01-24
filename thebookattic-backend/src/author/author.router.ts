@@ -1,29 +1,27 @@
 import express from 'express';
 
-import log from '../log';
-import reimbService from './reimb.service';
+import logger from '../log';
+import authorService from './author.service';
 
 const router = express.Router();
 
 router.get('/', function(req, res, next) {
-    log.debug('Attemping to get reimbursement list');
-    reimbService.getAllReimbs().then((reimbs) => {
-        res.send(JSON.stringify(reimbs));
+    logger.debug('Attemping to get author list');
+    authorService.getAllAuthors().then((authors) => {
+        res.send(JSON.stringify(authors));
     });
 });
 
 router.get('/:id', function(req, res, next) {
-    log.debug('Attempting to retrieve reimbursement');
-    log.debug('Searching for reimbursement with id: '+req.params.id);
-    reimbService.getReimbById(req.params.id).then((reimb) => {
-        res.send(JSON.stringify(reimb));
+    logger.debug('Attempting to retrieve author with id: ' + req.params.id);
+    authorService.getAuthorById(Number(req.params.authorId)).then((author) => {
+        res.send(JSON.stringify(author));
     });
 });
 
 router.post('/', function(req, res, next) {
-    log.debug('Attempting to add new reimbursement request');
-    log.debug('Adding reimbursement as follows: ' + req.params);
-    reimbService.addReimb(req.body).then((data) => {
+    logger.debug('Attempting to add new reimbursement request: ' + req.params);
+    authorService.addAuthor(req.body.userId, req.body.firstName, req.body.lastName, req.body.avgRating, req.body.bio, req.body.picture).then((data) => {
         res.sendStatus(201);
     }).catch((err) => {
         res.sendStatus(500);
@@ -31,11 +29,20 @@ router.post('/', function(req, res, next) {
 });
 
 router.put('/', function(req, res, next) {
-    log.debug('Attemping to update existing reimbursement request');
-    log.debug('Updating existing reimbursement with following details: ' + req.params);
-    reimbService.updateReimb(req.body).then((data) => {
+    logger.debug('Attemping to update existing author with following details: ' + req.params);
+    authorService.updateAuthor(req.body).then((data) => {
         res.sendStatus(200);
     }).catch((err) => {
+        res.sendStatus(500);
+    });
+});
+
+router.delete('/:id', function(req, res, next) {
+    logger.debug('Attemping to delete existing author: ' + req.params);
+    authorService.removeAuthor(Number(req.params.id)).then((data) => {
+        res.sendStatus(200);
+    }).catch((error) => {
+        logger.error('Failed to delete author: ' + error);
         res.sendStatus(500);
     });
 });
