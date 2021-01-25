@@ -1,5 +1,8 @@
 // Author's page will contain a list of books by that author
-// Not sure how the route will look for this: authors/:authorid should get info about author AND this list.
+// Not sure how the route will look for this: authors/:authorid should
+//   get info about author AND this list.
+//   Could use authors/:authorid/books ??? Ask Richard?
+//   TODO: figure out route
 
 import { Pool } from 'pg';
 import dotenv from 'dotenv';
