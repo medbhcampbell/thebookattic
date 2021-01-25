@@ -16,7 +16,10 @@ const styles = StyleSheet.create({
     login: {
         backgroundColor: '#aaa'
     },
-   
+    h1: {
+        fontSize: 24,
+        fontWeight: 'bold'
+    }
 });
 
 export default styles;
