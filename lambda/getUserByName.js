@@ -61,35 +61,40 @@ var docClient = new AWS.DynamoDB.DocumentClient({
     region: 'us-west-2',
     endpoint: 'http://dynamodb.us-west-2.amazonaws.com'
 });
-var handler = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var user;
+var handler = function (event) { return __awaiter(void 0, void 0, void 0, function () {
+    var userName, user;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, getUsers()];
+            case 0:
+                userName = event.path.substring(event.path.lastIndexOf('/') + 1, event.path.length);
+                return [4 /*yield*/, getUserByName(userName)];
             case 1:
                 user = _a.sent();
                 if (user) {
-                    return [2 /*return*/, JSON.stringify(user)];
+                    return [2 /*return*/, { statusCode: 200, body: JSON.stringify(user) }];
                 }
                 else {
-                    return [2 /*return*/, Error('404')];
+                    return [2 /*return*/, { statusCode: 404, body: JSON.stringify({}) }];
                 }
                 return [2 /*return*/];
         }
     });
 }); };
 exports.handler = handler;
-function getUsers() {
+function getUserByName(id) {
     return __awaiter(this, void 0, void 0, function () {
         var params;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     params = {
-                        TableName: 'users'
+                        TableName: 'users',
+                        Key: {
+                            'name': id
+                        }
                     };
-                    return [4 /*yield*/, docClient.scan(params).promise().then(function (data) {
-                            return data.Items;
+                    return [4 /*yield*/, docClient.get(params).promise().then(function (data) {
+                            return data.Item;
                         }).catch(function (err) {
                             return null;
                         })];
