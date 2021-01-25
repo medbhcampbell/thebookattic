@@ -9,6 +9,8 @@ import { BookAtticState } from './store';
 export const initialState: BookAtticState = {
     user: new User(),
     loginUser: new User(),
+    review: new Review(),
+    reviews: []
 }   
    
 
@@ -28,6 +30,12 @@ const reducer = (state: BookAtticState = initialState, action: Actions.AppAction
             return newState;
         case Actions.UserActions.ChangeLocale:
             newState.locale = action.payload as string;
+            return newState;
+        case Actions.ReviewActions.GetReviews:
+            newState.reviews = action.payload as Review[];
+            return newState;
+        case Actions.ReviewActions.ChangeReview:
+            newState.review = action.payload as Review;
             return newState;
         default: 
             return state;
