@@ -87,5 +87,3 @@ insert into books (authorid, title, cover, blurb, page_count, approved, genreid)
 	'750',
 	true,
 	(select id from genres where name like 'horror'));
-	
-select * from books;
