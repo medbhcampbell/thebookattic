@@ -20,7 +20,7 @@ router.get('/:id', function(req, res, next) {
 
 // Add genre to database
 router.post('/', function(req, res, next) {
-    genreService.addGenre(req.body.name).then((data) => {
+    genreService.addGenre(req.body).then((data) => {
         res.sendStatus(201);
     }).catch((err) => {
         res.sendStatus(500);
