@@ -8,13 +8,10 @@ export const handler = async (event: MyEvent) => {
     const client = new Client();
     await client.connect();
     let review: Review = JSON.parse(event.body) as Review;
-    const q = `insert into reviews (rating, content, username, bookid)
-    values ($1::int, $2::text, $3::text, $4::int);`;
+    const q = `update reviews set approved = true 
+    where id = $1::int`;
     let res = await client.query(q, [
-        review.rating,
-        review.content,
-        review.username,
-        review.bookid
+        review.id
     ]);
     await client.end();
     if (res) {
