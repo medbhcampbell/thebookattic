@@ -1,3 +1,8 @@
+drop table if exists reviews;
+drop table if exists books;
+drop table if exists genres;
+drop table if exists authors;
+
 create table authors
 (
 	id serial primary key,
@@ -50,3 +55,9 @@ insert into genres (name) values ('mystery');
 insert into genres (name) values ('romance');
 insert into genres (name) values ('sci-fi');
 insert into genres (name) values ('young adult');
+
+insert into authors (userid, firstname, lastname, avgrating, bio, picture) values ('111111', 'Jane', 'Austen', '4.5', 'English romance author for the gentry', 'url');
+insert into authors (userid, firstname, lastname, avgrating, bio, picture) values ('111112', 'William', 'Shakespeare', '2.7', 'Some unpopular English scriptwriter', 'url');
+insert into authors (userid, firstname, lastname, avgrating, bio, picture) values ('111113', 'Leo', 'Tolstoy', '4.8', 'Russian author who writes sad, preachy stories', 'url');
+insert into authors (userid, firstname, lastname, avgrating, bio, picture) values ('111114', 'Stephen', 'King', '4.5', 'Writes scary stuff', 'url');
+insert into authors (userid, firstname, lastname, avgrating, bio, picture) values ('111115', 'Roald', 'Dahl', '4.6', 'Likes traumatizing children', 'url');
