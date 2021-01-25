@@ -14,8 +14,15 @@ async function testHandlers() {
     console.log('getUnapprovedBooks:');
     await getUnapprovedBooks.handler();
 
+    console.log('\ngetApprovedBooks:');
+    await getApprovedBooks.handler();
+
+    console.log('\ngetApprovedBooksByAuthor:');
+    const authorEvt = { path: 'blablabla.com/authors/1' };
+    await getApprovedBooksByAuthor.handler(authorEvt);
+
     console.log('\ngetBookById:');
-    const evt = { path: 'blablabla.com/books/1' }
+    const evt = { path: 'blablabla.com/books/1' };
     await getBookById.handler(evt);
 }
 
