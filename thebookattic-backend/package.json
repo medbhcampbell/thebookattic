@@ -29,9 +29,13 @@
     "@types/http-errors": "^1.8.0",
     "@types/jest": "^26.0.19",
     "@types/morgan": "^1.9.2",
+<<<<<<< HEAD
     "@types/node": "^14.14.22",
     "@types/pg": "^7.14.9",
     "aws-sdk": "^2.831.0",
+=======
+    "@types/pg": "^7.14.9",
+>>>>>>> 4453cb291d671d0e4ae682b4b85b09fd8f106ffe
     "babel-jest": "^26.6.3",
     "jest": "^26.6.3",
     "morgan": "^1.9.1",
