@@ -19,6 +19,7 @@ export const handler = async (event: GenreEvent): Promise<any> => {
     const books = await getApprovedBooksByGenre(genreid);
     pool.end();
     if(books) {
+        console.log(JSON.stringify(books));
         return {statusCode: 200, body: JSON.stringify(books)};
     } else {
         return {statusCode: 404, body: JSON.stringify({})};

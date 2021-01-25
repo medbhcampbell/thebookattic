@@ -1,6 +1,6 @@
 // Can see all info about a book from its id
 // If book is unapproved and the user is not admin/the book's author, we should redirect
-// But that will probably happen on the frontend
+// But that will happen on the frontend, as it is roleguarding
 
 import { Pool } from 'pg';
 import dotenv from 'dotenv';
@@ -29,8 +29,7 @@ export const handler = async (event: BookEvent): Promise<any> => {
 }
 
 async function getBookById(bookid: number): Promise<Book | null> {
-    return pool.query('select * from thebookattic.books where approved=true and id=$1::integer', [bookid]).then((res) => {
-        console.log(JSON.stringify(res.rows));
+    return pool.query('select * from thebookattic.books where id=$1::integer', [bookid]).then((res) => {
         return res.rows[0] as Book;
     }).catch((err) => {
         console.log(err);
