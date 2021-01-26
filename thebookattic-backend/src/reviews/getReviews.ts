@@ -1,6 +1,5 @@
-import { Client } from 'pg';
-
-export const handler = async () => {
+exports.handler = async () => {
+    const { Client } = require('pg');
     const client = new Client();
     await client.connect();
     const res = await client.query(`select * from reviews`);

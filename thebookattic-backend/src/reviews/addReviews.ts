@@ -1,10 +1,18 @@
-import { Client } from 'pg';
-
 interface MyEvent {
     body: string;
 }
 
-export const handler = async (event: MyEvent) => {
+class Review {
+    id: number = 0;
+    rating: number = 0;
+    content: string = '';
+    username: string = '';
+    bookid: number = 0;
+    approved: boolean = false;
+}
+
+exports.handler = async (event: MyEvent) => {
+    const { Client } = require('pg');
     const client = new Client();
     await client.connect();
     let review: Review = JSON.parse(event.body) as Review;
@@ -23,12 +31,3 @@ export const handler = async (event: MyEvent) => {
         return { statusCode: 400 };
     }
 };
-
-class Review {
-    id: number = 0;
-    rating: number = 0;
-    content: string = '';
-    username: string = '';
-    bookid: number = 0;
-    approved: boolean = false;
-}
