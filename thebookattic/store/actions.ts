@@ -1,3 +1,4 @@
+import { Review } from '../review/review';
 import { User } from './../user/user';
 
 export enum UserActions {

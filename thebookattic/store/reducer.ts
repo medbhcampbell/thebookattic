@@ -1,6 +1,8 @@
 import * as Actions from './actions';
 import { User } from './../user/user';
 import { BookAtticState } from './store';
+import { Review } from './../review/review';
+
 
 
 // We need to define the initial state of the application and that

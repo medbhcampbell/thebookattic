@@ -7,10 +7,10 @@ let docClient = new AWS.DynamoDB.DocumentClient({
 
 export const handler = async () => {
     const user = await getUsers();
-    if(user) {
-        return JSON.stringify(user);
+    if (user) {
+        return {statusCode: 200, body: JSON.stringify(user)};
     } else {
-        return Error('404');
+        return {statusCode: 404, body: JSON.stringify({})};
     }
 }
 

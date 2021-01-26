@@ -69,10 +69,10 @@ var handler = function () { return __awaiter(void 0, void 0, void 0, function ()
             case 1:
                 user = _a.sent();
                 if (user) {
-                    return [2 /*return*/, JSON.stringify(user)];
+                    return [2 /*return*/, { statusCode: 200, body: JSON.stringify(user) }];
                 }
                 else {
-                    return [2 /*return*/, Error('404')];
+                    return [2 /*return*/, { statusCode: 404, body: JSON.stringify({}) }];
                 }
                 return [2 /*return*/];
         }
