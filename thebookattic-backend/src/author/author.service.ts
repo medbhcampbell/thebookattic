@@ -40,17 +40,17 @@ class AuthorService {
         }
     }
 
-    async addAuthor(userId: number, firstName: string, lastName: string, avgRating: number, bio: string, picture: string): Promise<boolean> {
+    async addAuthor(author: Author): Promise<boolean> {
         logger.debug('Backend: Attempting to add author to table');
         const query = 
         `insert into authors (userid, firstname, lastname, avgrating, bio, picture) 
         values (
-            '${userId}', 
-            '${firstName}', 
-            '${lastName}', 
-            '${avgRating}', 
-            '${bio}', 
-            '${picture}'
+            '${author.userId}', 
+            '${author.firstName}', 
+            '${author.lastName}', 
+            '${author.avgRating}', 
+            '${author.bio}', 
+            '${author.picture}'
         )`
         const result = await pool.query(query);
         pool.end();
