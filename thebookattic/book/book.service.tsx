@@ -45,7 +45,18 @@ class BookService {
     }
 
     getAllBooks(): Promise<Book[]> {
-        return axios.get(this.URI).then(result => result.data);
+        return axios.get(this.URI).then(result => {
+            if(result.data) {
+                return result.data;
+            }
+            else {
+                console.error('Error getting books');
+                return [];
+            }
+        }).catch((err)=>{
+            console.error('Could not connect to backend');
+            return [];
+        });
     }
 }
 

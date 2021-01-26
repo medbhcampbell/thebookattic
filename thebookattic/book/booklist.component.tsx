@@ -1,50 +1,48 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, Image, ActivityIndicator } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
+import { View, Text, Image, ActivityIndicator, Pressable } from 'react-native';
 import { Card } from 'react-native-elements';
 import { FlatList } from 'react-native-gesture-handler';
+import { useNavigation } from '@react-navigation/native';
 
 import style from '../global-styles';
 import { Book } from './book';
-import bookService from './book.service';
-import { BookState } from '../store/store';
-import { changeBooks } from '../store/actions';
 
-export default function BookListComponent() {
-    const books = useSelector((state: BookState) => state.books);
-    const dispatch = useDispatch();
-    // Have the books been retrieved?
-    const [retrievedBooks, setRetrievedBooks] = useState(false);
+interface BookListProps {
+    // The books to be displayed
+    books: Book[],
+    // Have the books been retrieved? 
+    retrievedBooks: boolean
+}
 
-    useEffect(()=>{
-        if(books.length <= 0) {
-            // If there's no books in the store, use the service to retrieve them
-            bookService.getAllBooks().then((result)=>{
-                dispatch(changeBooks(result));
-                setRetrievedBooks(true);
-            }).catch((err)=>{
-                console.error(err);
-                setRetrievedBooks(true);
-            });
-        } else {
-            setRetrievedBooks(true);
-        }
-    }, [books]);
+export default function BookListComponent(props: BookListProps) {
+    const navigation = useNavigation();
+
+    function onBookSelect(index: number) {
+        const book = props.books[index];
+        navigation.navigate('BookDetail', book);
+    }
 
     // The component to be rendered for every book
     const BookPreview = (params: any) => {
         return (
-            <Card>
-                <Text>{params.item.title}</Text>
-                <Image style={style.previewImg} source={{uri: params.item.cover}}/>
-            </Card>
+            <Pressable onPress={()=> onBookSelect(params.index)}>
+                <Card>
+                    <Text style={style.bookPreviewText}>{params.item.title}</Text>
+                    <Image style={style.bookPreviewImg} source={{uri: params.item.cover}}/>
+                </Card>
+            </Pressable>
         );
     }
 
+    // Function to set key for each list component (it gets mad if we dont do this)
+    const keyExtractor = (item: object, index: number) => { return index.toString(); }
+
     return (
-        <View>
-            {retrievedBooks?
-                <FlatList contentContainerStyle={style.bookList} data={books} renderItem={BookPreview}/>
+        <View style={{alignItems: 'center'}}>
+            {props.retrievedBooks?
+                (props.books.length > 0) ? 
+                    <FlatList data={props.books} renderItem={BookPreview} keyExtractor={keyExtractor}/>
+                    : <Text style={style.h1}>No books found!</Text>
                 : <ActivityIndicator/>}
         </View>
     )

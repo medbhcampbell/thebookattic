@@ -27,12 +27,11 @@ function LoginComponent({navigation}: LoginProp) {
     }, []);
 
     function submitForm() {
-        navigation.navigate('Home');
-        // userService.login(user).then((user) => {
-        //     console.log(user);
-        //     dispatch(getUser(user));
-        //     navigation.navigate('Home');
-        // });
+        userService.login(user).then((user) => {
+            console.log(user);
+            dispatch(getUser(user));
+            navigation.navigate('Home');
+        });
     }
     return (
         <View style={[style.container, style.login]}>

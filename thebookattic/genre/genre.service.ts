@@ -5,7 +5,7 @@ import Genre from './genre';
 class GenreService {
     private URI: string;
     constructor() {
-        this.URI = 'http://localhost:3000/authors';
+        this.URI = 'http://localhost:3000/genres';
     }
 
     getGenres(): Promise<Genre[]> {
