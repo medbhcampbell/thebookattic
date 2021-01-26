@@ -1,12 +1,6 @@
-import { Pool } from 'pg';
-import dotenv from 'dotenv';
+import { Client } from 'pg';
 
-import logger from '../log';
-import { Author } from './author';
-
-dotenv.config();
-
-const pool = new Pool();
+const client = new Client();
 
 interface AuthorEvent {
     path: string
@@ -15,7 +9,7 @@ interface AuthorEvent {
 export const handler = async (event: AuthorEvent): Promise<any> => {
     let authorId = Number(event.path.substring(event.path.lastIndexOf('/')+1, event.path.length));
     const author = await getAuthorById(authorId);
-    pool.end();
+    client.end();
     if (author) {
         return {statusCode: 200, body: JSON.stringify(author)};
     } else {
@@ -24,15 +18,40 @@ export const handler = async (event: AuthorEvent): Promise<any> => {
 }
 
 async function getAuthorById(authorId: number): Promise<Author | null> {
-    logger.debug('Backend: Attempting to retrieve one author by their ID');
     const query = `select * from authors where id = '${authorId}'`;
-    const result = await pool.query(query);
-    if (result.rowCount === 1) {
-        logger.debug('Backend: Successfully retrieved author');
-        logger.trace(result.rows[0]);
+    let result: any;
+    client.connect();
+    try {
+        result = await client.query(query)
         return result.rows[0];
-    } else {
-        logger.error('Backend: Failed to retrieve author');
+    } catch (error) {
         return null;
+    } finally {
+        client.end();
+    }
+}
+
+class Author {
+    // ID for the author's page vs ID for the author's user account
+    authorId: number = 0;
+    userId: number = 0;
+    firstName: string = '';
+    lastName: string = '';
+
+    // Average rating for the author based on the ratings for their books
+    avgRating: number = 0;
+    bio: string = '';
+
+    // Location of the author's picture
+    picture: string = '';
+
+    constructor(authorId: number, userId: number, firstName: string, lastName: string, avgRating: number, bio: string, picture: string) {
+        this.authorId = authorId;
+        this.userId = userId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.avgRating = avgRating;
+        this.bio = bio;
+        this.picture = picture;
     }
 }

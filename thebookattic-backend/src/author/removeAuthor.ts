@@ -1,11 +1,6 @@
-import { Pool } from 'pg';
-import dotenv from 'dotenv';
+import { Client } from 'pg';
 
-import logger from '../log';
-
-dotenv.config();
-
-const pool = new Pool();
+const client = new Client();
 
 interface AuthorEvent {
     path: string
@@ -14,7 +9,7 @@ interface AuthorEvent {
 export const handler = async (event: AuthorEvent): Promise<any> => {
     let authorId = Number(event.path.substring(event.path.lastIndexOf('/')+1, event.path.length));
     const author = await removeAuthor(authorId);
-    pool.end();
+    client.end();
     if (author) {
         return {statusCode: 200, body: JSON.stringify(author)};
     } else {
@@ -23,18 +18,41 @@ export const handler = async (event: AuthorEvent): Promise<any> => {
 }
 
 async function removeAuthor(authorId: number): Promise<boolean> {
-    logger.debug('Backend: Attempting to remove author from table');
     const query = 
         `delete from authors
         where id = ${authorId}`;
-    const result = await pool.query(query);
-    pool.end();
-    if (result) {
-        logger.debug('Backend: Successfully removed author from table');
+    client.connect();
+    try {
+        await client.query(query);
         return true;
-    } else {
-        logger.error('Backend: Failed to remove author from table');
+    } catch (error) {
         return false;
+    } finally {
+        client.end();            
     }
 }
+
+class Author {
+    // ID for the author's page vs ID for the author's user account
+    authorId: number = 0;
+    userId: number = 0;
+    firstName: string = '';
+    lastName: string = '';
+
+    // Average rating for the author based on the ratings for their books
+    avgRating: number = 0;
+    bio: string = '';
+
+    // Location of the author's picture
+    picture: string = '';
+
+    constructor(authorId: number, userId: number, firstName: string, lastName: string, avgRating: number, bio: string, picture: string) {
+        this.authorId = authorId;
+        this.userId = userId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.avgRating = avgRating;
+        this.bio = bio;
+        this.picture = picture;
+    }
 }

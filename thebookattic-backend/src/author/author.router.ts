@@ -21,7 +21,7 @@ router.get('/:id', function(req, res, next) {
 
 router.post('/', function(req, res, next) {
     logger.debug('Attempting to add new reimbursement request: ' + req.params);
-    authorService.addAuthor(req.body.userId, req.body.firstName, req.body.lastName, req.body.avgRating, req.body.bio, req.body.picture).then((data) => {
+    authorService.addAuthor(req.body).then((data) => {
         res.sendStatus(201);
     }).catch((err) => {
         res.sendStatus(500);
