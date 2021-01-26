@@ -58,40 +58,54 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = exports.handler = void 0;
 var AWS = __importStar(require("aws-sdk"));
 var docClient = new AWS.DynamoDB.DocumentClient({
-    region: 'us-west-2',
-    endpoint: 'http://dynamodb.us-west-2.amazonaws.com'
+    region: "us-west-2",
+    endpoint: "http://dynamodb.us-west-2.amazonaws.com",
 });
-var handler = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var user;
+var handler = function (event) { return __awaiter(void 0, void 0, void 0, function () {
+    var user, resp;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, getUsers()];
+            case 0:
+                user = JSON.parse(event.body);
+                return [4 /*yield*/, addUser(user)];
             case 1:
-                user = _a.sent();
-                if (user) {
-                    return [2 /*return*/, JSON.stringify(user)];
+                resp = _a.sent();
+                if (resp) {
+                    return [2 /*return*/, { statusCode: 204 }];
                 }
                 else {
-                    return [2 /*return*/, Error('404')];
+                    return [2 /*return*/, { statusCode: 400 }];
                 }
                 return [2 /*return*/];
         }
     });
 }); };
 exports.handler = handler;
-function getUsers() {
+function addUser(user) {
     return __awaiter(this, void 0, void 0, function () {
         var params;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     params = {
-                        TableName: 'users'
+                        TableName: "users",
+                        Item: user,
+                        ConditionExpression: "#name <> :name",
+                        ExpressionAttributeNames: {
+                            "#name": "name",
+                        },
+                        ExpressionAttributeValues: {
+                            ":name": user.name,
+                        },
                     };
-                    return [4 /*yield*/, docClient.scan(params).promise().then(function (data) {
-                            return data.Items;
-                        }).catch(function (err) {
-                            return null;
+                    return [4 /*yield*/, docClient
+                            .put(params)
+                            .promise()
+                            .then(function (result) {
+                            return true;
+                        })
+                            .catch(function (error) {
+                            return false;
                         })];
                 case 1: return [2 /*return*/, _a.sent()];
             }
@@ -100,8 +114,8 @@ function getUsers() {
 }
 var User = /** @class */ (function () {
     function User() {
-        this.name = '';
-        this.password = '';
+        this.name = "";
+        this.password = "";
     }
     return User;
 }());
