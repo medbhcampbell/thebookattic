@@ -10,7 +10,11 @@ export interface UserState {
     loginUser: User;
     locale?: string;
 }
-export interface BookAtticState extends UserState { }
+export interface ReviewState {
+    reviews: Review[];
+    review: Review;
+}
+export interface BookAtticState extends UserState, ReviewState { }
 // <> is generics: Generic arguments allow us to define the type of a thing at runtime instead of when we write it,
 // creating a reusable object.
 const store: Store<BookAtticState, AppAction> = createStore(reducer, applyMiddleware(thunk));
