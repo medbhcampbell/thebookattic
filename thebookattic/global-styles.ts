@@ -16,6 +16,13 @@ const styles = StyleSheet.create({
     login: {
         backgroundColor: '#aaa'
     },
+    previewImg: {
+        width: 100,
+        height: 160
+    },
+    bookList: {
+        alignItems: 'center'
+    },
     h1: {
         fontSize: 24,
         fontWeight: 'bold'
