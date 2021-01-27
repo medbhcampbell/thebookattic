@@ -14,12 +14,14 @@ export const handler = async (): Promise<any> => {
         return {
             headers: head,
             statusCode: 200, 
-            body: JSON.stringify(authors)};
+            body: JSON.stringify(authors)
+        };
     } else {
         return {
             headers: head,
             statusCode: 404, 
-            body: JSON.stringify({})};
+            body: JSON.stringify({})
+        };
     }
 }
 

@@ -10,10 +10,20 @@ export const handler = async (event: AuthorEvent): Promise<any> => {
     let author: Author = JSON.parse(event.body) as Author;
     const result = await updateAuthor(author);
     client.end();
+    const head = {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+    };
     if (result) {
-        return {statusCode: 204};
+        return {
+            headers: head,
+            statusCode: 204
+        };
     } else {
-        return {statusCode: 404};
+        return {
+            headers: head,
+            statusCode: 404
+        };
     }
 }
 

@@ -10,10 +10,22 @@ export const handler = async (event: AuthorEvent): Promise<any> => {
     let authorId = Number(event.path.substring(event.path.lastIndexOf('/')+1, event.path.length));
     const author = await getAuthorById(authorId);
     client.end();
+    const head = {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+    };
     if (author) {
-        return {statusCode: 200, body: JSON.stringify(author)};
+        return {
+            headers: head,
+            statusCode: 200, 
+            body: JSON.stringify(author)
+        };
     } else {
-        return {statusCode: 404, body: JSON.stringify({})};
+        return {
+            headers: head,
+            statusCode: 404, 
+            body: JSON.stringify({})
+        };
     }
 }
 
