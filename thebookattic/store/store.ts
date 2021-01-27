@@ -1,5 +1,6 @@
 import { applyMiddleware, createStore, Store } from "redux";
 import thunk from "redux-thunk";
+import { Author } from "../author/author";
 import { User } from "../user/user";
 import { AppAction } from "./actions";
 import reducer from "./reducer";
@@ -10,11 +11,18 @@ export interface UserState {
     loginUser: User;
     locale?: string;
 }
+
 export interface ReviewState {
     reviews: Review[];
     review: Review;
 }
-export interface BookAtticState extends UserState, ReviewState { }
+
+export interface AuthorState {
+    authors: Author[];
+    author: Author;
+}
+
+export interface BookAtticState extends UserState, AuthorState, ReviewState { }
 // <> is generics: Generic arguments allow us to define the type of a thing at runtime instead of when we write it,
 // creating a reusable object.
 const store: Store<BookAtticState, AppAction> = createStore(reducer, applyMiddleware(thunk));

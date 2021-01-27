@@ -3,19 +3,29 @@ import { Client } from 'pg';
 const client = new Client();
 
 export const handler = async (): Promise<any> => {
+    client.connect();
     let authors = await getAllAuthors();
     client.end();
+    const head = {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+    };
     if (authors) {
-        return {statusCode: 200, body: JSON.stringify(authors)};
+        return {
+            headers: head,
+            statusCode: 200, 
+            body: JSON.stringify(authors)};
     } else {
-        return {statusCode: 404, body: JSON.stringify({})};
+        return {
+            headers: head,
+            statusCode: 404, 
+            body: JSON.stringify({})};
     }
 }
 
 async function getAllAuthors(): Promise<Author[] | null> {
     const query = 'select * from authors;';
     let result: any;
-    client.connect();
     try {
         result = await client.query(query);
         return result.rows;

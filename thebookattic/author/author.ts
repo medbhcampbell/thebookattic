@@ -11,14 +11,4 @@ export class Author {
 
     // Location of the author's picture
     picture: string = '';
-
-    constructor(authorId: number, userId: number, firstName: string, lastName: string, avgRating: number, bio: string, picture: string) {
-        this.authorId = authorId;
-        this.userId = userId;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.avgRating = avgRating;
-        this.bio = bio;
-        this.picture = picture;
-    }
 }

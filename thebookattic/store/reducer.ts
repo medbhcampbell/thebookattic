@@ -1,6 +1,8 @@
 import * as Actions from './actions';
-import { User } from './../user/user';
 import { BookAtticState } from './store';
+import { User } from './../user/user';
+import { Review } from '../review/review';
+import { Author } from '../author/author';
 
 
 // We need to define the initial state of the application and that
@@ -9,6 +11,8 @@ import { BookAtticState } from './store';
 export const initialState: BookAtticState = {
     user: new User(),
     loginUser: new User(),
+    authors: [],
+    author: new Author(),
     review: new Review(),
     reviews: []
 }   
@@ -30,6 +34,9 @@ const reducer = (state: BookAtticState = initialState, action: Actions.AppAction
             return newState;
         case Actions.UserActions.ChangeLocale:
             newState.locale = action.payload as string;
+            return newState;
+        case Actions.AuthorActions.GetAuthors:
+            newState.authors = action.payload as Author[];
             return newState;
         case Actions.ReviewActions.GetReviews:
             newState.reviews = action.payload as Review[];
