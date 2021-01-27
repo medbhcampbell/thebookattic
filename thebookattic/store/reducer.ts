@@ -1,8 +1,8 @@
-import * as Actions from './actions';
-import { User } from './../user/user';
 import { BookAtticState } from './store';
-import { Review } from './../review/review';
-
+import * as Actions from './actions';
+import { User } from '../user/user';
+import { Review } from '../review/review';
+import { Book } from '../book/book';
 
 
 // We need to define the initial state of the application and that
@@ -12,7 +12,8 @@ export const initialState: BookAtticState = {
     user: new User(),
     loginUser: new User(),
     review: new Review(),
-    reviews: []
+    reviews: [],
+    books: []
 }   
    
 
@@ -38,6 +39,9 @@ const reducer = (state: BookAtticState = initialState, action: Actions.AppAction
             return newState;
         case Actions.ReviewActions.ChangeReview:
             newState.review = action.payload as Review;
+            return newState;
+        case Actions.BookActions.ChangeBooks:
+            newState.books = action.payload as Book[];
             return newState;
         default: 
             return state;

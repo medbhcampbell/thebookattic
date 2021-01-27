@@ -1,22 +1,20 @@
 import React from 'react';
 import { View, Text, Image } from 'react-native';
+import { RouteProp } from '@react-navigation/native';
 
+import { StackParams } from '../router/router.component';
 import { Book } from './book';
 
-export default function BookDetailComponent() {
+interface BookDetailProps {
+    route: RouteProp<StackParams, 'BookDetail'>
+}
+
+export default function BookDetailComponent(props: BookDetailProps) {
     //TODO make user class (Maddie?)
     //TODO have a way to get the user
     const userIsAuthor: boolean = true;
 
-    //TODO get book: will we store a book in redux or use props?
-    // For initial demo of this component, will make a dummy book
-    const dummy: Book = new Book(
-        'Dummy Title',
-        'https://www.7thdarlingtonseascouts.org.uk/wp-content/uploads/Watch-this-space.jpg',
-        'Coming soon, there will be a book. Any day now. Uh huh.',
-        10
-        );
-    const book: Book = new Book();
+    const book: Book = props.route.params;
 
     //TODO how do you make links in ReactNative? <a> equivalent?
     //TODO rating component (with stars?)

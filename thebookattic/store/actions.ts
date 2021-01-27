@@ -1,5 +1,7 @@
 import { Review } from '../review/review';
 import { User } from './../user/user';
+import { Review } from "../review/review";
+import { Book } from "../book/book";
 
 export enum UserActions {
     GetUser = 'GET_USER',
@@ -10,6 +12,10 @@ export enum UserActions {
 export enum ReviewActions {
     GetReviews = 'GET_REVIEWS',
     ChangeReview = 'CHANGE_REVIEW'
+}
+
+export enum BookActions {
+    ChangeBooks = 'CHANGE_BOOKS'
 }
 
 export interface AppAction {
@@ -25,6 +31,11 @@ export interface UserAction<P> extends AppAction {
 export interface ReviewAction extends AppAction {
     type: ReviewActions;
     payload: Review | Review[];
+}
+
+export interface BookAction extends AppAction {
+    type: BookActions;
+    payload: Book[];
 }
 
 export function getUser(user: User): UserAction<User> {
@@ -63,6 +74,14 @@ export function ChangeReview(review: Review): ReviewAction {
     const action: ReviewAction = {
         type: ReviewActions.ChangeReview,
         payload: review
+    };
+    return action;
+}
+
+export function changeBooks(books: Book[]): BookAction {
+    const action: BookAction = {
+        type: BookActions.ChangeBooks,
+        payload: books
     };
     return action;
 }
