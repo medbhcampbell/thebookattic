@@ -1,23 +1,4 @@
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -55,63 +36,43 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.User = exports.handler = void 0;
-var AWS = __importStar(require("aws-sdk"));
-var docClient = new AWS.DynamoDB.DocumentClient({
-    region: 'us-west-2',
-    endpoint: 'http://dynamodb.us-west-2.amazonaws.com'
-});
-var handler = function (event) { return __awaiter(void 0, void 0, void 0, function () {
-    var userName, user, head;
+exports.handler = void 0;
+var pg_1 = require("pg");
+var handler = function () { return __awaiter(void 0, void 0, void 0, function () {
+    var client, res, head, response;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                userName = event.path.substring(event.path.lastIndexOf('/') + 1, event.path.length);
-                return [4 /*yield*/, getUserByName(userName)];
+                client = new pg_1.Client();
+                return [4 /*yield*/, client.connect()];
             case 1:
-                user = _a.sent();
+                _a.sent();
+                return [4 /*yield*/, client.query("select * from reviews")];
+            case 2:
+                res = _a.sent();
+                return [4 /*yield*/, client.end()];
+            case 3:
+                _a.sent();
                 head = {
                     'Content-Type': 'application/json',
                     'Access-Control-Allow-Origin': '*'
                 };
-                if (user) {
-                    return [2 /*return*/, { headers: head, statusCode: 200, body: JSON.stringify(user) }];
+                if (res) {
+                    response = {
+                        headers: head,
+                        statuscode: 200,
+                        body: JSON.stringify({ reviews: res.rows })
+                    };
                 }
                 else {
-                    return [2 /*return*/, { headers: head, statusCode: 404, body: JSON.stringify({}) }];
+                    response = {
+                        headers: head,
+                        statuscode: 404,
+                        body: ''
+                    };
                 }
-                return [2 /*return*/];
+                return [2 /*return*/, response];
         }
     });
 }); };
 exports.handler = handler;
-function getUserByName(id) {
-    return __awaiter(this, void 0, void 0, function () {
-        var params;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    params = {
-                        TableName: 'users',
-                        Key: {
-                            'name': id
-                        }
-                    };
-                    return [4 /*yield*/, docClient.get(params).promise().then(function (data) {
-                            return data.Item;
-                        }).catch(function (err) {
-                            return null;
-                        })];
-                case 1: return [2 /*return*/, _a.sent()];
-            }
-        });
-    });
-}
-var User = /** @class */ (function () {
-    function User() {
-        this.name = '';
-        this.password = '';
-    }
-    return User;
-}());
-exports.User = User;

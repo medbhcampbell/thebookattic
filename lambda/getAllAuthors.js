@@ -59,14 +59,14 @@ var handler = function () { return __awaiter(void 0, void 0, void 0, function ()
                 };
                 if (res) {
                     response = {
-                        header: head,
+                        headers: head,
                         statuscode: 200,
-                        body: JSON.stringify({ authors: res.rows })
+                        body: JSON.stringify(res)
                     };
                 }
                 else {
                     response = {
-                        header: head,
+                        headers: head,
                         statuscode: 400,
                         body: ''
                     };

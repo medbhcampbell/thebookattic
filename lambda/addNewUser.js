@@ -62,7 +62,7 @@ var docClient = new AWS.DynamoDB.DocumentClient({
     endpoint: "http://dynamodb.us-west-2.amazonaws.com",
 });
 var handler = function (event) { return __awaiter(void 0, void 0, void 0, function () {
-    var user, resp;
+    var user, resp, head;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -70,11 +70,15 @@ var handler = function (event) { return __awaiter(void 0, void 0, void 0, functi
                 return [4 /*yield*/, addUser(user)];
             case 1:
                 resp = _a.sent();
+                head = {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                };
                 if (resp) {
-                    return [2 /*return*/, { statusCode: 204 }];
+                    return [2 /*return*/, { headers: head, statusCode: 204 }];
                 }
                 else {
-                    return [2 /*return*/, { statusCode: 400 }];
+                    return [2 /*return*/, { headers: head, statusCode: 400 }];
                 }
                 return [2 /*return*/];
         }

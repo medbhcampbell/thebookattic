@@ -12,10 +12,14 @@ interface MyEvent {
 export const handler = async (event: MyEvent): Promise<any> => {
     let userName = event.path.substring(event.path.lastIndexOf('/')+1, event.path.length);
     const user = await getUserByName(userName);
+    const head = {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+    };   
     if (user) {
-        return {statusCode: 200, body: JSON.stringify(user)};
+        return {headers: head,statusCode: 200, body: JSON.stringify(user)};
     } else {
-        return {statusCode: 404, body: JSON.stringify({})};
+        return {headers: head,statusCode: 404, body: JSON.stringify({})};
     }
 }
 
