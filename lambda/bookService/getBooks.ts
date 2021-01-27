@@ -1,10 +1,10 @@
-// All users can see a list of all approved books
+// Gets all books
 
 import BookService from 'bookservicelayer';
 
 export const handler = async (): Promise<any> => {
     const bookService = new BookService();
-    const books = await bookService.getApprovedBooks();
+    const books = await bookService.getBooks();
     
     if(books) {
         console.log(JSON.stringify(books));
