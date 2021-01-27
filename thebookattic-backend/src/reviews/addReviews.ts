@@ -1,9 +1,10 @@
+import { Client } from 'pg';
+
 interface MyEvent {
     body: string;
 }
 
 class Review {
-    id: number = 0;
     rating: number = 0;
     content: string = '';
     username: string = '';
@@ -11,8 +12,7 @@ class Review {
     approved: boolean = false;
 }
 
-exports.handler = async (event: MyEvent) => {
-    const { Client } = require('pg');
+export const handler = async (event: MyEvent) => {
     const client = new Client();
     await client.connect();
     let review: Review = JSON.parse(event.body) as Review;
@@ -25,9 +25,13 @@ exports.handler = async (event: MyEvent) => {
         review.bookid
     ]);
     await client.end();
+    const head = {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+    };
     if (res) {
-        return { statusCode: 204 };
+        return { headers: head, statusCode: 204 };
     } else {
-        return { statusCode: 400 };
+        return { headers: head, statusCode: 400 };
     }
 };

@@ -11,7 +11,7 @@ class Review {
     approved: boolean = false;
 }
 
-exports.handler = async (event: MyEvent) => {
+export const handler = async (event: MyEvent) => {
     const { Client } = require('pg');
     const client = new Client();
     await client.connect();
@@ -20,9 +20,13 @@ exports.handler = async (event: MyEvent) => {
     where id = $1::int`;
     let res = await client.query(q, [review.id]);
     await client.end();
+    const head = {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+    };
     if (res) {
-        return { statusCode: 204 };
+        return { headers: head, statusCode: 204 };
     } else {
-        return { statusCode: 400 };
+        return { headers: head, statusCode: 400 };
     }
 };
