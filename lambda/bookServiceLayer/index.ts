@@ -18,6 +18,22 @@ class BookService {
             return null;
         };
     }
+
+    async getBookById(bookid: number): Promise<Book | null> {
+        const client = new Client();
+        await client.connect();
+
+        let res;
+        try {
+            res = await client.query('select * from thebookattic.books where id=$1::integer', [bookid]);
+            client.end();
+            return res.rows[0] as Book;
+        } catch (err) {
+            client.end();
+            console.log(err);
+            return null;
+        };
+    }
 }
 
 class Book {
