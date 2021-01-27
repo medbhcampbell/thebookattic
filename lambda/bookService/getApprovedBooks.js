@@ -50,10 +50,10 @@ var handler = function () { return __awaiter(void 0, void 0, void 0, function ()
                 pool.end();
                 if (books) {
                     console.log(JSON.stringify(books));
-                    return [2 /*return*/, { statusCode: 200, body: JSON.stringify(books) }];
+                    return [2 /*return*/, { statusCode: 200, body: JSON.stringify(books), headers: { 'Access-Control-Allow-Origin': '*' } }];
                 }
                 else {
-                    return [2 /*return*/, { statusCode: 404, body: JSON.stringify({}) }];
+                    return [2 /*return*/, { statusCode: 404, body: JSON.stringify({}), headers: { 'Access-Control-Allow-Origin': '*' } }];
                 }
                 return [2 /*return*/];
         }
