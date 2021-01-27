@@ -1,5 +1,4 @@
 "use strict";
-// All users can see a list of all approved books
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -36,56 +35,65 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.handler = void 0;
-var bookservicelayer_1 = __importDefault(require("bookservicelayer"));
-var handler = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var bookService, books;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                bookService = new bookservicelayer_1.default();
-                return [4 /*yield*/, bookService.getApprovedBooks()];
-            case 1:
-                books = _a.sent();
-                if (books) {
-                    console.log(JSON.stringify(books));
-                    return [2 /*return*/, { statusCode: 200, body: JSON.stringify(books), headers: { 'Access-Control-Allow-Origin': '*' } }];
+exports.Book = void 0;
+// Lambda BookService layer
+var pg_1 = require("pg");
+var BookService = /** @class */ (function () {
+    function BookService() {
+    }
+    BookService.prototype.getApprovedBooks = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var client, res, err_1;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        client = new pg_1.Client();
+                        return [4 /*yield*/, client.connect()];
+                    case 1:
+                        _a.sent();
+                        _a.label = 2;
+                    case 2:
+                        _a.trys.push([2, 4, , 5]);
+                        return [4 /*yield*/, client.query('select * from thebookattic.books where approved=true')];
+                    case 3:
+                        res = _a.sent();
+                        client.end();
+                        return [2 /*return*/, res.rows];
+                    case 4:
+                        err_1 = _a.sent();
+                        client.end();
+                        console.log(err_1);
+                        return [2 /*return*/, null];
+                    case 5:
+                        ;
+                        return [2 /*return*/];
                 }
-                else {
-                    return [2 /*return*/, { statusCode: 404, body: JSON.stringify({}), headers: { 'Access-Control-Allow-Origin': '*' } }];
-                }
-                return [2 /*return*/];
-        }
-    });
-}); };
-exports.handler = handler;
-// async function getApprovedBooks(): Promise<Book[] | null> {
-//     return pool.query('select * from thebookattic.books where approved=true').then((res) => {
-//         return res.rows as Book[];
-//     }).catch((err) => {
-//         console.log(err);
-//         return null;
-//     });
-// }
-// class Book {
-//     //ID from SQL
-//     public id: number = 0;
-//     //book's status on our site
-//     public rating: number = 0;
-//     public isApproved: boolean = false;
-//     constructor(
-//         //IDs from SQL
-//         public authorId: number,
-//         //Info about book
-//         public title: string,
-//         public cover: string,
-//         public blurb: string,
-//         public pageCount: number,
-//         public link: string,
-//         public genre: number
-//     ){}   
-// }
+            });
+        });
+    };
+    return BookService;
+}());
+var Book = /** @class */ (function () {
+    function Book(
+    //IDs from SQL
+    authorId, 
+    //Info about book
+    title, cover, blurb, pageCount, link, genre) {
+        this.authorId = authorId;
+        this.title = title;
+        this.cover = cover;
+        this.blurb = blurb;
+        this.pageCount = pageCount;
+        this.link = link;
+        this.genre = genre;
+        //ID from SQL
+        this.id = 0;
+        //book's status on our site
+        this.rating = 0;
+        this.isApproved = false;
+    }
+    return Book;
+}());
+exports.Book = Book;
+exports.default = BookService;

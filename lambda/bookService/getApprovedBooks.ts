@@ -1,12 +1,11 @@
 // All users can see a list of all approved books
 
-import { Pool } from 'pg';
-
-const pool = new Pool();
+import BookService from 'bookservicelayer';
 
 export const handler = async (): Promise<any> => {
-    const books = await getApprovedBooks();
-    pool.end();
+    const bookService = new BookService();
+    const books = await bookService.getApprovedBooks();
+    
     if(books) {
         console.log(JSON.stringify(books));
         return {statusCode: 200, body: JSON.stringify(books), headers: {'Access-Control-Allow-Origin': '*'}};
@@ -15,33 +14,33 @@ export const handler = async (): Promise<any> => {
     }
 }
 
-async function getApprovedBooks(): Promise<Book[] | null> {
-    return pool.query('select * from thebookattic.books where approved=true').then((res) => {
-        return res.rows as Book[];
-    }).catch((err) => {
-        console.log(err);
-        return null;
-    });
-}
+// async function getApprovedBooks(): Promise<Book[] | null> {
+//     return pool.query('select * from thebookattic.books where approved=true').then((res) => {
+//         return res.rows as Book[];
+//     }).catch((err) => {
+//         console.log(err);
+//         return null;
+//     });
+// }
 
-class Book {
+// class Book {
 
-    //ID from SQL
-    public id: number = 0;
+//     //ID from SQL
+//     public id: number = 0;
 
-    //book's status on our site
-    public rating: number = 0;
-    public isApproved: boolean = false;
+//     //book's status on our site
+//     public rating: number = 0;
+//     public isApproved: boolean = false;
 
-    constructor(
-        //IDs from SQL
-        public authorId: number,
-        //Info about book
-        public title: string,
-        public cover: string,
-        public blurb: string,
-        public pageCount: number,
-        public link: string,
-        public genre: number
-    ){}   
-}
+//     constructor(
+//         //IDs from SQL
+//         public authorId: number,
+//         //Info about book
+//         public title: string,
+//         public cover: string,
+//         public blurb: string,
+//         public pageCount: number,
+//         public link: string,
+//         public genre: number
+//     ){}   
+// }
