@@ -1,23 +1,5 @@
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
+// All users can see a list of all approved books
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -55,54 +37,59 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.User = exports.handler = void 0;
-var AWS = __importStar(require("aws-sdk"));
-var docClient = new AWS.DynamoDB.DocumentClient({
-    region: 'us-west-2',
-    endpoint: 'http://dynamodb.us-west-2.amazonaws.com'
-});
+exports.handler = void 0;
+var pg_1 = require("pg");
+var pool = new pg_1.Pool();
 var handler = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var user;
+    var books;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, getUsers()];
+            case 0: return [4 /*yield*/, getApprovedBooks()];
             case 1:
-                user = _a.sent();
-                if (user) {
-                    return [2 /*return*/, JSON.stringify(user)];
+                books = _a.sent();
+                pool.end();
+                if (books) {
+                    console.log(JSON.stringify(books));
+                    return [2 /*return*/, { statusCode: 200, body: JSON.stringify(books) }];
                 }
                 else {
-                    return [2 /*return*/, Error('404')];
+                    return [2 /*return*/, { statusCode: 404, body: JSON.stringify({}) }];
                 }
                 return [2 /*return*/];
         }
     });
 }); };
 exports.handler = handler;
-function getUsers() {
+function getApprovedBooks() {
     return __awaiter(this, void 0, void 0, function () {
-        var params;
         return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    params = {
-                        TableName: 'users'
-                    };
-                    return [4 /*yield*/, docClient.scan(params).promise().then(function (data) {
-                            return data.Items;
-                        }).catch(function (err) {
-                            return null;
-                        })];
-                case 1: return [2 /*return*/, _a.sent()];
-            }
+            return [2 /*return*/, pool.query('select * from thebookattic.books where approved=true').then(function (res) {
+                    return res.rows;
+                }).catch(function (err) {
+                    console.log(err);
+                    return null;
+                })];
         });
     });
 }
-var User = /** @class */ (function () {
-    function User() {
-        this.name = '';
-        this.password = '';
+var Book = /** @class */ (function () {
+    function Book(
+    //IDs from SQL
+    authorId, 
+    //Info about book
+    title, cover, blurb, pageCount, link, genre) {
+        this.authorId = authorId;
+        this.title = title;
+        this.cover = cover;
+        this.blurb = blurb;
+        this.pageCount = pageCount;
+        this.link = link;
+        this.genre = genre;
+        //ID from SQL
+        this.id = 0;
+        //book's status on our site
+        this.rating = 0;
+        this.isApproved = false;
     }
-    return User;
+    return Book;
 }());
-exports.User = User;
