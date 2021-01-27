@@ -20,7 +20,7 @@ function LoginComponent({navigation}: LoginProp) {
         // Check to see if we're already logged in. Redirect if we are.
         userService.getLogin().then((loggedUser)=>{
             dispatch(getUser(loggedUser));
-            navigation.navigate('Restaurants');
+            navigation.navigate('Home');
         }).catch((err)=>{
             console.error(err);
         });
@@ -30,7 +30,7 @@ function LoginComponent({navigation}: LoginProp) {
         userService.login(user).then((user) => {
             console.log(user);
             dispatch(getUser(user));
-            navigation.navigate('Restaurants');
+            navigation.navigate('Home');
         });
     }
     return (
