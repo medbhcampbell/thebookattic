@@ -3,8 +3,8 @@ import { BookAtticState } from './store';
 import { User } from './../user/user';
 import { Review } from '../review/review';
 import { Author } from '../author/author';
+import Genre from '../genre/genre';
 import { Book } from '../book/book';
-
 
 // We need to define the initial state of the application and that
 // state should include everything that the application might keep track of.
@@ -16,17 +16,20 @@ export const initialState: BookAtticState = {
     author: new Author(),
     review: new Review(),
     reviews: [],
+    genres: [],
     books: []
-}   
-   
+};
 
 // Make sure that the reducer has a default argument of the inital state or it will not work.
-const reducer = (state: BookAtticState = initialState, action: Actions.AppAction): BookAtticState => {
+const reducer = (
+    state: BookAtticState = initialState,
+    action: Actions.AppAction
+): BookAtticState => {
     //console.log(action);
     // We want to call setState. (redux will do that when we return a new state object from the reducer)
-    const newState = {...state}; // If we return this, it will re render the application. (call setState)
+    const newState = { ...state }; // If we return this, it will re render the application. (call setState)
 
-    switch (action.type) {    
+    switch (action.type) {
         case Actions.UserActions.GetUser:
             newState.user = action.payload as User;
             newState.loginUser = new User();
@@ -49,12 +52,15 @@ const reducer = (state: BookAtticState = initialState, action: Actions.AppAction
         case Actions.ReviewActions.ChangeReview:
             newState.review = action.payload as Review;
             return newState;
+        case Actions.GenreActions.GetGenres:
+            newState.genres = action.payload as Genre[];
+            return newState;
         case Actions.BookActions.ChangeBooks:
             newState.books = action.payload as Book[];
             return newState;
-        default: 
+        default:
             return state;
     }
-}
+};
 
 export default reducer;

@@ -26,8 +26,8 @@ export default function BookDetailComponent(props: BookDetailProps) {
             {book.link &&
             <Text>Access it here: {book.link}</Text>}
             <Text>{book.blurb}</Text>
-            <Text>{book.genre}: TODO getGenreByID</Text>
-            <Text>Page count: {book.pageCount}</Text>
+            <Text>{book.genreid}: TODO getGenreByID</Text>
+            <Text>Page count: {book.page_count}</Text>
             <Text>Average rating: {book.rating}</Text>
             {userIsAuthor?
                 <></>/*<DeleteBookComponent></DeleteBookComponent>*/
