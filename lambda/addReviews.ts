@@ -4,6 +4,14 @@ interface MyEvent {
     body: string;
 }
 
+class Review {
+    rating: number = 0;
+    content: string = '';
+    username: string = '';
+    bookid: number = 0;
+    approved: boolean = false;
+}
+
 export const handler = async (event: MyEvent) => {
     const client = new Client();
     await client.connect();
@@ -17,18 +25,13 @@ export const handler = async (event: MyEvent) => {
         review.bookid
     ]);
     await client.end();
+    const head = {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+    };
     if (res) {
-        return { statusCode: 204 };
+        return { headers: head, statusCode: 204 };
     } else {
-        return { statusCode: 400 };
+        return { headers: head, statusCode: 400 };
     }
 };
-
-class Review {
-    id: number = 0;
-    rating: number = 0;
-    content: string = '';
-    username: string = '';
-    bookid: number = 0;
-    approved: boolean = false;
-}
