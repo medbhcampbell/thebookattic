@@ -49,6 +49,8 @@ export default function SubmitBookComponent() {
 
             //get the user's authorid to complete book info
             //TODO uncomment this code when login works
+            tempBook.authorid = 1;
+            setBook(tempBook);
             // authorService.getAuthorByUserId(user.name).then(data => {
             //     tempBook.authorid = data.authorid;
             //     setBook(tempBook);
