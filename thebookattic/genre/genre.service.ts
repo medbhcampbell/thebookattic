@@ -12,7 +12,7 @@ class GenreService {
         return axios.get(this.URI).then((result) => result.data);
     }
 
-    getGenreById(id: string): Promise<Genre> {
+    getGenreById(id: number): Promise<Genre> {
         return axios.get(this.URI + '/' + id).then((result) => result.data);
     }
 
@@ -20,7 +20,7 @@ class GenreService {
         return axios.post(this.URI, name).then((result) => null);
     }
 
-    removeGenre(id: string): Promise<null> {
+    removeGenre(id: number): Promise<null> {
         return axios
             .delete(this.URI + '/' + id)
             .then((result) => null);
