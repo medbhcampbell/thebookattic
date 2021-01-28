@@ -12,21 +12,49 @@ export default function AuthorListComponent() {
     const authors = useSelector(selectAuthors);
     const dispatch: any = useDispatch();
 
+    useEffect(() => {
+        authorService.getAllAuthors().then((authors) => {
+            dispatch(getAllAuthors(authors))
+        })
+    }, []);
+
     console.log(authors);
 
     return (
         <View>
-            <Text>
-                This is where the author list may/will go. It may/will be awesome.
-                {authors.map((value, index: number) => {
+            {(() => {
+                if (authors) {
+                    if (authors[0]) {
                         return (
-                            <AuthorComponent
-                                key={'author-' + index}
-                                author={value}
-                            ></AuthorComponent>
-                        );
-                    })}
-            </Text>
+                            <View>
+                                <Text>
+                                    This is where the author list may/will go. It may/will be awesome.
+                                </Text>
+                                {authors.map((value, index: number) => {
+                                        return (
+                                            <AuthorComponent
+                                                key={'author-' + index}
+                                                author={value}
+                                            ></AuthorComponent>
+                                        );
+                                    })}
+                            </View>
+                        )
+                    } else {
+                        return (
+                            <Text>
+                                Loading...
+                            </Text>
+                        )
+                    }
+                } else {
+                    return (
+                        <Text>
+                            Loading...
+                        </Text>
+                    )
+                }
+            })()}
         </View>
     )
 }
