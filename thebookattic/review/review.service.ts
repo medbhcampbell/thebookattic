@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import Review from './review';
+import { Review } from './review';
 
 class ReviewService {
     private URI: string;

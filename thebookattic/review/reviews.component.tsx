@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { getReviews } from "../store/actions";
 import { ReviewState } from "../store/store";
-import Review from "./review";
+import {Review} from "./review";
 import reviewService from "./review.service";
 
 export default function Reviews() {
