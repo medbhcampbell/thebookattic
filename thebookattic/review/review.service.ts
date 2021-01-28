@@ -12,12 +12,12 @@ class ReviewService {
         return axios.get(this.URI).then((result) => result.data);
     }
 
-    addReview(name: string): Promise<null> {
-        return axios.post(this.URI, name).then(() => null);
+    addReview(review: Review): Promise<null> {
+        return axios.post(this.URI, review).then(() => null);
     }
 
-    updateReview(review: Review): Promise<null> {
-        return axios.patch(this.URI, review).then(() => null);
+    updateReview(id: number): Promise<null> {
+        return axios.patch(this.URI, id).then(() => null);
     }
 }
 
