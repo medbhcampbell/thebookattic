@@ -11,7 +11,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { GenreState } from '../store/store';
 import { getGenres } from '../store/actions';
 import genreService from '../genre/genre.service';
-import userService from '../user/user.service';
 
 interface BookListProps {
     // The books to be displayed
