@@ -30,7 +30,7 @@ export default function AuthorDetailComponent() {
     newAuthor.picture = 'url';
 
     let updatedAuthor = new Author();
-    updatedAuthor.authorid = 1;
+    updatedAuthor.authorid = 7;
     updatedAuthor.userid = 111111;
     updatedAuthor.firstname = 'Jake';
     updatedAuthor.lastname = 'Austin';
@@ -50,15 +50,15 @@ export default function AuthorDetailComponent() {
     }
 
     function onRemoveSelect() {
-        authorService.removeAuthor('6');
+        authorService.removeAuthor('7');
     }
 
     function onGetAuthorSelect() {
-        let a: any = { ...author };
+        //let a: any = { ...author };
         authorService.getAuthorById(1).then((author) => {
-            a = author;
+            console.log(author);
         });
-        console.log(a.firstName + ' ' + a.lastname);
+        //console.log(a.firstname + ' ' + a.lastname);
     }
 
     return (
@@ -76,19 +76,27 @@ export default function AuthorDetailComponent() {
             </View>
             <br/>
             <Pressable onPress={()=> onAddSelect()}>
-                Test addAuthor
+                <Text>
+                    Test addAuthor
+                </Text>
             </Pressable>
             <br/>
             <Pressable onPress={()=> onUpdateSelect()}>
-                Test updateAuthor
+                <Text>
+                    Test updateAuthor
+                </Text>
             </Pressable>
             <br/>
             <Pressable onPress={()=> onRemoveSelect()}>
-                Test removeAuthor
+                <Text>
+                    Test removeAuthor
+                </Text>
             </Pressable>
             <br/>
             <Pressable onPress={()=> onGetAuthorSelect()}>
-                Test getAuthorById
+                <Text>
+                    Test getAuthorById                    
+                </Text>
             </Pressable>
             <br/>
         </View>
