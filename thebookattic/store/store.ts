@@ -5,6 +5,7 @@ import { Review } from "../review/review";
 import { Book } from "../book/book";
 import { AppAction } from "./actions";
 import reducer from "./reducer";
+import { composeWithDevTools } from 'redux-devtools-extension';
 
 
 export interface UserState {
@@ -25,6 +26,9 @@ export interface BookState {
 export interface BookAtticState extends UserState, ReviewState, BookState { }
 // <> is generics: Generic arguments allow us to define the type of a thing at runtime instead of when we write it,
 // creating a reusable object.
-const store: Store<BookAtticState, AppAction> = createStore(reducer, applyMiddleware(thunk));
+//const store: Store<BookAtticState, AppAction> = createStore(reducer, applyMiddleware(thunk));
 
+const store: Store<BookAtticState, AppAction> = createStore(reducer,  composeWithDevTools(
+    applyMiddleware(thunk),)
+    );
 export default store;

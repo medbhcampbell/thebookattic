@@ -60,14 +60,14 @@ var handler = function () { return __awaiter(void 0, void 0, void 0, function ()
                 if (res) {
                     response = {
                         headers: head,
-                        statuscode: 200,
-                        body: JSON.stringify({ reviews: res.rows })
+                        statusCode: 200,
+                        body: JSON.stringify(res.rows)
                     };
                 }
                 else {
                     response = {
                         headers: head,
-                        statuscode: 404,
+                        statusCode: 404,
                         body: ''
                     };
                 }

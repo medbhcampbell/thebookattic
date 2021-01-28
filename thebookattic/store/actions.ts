@@ -1,6 +1,5 @@
 import { Review } from '../review/review';
 import { User } from './../user/user';
-import { Review } from "../review/review";
 import { Book } from "../book/book";
 
 export enum UserActions {

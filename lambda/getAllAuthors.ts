@@ -13,13 +13,13 @@ export const handler = async()=> {
     if(res){
         response = {
             headers : head,
-            statuscode: 200,
-            body: JSON.stringify(res) 
+            statusCode: 200,
+            body: JSON.stringify(res.rows) 
         };
     } else{
         response = {
             headers : head,
-            statuscode: 400,
+            statusCode: 400,
             body: ''
         };
 
