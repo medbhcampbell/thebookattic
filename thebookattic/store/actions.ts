@@ -1,8 +1,8 @@
 import { User } from './../user/user';
 import { Author } from '../author/author';
-import authorService from '../author/author.service';
 import { Review } from "../review/review";
 import { Book } from "../book/book";
+import Genre from '../genre/genre';
 
 export enum UserActions {
     GetUser = 'GET_USER',
@@ -18,6 +18,10 @@ export enum AuthorActions {
 export enum ReviewActions {
     GetReviews = 'GET_REVIEWS',
     ChangeReview = 'CHANGE_REVIEW'
+}
+
+export enum GenreActions {
+    GetGenres = 'GET_GENRES'
 }
 
 export enum BookActions {
@@ -42,6 +46,11 @@ export interface AuthorAction extends AppAction {
 export interface ReviewAction extends AppAction {
     type: ReviewActions;
     payload: Review | Review[];
+}
+
+export interface GenreAction extends AppAction {
+    type: GenreActions;
+    payload: Genre[];
 }
 
 export interface BookAction extends AppAction {
@@ -101,6 +110,14 @@ export function ChangeReview(review: Review): ReviewAction {
     const action: ReviewAction = {
         type: ReviewActions.ChangeReview,
         payload: review
+    };
+    return action;
+}
+
+export function getGenres(genres: Genre[]): GenreAction {
+    const action: GenreAction = {
+        type: GenreActions.GetGenres,
+        payload: genres
     };
     return action;
 }
