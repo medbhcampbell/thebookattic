@@ -12,6 +12,7 @@ import style from '../global-styles';
 
 import { Book } from './book';
 import bookService from './book.service';
+import authorService from '../author/author.service';
 
 export default function SubmitBookComponent() {
     const nav = useNavigation();
@@ -30,17 +31,30 @@ export default function SubmitBookComponent() {
     // get the user and check that they are an author
     // if they are, get a list of genres for the picker
     useEffect(() => {
+        //TODO change this when login works
         // if (user.role !== 'author') {
         //     nav.navigate('Home');
-        if(false) {
+        if (false) {
             console.log('Should test that user is author, put it back when login works');
         } else {
-            genreService.getGenres().then(data => {
-                dispatch(getGenres(data));
-                setGenreId(genres[0].id);
-            }).catch(err => {
-                console.log(err);
-            });
+            //get a list of genres for the picker, if it isn't already in the store
+            if (genres.length === 0) {
+                genreService.getGenres().then(data => {
+                    dispatch(getGenres(data));
+                    setGenreId(genres[0].id);
+                }).catch(err => {
+                    console.log(err);
+                });
+            }
+
+            //get the user's authorid to complete book info
+            //TODO uncomment this code when login works
+            // authorService.getAuthorByUserId(user.name).then(data => {
+            //     tempBook.authorid = data.authorid;
+            //     setBook(tempBook);
+            // }).catch(err => {
+            //     console.log(err);
+            // });
         }
     }, [dispatch]);
 

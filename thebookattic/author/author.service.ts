@@ -18,6 +18,10 @@ class AuthorService {
         return axios.get(this.URI + '/' + authorId).then(result => result.data).catch(error => {console.error(error)});
     }
 
+    getAuthorByUserId(userId: string): Promise<Author> {
+        return axios.get(this.URI + '/' + userId).then(result => result.data).catch(error => {console.error(error)});
+    }
+
     addAuthor(author: Author): Promise<null> {
         console.log('Frontend: attempting to add new author: ' + JSON.stringify(author));
         return axios.post(this.URI, author).then(result => null).catch(error => error);
