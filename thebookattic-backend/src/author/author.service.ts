@@ -51,10 +51,10 @@ class AuthorService {
         const query = 
         `insert into authors (userid, firstname, lastname, avgrating, bio, picture) 
         values (
-            '${author.userId}', 
-            '${author.firstName}', 
-            '${author.lastName}', 
-            '${author.avgRating}', 
+            '${author.userid}', 
+            '${author.firstname}', 
+            '${author.lastname}', 
+            '${author.avgrating}', 
             '${author.bio}', 
             '${author.picture}'
         )`
@@ -76,13 +76,13 @@ class AuthorService {
         const query = 
             `update authors 
             set 
-                userid = ${author.userId}, 
-                firstname = '${author.firstName}', 
-                lastname = '${author.lastName}', 
-                avgrating = '${author.avgRating}', 
+                userid = ${author.userid}, 
+                firstname = '${author.firstname}', 
+                lastname = '${author.lastname}', 
+                avgrating = '${author.avgrating}', 
                 bio = '${author.bio}', 
                 picture = '${author.picture}' 
-            where id = ${author.authorId};`
+            where id = ${author.authorid};`
         client.connect();
         try {
             await client.query(query);

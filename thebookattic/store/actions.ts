@@ -1,6 +1,8 @@
 import { User } from './../user/user';
 import { Author } from '../author/author';
 import authorService from '../author/author.service';
+import { Review } from "../review/review";
+import { Book } from "../book/book";
 
 export enum UserActions {
     GetUser = 'GET_USER',
@@ -9,12 +11,17 @@ export enum UserActions {
 }
 
 export enum AuthorActions {
-    GetAuthors = 'GET_AUTHORS'
+    GetAuthors = 'GET_AUTHORS',
+    GetAuthor = 'GET_AUTHOR'
 }
 
 export enum ReviewActions {
     GetReviews = 'GET_REVIEWS',
     ChangeReview = 'CHANGE_REVIEW'
+}
+
+export enum BookActions {
+    ChangeBooks = 'CHANGE_BOOKS'
 }
 
 export interface AppAction {
@@ -35,6 +42,11 @@ export interface AuthorAction extends AppAction {
 export interface ReviewAction extends AppAction {
     type: ReviewActions;
     payload: Review | Review[];
+}
+
+export interface BookAction extends AppAction {
+    type: BookActions;
+    payload: Book[];
 }
 
 export function getUser(user: User): UserAction<User> {
@@ -69,6 +81,14 @@ export function getAllAuthors(authors: Author[]): AuthorAction {
     return action;
 }
 
+export function getAuthor(author: Author): AuthorAction {
+    const action: AuthorAction = {
+        type: AuthorActions.GetAuthor, 
+        payload: author
+    };
+    return action;
+}
+
 export function getReviews(reviews: Review[]): ReviewAction {
     const action: ReviewAction = {
         type: ReviewActions.GetReviews,
@@ -81,6 +101,14 @@ export function ChangeReview(review: Review): ReviewAction {
     const action: ReviewAction = {
         type: ReviewActions.ChangeReview,
         payload: review
+    };
+    return action;
+}
+
+export function changeBooks(books: Book[]): BookAction {
+    const action: BookAction = {
+        type: BookActions.ChangeBooks,
+        payload: books
     };
     return action;
 }

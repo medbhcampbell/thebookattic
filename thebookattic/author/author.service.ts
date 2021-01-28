@@ -14,20 +14,23 @@ class AuthorService {
         return axios.get(this.URI).then(result => result.data).catch(error => {console.error(error)});
     }
 
-    getAuthor(authorId: number): Promise<Author> {
-        return axios.get(this.URI + '/' + authorId).then(result => result.data).catch(error => error);
+    getAuthorById(authorId: number): Promise<Author> {
+        return axios.get(this.URI + '/' + authorId).then(result => result.data).catch(error => {console.error(error)});
     }
 
     addAuthor(author: Author): Promise<null> {
+        console.log('Frontend: attempting to add new author: ' + JSON.stringify(author));
         return axios.post(this.URI, author).then(result => null).catch(error => error);
     }
 
     updateAuthor(author: Author): Promise<null> {
+        console.log('Frontend: attempting to update author: ' + JSON.stringify(author));
         return axios.put(this.URI, author).then(result => null).catch(error => error);
     }
 
     removeAuthor(authorId: string): Promise<null> {
-        return axios.delete(this.URI + '/' + authorId, {withCredentials: true}).then(result => null);
+        console.log('Frontend: attempting to remove author with id: ' + JSON.stringify(authorId));
+        return axios.delete(this.URI + '/' + authorId).then(result => null);
     }
 }
 

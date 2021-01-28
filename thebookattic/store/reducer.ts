@@ -3,6 +3,7 @@ import { BookAtticState } from './store';
 import { User } from './../user/user';
 import { Review } from '../review/review';
 import { Author } from '../author/author';
+import { Book } from '../book/book';
 
 
 // We need to define the initial state of the application and that
@@ -14,7 +15,8 @@ export const initialState: BookAtticState = {
     authors: [],
     author: new Author(),
     review: new Review(),
-    reviews: []
+    reviews: [],
+    books: []
 }   
    
 
@@ -38,11 +40,17 @@ const reducer = (state: BookAtticState = initialState, action: Actions.AppAction
         case Actions.AuthorActions.GetAuthors:
             newState.authors = action.payload as Author[];
             return newState;
+        case Actions.AuthorActions.GetAuthor:
+            newState.author = action.payload as Author;
+            return newState;
         case Actions.ReviewActions.GetReviews:
             newState.reviews = action.payload as Review[];
             return newState;
         case Actions.ReviewActions.ChangeReview:
             newState.review = action.payload as Review;
+            return newState;
+        case Actions.BookActions.ChangeBooks:
+            newState.books = action.payload as Book[];
             return newState;
         default: 
             return state;

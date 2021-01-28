@@ -7,9 +7,9 @@ interface AuthorEvent {
 }
 
 export const handler = async (event: AuthorEvent): Promise<any> => {
-    let author: Author = JSON.parse(event.body) as Author;
+    let author: any = event;
+    console.log(author);
     const result = await updateAuthor(author);
-    client.end();
     const head = {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*'
@@ -31,13 +31,13 @@ async function updateAuthor(author: Author): Promise<boolean> {
     const query = 
         `update authors 
         set 
-            userid = ${author.userId}, 
-            firstname = '${author.firstName}', 
-            lastname = '${author.lastName}', 
-            avgrating = '${author.avgRating}', 
+            userid = ${author.userid}, 
+            firstname = '${author.firstname}', 
+            lastname = '${author.lastname}', 
+            avgrating = '${author.avgrating}', 
             bio = '${author.bio}', 
             picture = '${author.picture}' 
-        where id = ${author.authorId};`
+        where id = ${author.authorid};`
     client.connect();
     try {
         await client.query(query);
@@ -51,25 +51,15 @@ async function updateAuthor(author: Author): Promise<boolean> {
 
 class Author {
     // ID for the author's page vs ID for the author's user account
-    authorId: number = 0;
-    userId: number = 0;
-    firstName: string = '';
-    lastName: string = '';
+    authorid: number = 0;
+    userid: number = 0;
+    firstname: string = '';
+    lastname: string = '';
 
     // Average rating for the author based on the ratings for their books
-    avgRating: number = 0;
+    avgrating: number = 0;
     bio: string = '';
 
     // Location of the author's picture
     picture: string = '';
-
-    constructor(authorId: number, userId: number, firstName: string, lastName: string, avgRating: number, bio: string, picture: string) {
-        this.authorId = authorId;
-        this.userId = userId;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.avgRating = avgRating;
-        this.bio = bio;
-        this.picture = picture;
-    }
 }

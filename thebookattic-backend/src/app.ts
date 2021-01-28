@@ -8,6 +8,9 @@ import cors from 'cors';
 
 import indexRouter from './staticrouter/index';
 import usersRouter from './user/user.router';
+import authorRouter from './author/author.router';
+import genreRouter from './genre/genres.router';
+import bookRouter from './book/book.router';
 import publicDir from './constant';
 
 import dotenv from 'dotenv';
@@ -34,8 +37,9 @@ app.use(session({
 */
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-
-
+app.use('/authors', authorRouter);
+app.use('/genres', genreRouter);
+app.use('/books', bookRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

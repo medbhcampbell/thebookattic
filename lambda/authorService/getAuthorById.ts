@@ -8,8 +8,9 @@ interface AuthorEvent {
 
 export const handler = async (event: AuthorEvent): Promise<any> => {
     let authorId = Number(event.path.substring(event.path.lastIndexOf('/')+1, event.path.length));
-    const author = await removeAuthor(authorId);
-    client.end();
+    console.log(authorId);
+    const author = await getAuthorById(authorId);
+    console.log(author);
     const head = {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*'
@@ -17,7 +18,7 @@ export const handler = async (event: AuthorEvent): Promise<any> => {
     if (author) {
         return {
             headers: head,
-            statusCode: 200, 
+            statusCode: 200,
             body: JSON.stringify(author)
         };
     } else {
@@ -29,18 +30,17 @@ export const handler = async (event: AuthorEvent): Promise<any> => {
     }
 }
 
-async function removeAuthor(authorId: number): Promise<boolean> {
-    const query = 
-        `delete from authors
-        where id = ${authorId}`;
+async function getAuthorById(authorId: number): Promise<Author | null> {
+    const query = `select * from authors where id = '${authorId}'`;
+    let result: any;
     client.connect();
     try {
-        await client.query(query);
-        return true;
+        result = await client.query(query)
+        return result.rows[0];
     } catch (error) {
-        return false;
+        return null;
     } finally {
-        client.end();            
+        client.end();
     }
 }
 
