@@ -9,7 +9,7 @@ class BookService {
 
         let res;
         try {
-            res = await client.query('select * from thebookattic.books');
+            res = await client.query('select * from books');
             client.end();
             return res.rows as Book[];
         } catch (err) {
@@ -25,7 +25,7 @@ class BookService {
 
         let res;
         try {
-            res = await client.query('select * from thebookattic.books where id=$1::integer', [bookid]);
+            res = await client.query('select * from books where id=$1::integer', [bookid]);
             client.end();
             return res.rows[0] as Book;
         } catch (err) {
@@ -40,7 +40,7 @@ class BookService {
         await client.connect();
 
         try {
-            const q = 'insert into thebookattic.books (authorid, title, cover, blurb, page_count, link, genreid) values($1::integer, $2::text, $3::text, $4::text, $5::integer, $6::text, $7::integer)';
+            const q = 'insert into books (authorid, title, cover, blurb, page_count, link, genreid) values($1::integer, $2::text, $3::text, $4::text, $5::integer, $6::text, $7::integer)';
             const args = [book.authorId, book.title, book.cover, book.blurb, book.pageCount, book.link, book.genre];
             await client.query(q, args);
             return true;
@@ -55,7 +55,7 @@ class BookService {
         await client.connect();
 
         try {
-            await client.query('delete from thebookattic.books where id=$1::integer', [bookid]);
+            await client.query('delete from books where id=$1::integer', [bookid]);
             return true;
         } catch(err) {
             console.log(err);
@@ -63,16 +63,17 @@ class BookService {
         }
     }
 
-    async approveBookById(bookid: number): Promise<boolean> {
+    async approveBookById(bookid: number): Promise<number> {
         const client = new Client();
         await client.connect();
 
         try {
-            await client.query('update thebookattic.books set approved = true where id=$1::integer', [bookid]);
-            return true;
+            const ret = await client.query('update books set approved = true where id=$1::integer', [bookid]);
+            // ret.rows is the number of rows updated. should be 1. if we can't find the book (0), that's a problem
+            return ret.rows;
         } catch(err) {
             console.log(err);
-            return false;
+            return 0;
         }
     }
 }

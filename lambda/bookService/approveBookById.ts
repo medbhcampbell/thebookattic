@@ -9,11 +9,11 @@ interface BookEvent {
 export const handler = async (event: BookEvent): Promise<any> => {
     let bookid = Number(event.path.substring(event.path.lastIndexOf('/')+1, event.path.length));
     const bookService = new BookService();
-    const book = await bookService.approveBookById(bookid);
+    const approvedBooks = await bookService.approveBookById(bookid);
     
-    if(book) {
-        console.log(JSON.stringify(book));
-        return {statusCode: 200, body: JSON.stringify(book), headers: {'Access-Control-Allow-Origin': '*'}};
+    if(approvedBooks) {
+        console.log(JSON.stringify(approvedBooks));
+        return {statusCode: 200, body: JSON.stringify(approvedBooks), headers: {'Access-Control-Allow-Origin': '*'}};
     } else {
         return {statusCode: 404, body: JSON.stringify({}), headers: {'Access-Control-Allow-Origin': '*'}};
     }
