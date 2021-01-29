@@ -28,8 +28,9 @@ export default function BookListComponent(props: BookListProps) {
     //because useState is async and it's not using initial state upon first few renders
     let approved = props.books.filter(item=>{return item.approved});
     const [list, setList] = useState<Book[]>([]);
+    
     function onBookSelect(index: number) {
-        const book = props.books[index];
+        const book = filter == '' ? approved[index] : list[index];
         navigation.navigate('BookDetail', book);
     }
     //set new list whenever user changes a genre
