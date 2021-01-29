@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, Button } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
-import Genre from '../genre/genre';
 import genreService from '../genre/genre.service';
 import { getGenres } from '../store/actions';
 import { GenreState, UserState } from '../store/store';
@@ -31,11 +30,9 @@ export default function SubmitBookComponent() {
     // get the user and check that they are an author
     // if they are, get a list of genres for the picker
     useEffect(() => {
-        //TODO change this when login works
-        // if (user.role !== 'author') {
-        //     nav.navigate('Home');
-        if (false) {
-            console.log('Should test that user is author, put it back when login works');
+        //only authors can access this page
+        if (user.role !== 'author') {
+            nav.navigate('Home');
         } else {
             //get a list of genres for the picker, if it isn't already in the store
             if (genres.length === 0) {
@@ -48,15 +45,12 @@ export default function SubmitBookComponent() {
             }
 
             //get the user's authorid to complete book info
-            //TODO uncomment this code when login works
-            tempBook.authorid = 1;
-            setBook(tempBook);
-            // authorService.getAuthorByUserId(user.name).then(data => {
-            //     tempBook.authorid = data.authorid;
-            //     setBook(tempBook);
-            // }).catch(err => {
-            //     console.log(err);
-            // });
+            authorService.getAuthorByUserId(user.name).then(data => {
+                tempBook.authorid = data.authorid;
+                setBook(tempBook);
+            }).catch(err => {
+                console.log(err);
+            });
         }
     }, [dispatch]);
 
