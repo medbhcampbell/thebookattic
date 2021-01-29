@@ -1,7 +1,5 @@
 import { Client } from 'pg';
 
-const client = new Client();
-
 interface AuthorEvent {
     path: string
 }
@@ -32,6 +30,7 @@ export const handler = async (event: AuthorEvent): Promise<any> => {
 }
 
 async function removeAuthor(authorId: number): Promise<boolean> {
+    const client = new Client();
     const query = 
         `delete from authors
         where id = ${authorId}`;
@@ -49,7 +48,7 @@ async function removeAuthor(authorId: number): Promise<boolean> {
 class Author {
     // ID for the author's page vs ID for the author's user account
     authorId: number = 0;
-    userId: number = 0;
+    userId: string = '';
     firstName: string = '';
     lastName: string = '';
 
@@ -59,14 +58,4 @@ class Author {
 
     // Location of the author's picture
     picture: string = '';
-
-    constructor(authorId: number, userId: number, firstName: string, lastName: string, avgRating: number, bio: string, picture: string) {
-        this.authorId = authorId;
-        this.userId = userId;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.avgRating = avgRating;
-        this.bio = bio;
-        this.picture = picture;
-    }
 }

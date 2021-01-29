@@ -1,11 +1,7 @@
 import { Client } from 'pg';
 
-const client = new Client();
-
 export const handler = async (): Promise<any> => {
-    client.connect();
     let authors = await getAllAuthors();
-    client.end();
     const head = {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*'
@@ -26,7 +22,9 @@ export const handler = async (): Promise<any> => {
 }
 
 async function getAllAuthors(): Promise<Author[] | null> {
+    const client = new Client();
     const query = 'select * from authors;';
+    client.connect();
     let result: any;
     try {
         result = await client.query(query);
@@ -41,7 +39,7 @@ async function getAllAuthors(): Promise<Author[] | null> {
 class Author {
     // ID for the author's page vs ID for the author's user account
     authorId: number = 0;
-    userId: number = 0;
+    userId: string = '';
     firstName: string = '';
     lastName: string = '';
 

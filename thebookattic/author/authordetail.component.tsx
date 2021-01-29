@@ -1,25 +1,32 @@
 import React, { useEffect } from 'react';
-import { View, Text, Pressable } from 'react-native';
+import { View, Text, Image, Pressable, ScrollView } from 'react-native';
+import { Card } from 'react-native-elements';
+import { FlatList } from 'react-native-gesture-handler';
 import { State } from 'react-native-gesture-handler';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 
-import { AuthorState } from '../store/store';
+import style from '../global-styles';
+import { AuthorState, BookState } from '../store/store';
 import { getAuthor } from '../store/actions';
 import { Author } from './author';
 import authorService from './author.service';
 
 export default function AuthorDetailComponent() {
+    const dispatch = useDispatch();
+    const navigation = useNavigation();
     const selectAuthor = (state: AuthorState) => state.author;
     const author = useSelector(selectAuthor);
-    const dispatch = useDispatch();
+    const selectBooks = (state: BookState) => state.books;
+    const books = useSelector(selectBooks);
 
     // useEffect(() => {
     //     authorService.getAuthorById(1).then((author) => {
     //         dispatch(getAuthor(author));
     //     })
     // }, [dispatch]);
-
-    console.log('AuthorDetailComponent: ' + JSON.stringify(author));
+    console.log('AuthorDetailComponent - books: ' + JSON.stringify(books));
+    console.log('AuthorDetailComponent - author: ' + JSON.stringify(author));
     let newAuthor = new Author();
     newAuthor.authorid = 9;
     newAuthor.userid = 111116;
@@ -53,6 +60,11 @@ export default function AuthorDetailComponent() {
         authorService.removeAuthor('7');
     }
 
+    function onBookSelect(index: number) {
+        const book = books[index];
+        navigation.navigate('BookDetail', book);
+    }
+
     function onGetAuthorSelect() {
         //let a: any = { ...author };
         authorService.getAuthorById(1).then((author) => {
@@ -60,45 +72,33 @@ export default function AuthorDetailComponent() {
         });
         //console.log(a.firstname + ' ' + a.lastname);
     }
-
+    
     return (
-        <View>
-            <Text>
-                This is a placeholder. I am not quite 100% finished with this. You can probably see that.
-            </Text>
-            <Text>Author's Name : {author.firstname + ' ' + author.lastname}</Text>
-            <Text>Average rating for the author : {author.avgrating}</Text>
-            <Text>Author's bio goes here : {author.bio}</Text>
-            <View>
-                <Text>
-                    This is the section where books by this author will be displayed
-                </Text>
+        <ScrollView>
+            <View style={{alignItems: 'center'}}>
+                <Image style={style.authorPreviewImg} source={{uri: author.picture}}/>
+                <Text>{author.firstname + ' ' + author.lastname}</Text>
+                <Text>Average book rating : {author.avgrating}</Text>
+                <Text>About : </Text>
+                <Text>{author.bio}</Text>
+                <Text>Books by {author.firstname + ' ' + author.lastname}</Text>
+                {books.map((value, index: number) => {
+                    if (value.authorid === author.id) {
+                        return (
+                            <View>
+                                <Pressable onPress={()=> onBookSelect(index)}>
+                                    <Card>
+                                        <Text style={style.bookPreviewText}>{books[index].title}</Text>
+                                        <Image style={style.bookPreviewImg} source={{uri: books[index].cover}}/>
+                                    </Card>
+                                </Pressable>
+                            </View>
+                        );
+                    } else {
+                        return null;
+                    }
+                })}
             </View>
-            <br/>
-            <Pressable onPress={()=> onAddSelect()}>
-                <Text>
-                    Test addAuthor
-                </Text>
-            </Pressable>
-            <br/>
-            <Pressable onPress={()=> onUpdateSelect()}>
-                <Text>
-                    Test updateAuthor
-                </Text>
-            </Pressable>
-            <br/>
-            <Pressable onPress={()=> onRemoveSelect()}>
-                <Text>
-                    Test removeAuthor
-                </Text>
-            </Pressable>
-            <br/>
-            <Pressable onPress={()=> onGetAuthorSelect()}>
-                <Text>
-                    Test getAuthorById                    
-                </Text>
-            </Pressable>
-            <br/>
-        </View>
+        </ScrollView>
     )
 }

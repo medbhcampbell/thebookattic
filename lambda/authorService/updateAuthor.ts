@@ -1,7 +1,5 @@
 import { Client } from 'pg';
 
-const client = new Client();
-
 interface AuthorEvent {
     body: string
 }
@@ -28,6 +26,7 @@ export const handler = async (event: AuthorEvent): Promise<any> => {
 }
 
 async function updateAuthor(author: Author): Promise<boolean> {
+    const client = new Client();
     const query = 
         `update authors 
         set 
@@ -52,7 +51,7 @@ async function updateAuthor(author: Author): Promise<boolean> {
 class Author {
     // ID for the author's page vs ID for the author's user account
     authorid: number = 0;
-    userid: number = 0;
+    userid: string = '';
     firstname: string = '';
     lastname: string = '';
 
