@@ -13,7 +13,7 @@ export default function AuthorDetailComponent() {
     const author = useSelector(selectAuthor);
     const selectBooks = (state: BookState) => state.books;
     const books = useSelector(selectBooks);
-
+  
     function onBookSelect(index: number) {
         const book = books[index];
         navigation.navigate('BookDetail', book);
