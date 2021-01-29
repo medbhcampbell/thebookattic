@@ -1,8 +1,9 @@
 import React from 'react';
 import { Button, Text, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { useSelector } from 'react-redux';
+import { useSelector,useDispatch } from 'react-redux';
 import { BookAtticState } from '../store/store';
+import userService from '../user/user.service';
 
 
 
@@ -20,7 +21,8 @@ function NavBarComponent() {
                     }}title='Register' color='#880022'
                     
                 />
-                         
+                
+                                         
             {user.name && <Text>Welcome {user.name} </Text>}
             <Button title='Submit Book' onPress={() => nav.navigate('SubmitBook')} />
         </View>

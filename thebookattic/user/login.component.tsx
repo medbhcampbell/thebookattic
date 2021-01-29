@@ -36,8 +36,7 @@ function LoginComponent({navigation}: LoginProp) {
         });
     }
 
-    
-       return (
+     return (
         <View style={[style.container, style.login]}>
             <Text>Username: </Text>
             <TextInput
@@ -58,6 +57,7 @@ function LoginComponent({navigation}: LoginProp) {
             />
            
             <Button onPress={submitForm} title='Login' color='#880022' />
+             
             
             
             
