@@ -1,7 +1,5 @@
 import { Client } from 'pg';
 
-const client = new Client();
-
 interface AuthorEvent {
     body: string
 }
@@ -27,6 +25,7 @@ export const handler = async (event: AuthorEvent): Promise<any> => {
 }
 
 async function addAuthor(author: Author): Promise<boolean> {
+    const client = new Client();
     console.log(JSON.stringify(author));
     const query = 
     `insert into authors (userid, firstname, lastname, avgrating, bio, picture) 
