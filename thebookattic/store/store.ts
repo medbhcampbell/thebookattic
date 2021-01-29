@@ -6,7 +6,6 @@ import { Book } from "../book/book";
 import { Author } from "../author/author";
 import { AppAction } from "./actions";
 import reducer from "./reducer";
-
 import Genre from '../genre/genre';
 
 export interface UserState {

@@ -6,18 +6,22 @@ let docClient = new AWS.DynamoDB.DocumentClient({
 });
 
 interface MyEvent {
-    path: string;
+    body: string;
 }
 
 export const handler = async (event: MyEvent): Promise<any> => {
-    let userName = event.path.substring(event.path.lastIndexOf('/')+1, event.path.length);
-    const user = await getUserByName(userName);
+    let obj = JSON.parse(event.body) as User;
+    const user = await getUserByName(obj.name);
     const head = {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*'
     };   
     if (user) {
-        return {headers: head,statusCode: 200, body: JSON.stringify(user)};
+        if(obj.password === user.password){
+            return {headers: head, statusCode: 200, body: JSON.stringify(user)};
+        }else{
+            return {headers: head,statusCode: 404, body: ''}
+        }
     } else {
         return {headers: head,statusCode: 404, body: JSON.stringify({})};
     }

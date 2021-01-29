@@ -7,7 +7,7 @@ import Genre from '../genre/genre';
 export enum UserActions {
     GetUser = 'GET_USER',
     LoginChange = 'CHANGE_LOGIN',
-    ChangeLocale = 'CHANGE_LOCALE'
+    ChangeUser = 'CHANGE_USER'
 }
 
 export enum AuthorActions {
@@ -33,9 +33,9 @@ export interface AppAction {
     payload: any;
 }
 
-export interface UserAction<P> extends AppAction {
+export interface UserAction extends AppAction {
     type: UserActions;
-    payload: P;
+    payload: User;
 }
 
 export interface AuthorAction extends AppAction {
@@ -58,29 +58,31 @@ export interface BookAction extends AppAction {
     payload: Book[];
 }
 
-export function getUser(user: User): UserAction<User> {
-    const action: UserAction<User> = {
+export function getUser(user: User): UserAction {
+    const action: UserAction = {
         type: UserActions.GetUser,
         payload: user
     };
     return action;
 }
 
-export function loginAction(user: User): UserAction<User> {
-    const action: UserAction<User> = {
+export function loginAction(user: User): UserAction {
+    const action: UserAction = {
         type: UserActions.LoginChange,
         payload: user
     };
     return action;
 }
 
-export function changeLocale(locale: string): UserAction<string> {
-    const action: UserAction<string> = {
-        type: UserActions.ChangeLocale,
-        payload: locale
+export function changeUser(user: User): UserAction {
+    const action: UserAction = {
+        type: UserActions.ChangeUser,
+        payload: user
     };
     return action;
 }
+
+
 
 export function getAllAuthors(authors: Author[]): AuthorAction {
     const action: AuthorAction = {

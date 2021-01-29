@@ -15,11 +15,13 @@ class UserService {
         });
     }
 
+    addUser(user: User): Promise<null> {
+        return axios.post(this.URI, user).then((result) => null);
+      }
+
+   
     login(user: User): Promise<User> {
-        return axios
-            .post(this.URI, user)
-            .then((result) => result.data)
-            .catch((err) => err);
+        return axios.post(this.URI+'/login',user).then((result) => result.data);
     }
     logout(): Promise<null> {
         return axios
