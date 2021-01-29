@@ -36,6 +36,11 @@ const styles = StyleSheet.create({
     },
     dangerText: {
         color: 'red'
+    },
+    approvalNotice: {
+        alignSelf: 'center',
+        alignItems: 'center',
+        //flexDirection: 'row'
     }
 });
 

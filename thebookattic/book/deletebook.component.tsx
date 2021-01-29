@@ -4,9 +4,11 @@ import { Button } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { changeBooks } from '../store/actions';
 import bookService from './book.service';
+import style from '../global-styles';
 
 interface DeleteBookProps {
     bookid: number;
+    approved: boolean;
 }
 
 export default function DeleteBookComponent(props: DeleteBookProps) {
@@ -30,6 +32,9 @@ export default function DeleteBookComponent(props: DeleteBookProps) {
     }
 
     return (
-        <Button title='Delete' onPress={deleteBook}></Button>
+        <Button
+            color='red'
+            title={props.approved? 'Delete':'Reject'}
+            onPress={deleteBook} />
     )
 }

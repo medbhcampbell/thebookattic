@@ -10,6 +10,7 @@ import { UserState } from '../store/store';
 import bookService from './book.service';
 import authorService from '../author/author.service';
 import DeleteBookComponent from './deletebook.component';
+import ApproveBookComponent from './approvebook.component';
 
 interface BookDetailProps {
     route: RouteProp<StackParams, 'BookDetail'>
@@ -56,8 +57,10 @@ export default function BookDetailComponent(props: BookDetailProps) {
             <Text>Page count: {book.page_count}</Text>
             <Text>Average rating: {book.rating}</Text>
             {userIsAuthor || user.role === 'admin' ?
-                <DeleteBookComponent bookid={book.id} />
+                <DeleteBookComponent bookid={book.id} approved={book.approved}/>
                 : <Text>My rating: TODO getRatingByUser</Text>}
+            {(!book.approved && user.role === 'admin') &&
+                <ApproveBookComponent id={book.id} />}
             {/*TODO <ReviewList></ReviewList>*/}
         </View>
     )
