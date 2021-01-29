@@ -63,7 +63,8 @@ ddb.deleteTable(removeUsers, function (err, data) {
 
 function populateUsersTable() {
     userService.addUser({name: 'Linda', password: '1234', role: 'user'}).then(()=>{});
-    userService.addUser({name: 'Maddie', password: 'pass', role: 'author'}).then(()=>{});
+    userService.addUser({name: 'Maddie', password: '1234', role: 'user'}).then(()=>{});
     userService.addUser({name: 'Jim', password: 'pass', role: 'admin'}).then(()=>{});
+    
    
 }
