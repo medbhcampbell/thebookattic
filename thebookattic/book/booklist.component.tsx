@@ -27,8 +27,9 @@ export default function BookListComponent(props: BookListProps) {
     const [filter, setFilter] = useState(0);
     const approved = props.books.filter(item=>{return item.approved});
     const [filteredList, setList] = useState(approved);
+
     function onBookSelect(index: number) {
-        const book = props.books[index];
+        const book = filteredList[index];
         navigation.navigate('BookDetail', book);
     }
 
