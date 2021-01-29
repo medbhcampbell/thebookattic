@@ -41,7 +41,7 @@ async function getAllAuthors(): Promise<Author[] | null> {
 class Author {
     // ID for the author's page vs ID for the author's user account
     authorId: number = 0;
-    userId: number = 0;
+    userId: string = '';
     firstName: string = '';
     lastName: string = '';
 
