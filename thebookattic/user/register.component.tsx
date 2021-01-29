@@ -1,4 +1,4 @@
-import React, { SyntheticEvent } from 'react';
+import React, {  SyntheticEvent, useEffect } from 'react';
 import {
      StyleSheet, 
      Text, 
@@ -11,59 +11,81 @@ import { connect, ConnectedProps, useDispatch, useSelector } from 'react-redux';
 import { UserState } from '../store/store';
 import style from '../global-styles';
 import userService from './user.service';
-import { changeUser } from '../store/actions';
 import { User } from './user';
 import { useNavigation } from '@react-navigation/native';
+import { loginAction } from '../store/actions';
 
-
+/*
 const userProp = (state: UserState) => ({
     user: state.user,
   });
-const mapDispatch = {
+  // This is the dispatcher I want to use from redux
+  const mapDispatch = {
     updateUser: (user: User) =>
-      changeUser(user),
+      loginAction(user),
   };
-
+  
+  // Put them in the connector
+  
   const connector = connect(userProp, mapDispatch);
-
+  
+  // Function Component
+  // get the types of the props we created above so we can tell our component about them.
   type PropsFromRedux = ConnectedProps<typeof connector>;
 
-function RegisterComponent(props: PropsFromRedux) {
+ */
+  
+function RegisterComponent() {
     const userSelector = (state: UserState) => state.loginUser;
     const actualUser = useSelector((state: UserState) => state.user);
     const user = useSelector(userSelector);
     const dispatch = useDispatch();
     const navigation = useNavigation();
 
-function handleForm(){
-    
-  }
-
  
 
 function registerForm() {
-        userService.addUser(props.user).then((user) => {
-            console.log(user);
-            dispatch(changeUser(new User()));
-            navigation.navigate('login');
+        userService.addUser(user).then((user) => {
+           console.log(user);
+           dispatch(loginAction(new User()));
+           navigation.navigate('Login');
         });
     }
 
     return (
-        <View>
+        <View style={[style.container, style.login]}>
         <Text>Name</Text><br/>
-        <TextInput onChange={handleForm} style={style.input} placeholder="Your name" /><br/>
+        <TextInput
+                style={style.input}
+                onChangeText={(value) =>
+                    dispatch(loginAction({ ...user, name: value }))
+                }
+                
+            /> <br/>
         <Text>Password</Text><br/>
-        <TextInput onChange={handleForm} style={style.input} secureTextEntry={true} placeholder="Password"/><br/>
+        <TextInput
+                style={style.input}
+                secureTextEntry={true} 
+                onChangeText={(value) =>
+                    dispatch(loginAction({...user, password:value}))
+                }
+                
+            /> <br/>
         <Text>Role</Text><br/>
-        <TextInput onChange={handleForm} style={style.input} placeholder="user/admin/author"/><br/>
-        
+        <TextInput
+                style={style.input}
+                placeholder="user/admin/author"
+                onChangeText={(value) =>
+                    dispatch(loginAction({ ...user, role:value}))
+                }
+              
+            /> <br/>
 
             <Button onPress={registerForm} title='Register' color='#880022' />    
         </View>
     )
 }
 
-export default connector(RegisterComponent);
+export default RegisterComponent;
 
 
