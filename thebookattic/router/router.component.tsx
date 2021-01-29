@@ -12,10 +12,7 @@ import SubmitBookComponent from '../book/submitbook.component';
 import { Book } from '../book/book';
 import { Author } from '../author/author';
 import NavBarComponent from './navbar.component';
-<<<<<<< HEAD
 import RegisterComponent from '../user/register.component';
-=======
->>>>>>> f54b406e76becd19793ed093c83ff42aca471f3e
 
 /* Parameter list for RouteProp requires a field for the route that we're on. */
 export type StackParams = {
@@ -31,13 +28,7 @@ export type StackParams = {
 const Stack = createStackNavigator<StackParams>();
 const headerOptions: StackHeaderOptions = {
     headerTitle: () => <Text>The Book Attic</Text>,
-<<<<<<< HEAD
-    headerRight: () => <NavBarComponent />,
-    
-    
-=======
     headerRight: () => <NavBarComponent />
->>>>>>> f54b406e76becd19793ed093c83ff42aca471f3e
 };
 
 function RouterComponent(props: any) {  

@@ -12,7 +12,6 @@ function NavBarComponent() {
     const user = useSelector((state: BookAtticState) => state.user);
     return (
         <View >
-<<<<<<< HEAD
            {user.name && <Text>Welcome User you are here {user.name} </Text>}
            
                 <Button
@@ -22,10 +21,8 @@ function NavBarComponent() {
                     
                 />
                          
-=======
             {user.name && <Text>Welcome {user.name} </Text>}
             <Button title='Submit Book' onPress={() => nav.navigate('SubmitBook')} />
->>>>>>> f54b406e76becd19793ed093c83ff42aca471f3e
         </View>
     )
 }
