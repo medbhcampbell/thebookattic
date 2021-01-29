@@ -20,9 +20,9 @@ class GenreService {
         return axios.post(this.URI, name).then((result) => null);
     }
 
-    removeGenre(id: string): Promise<null> {
+    removeGenre(id: number): Promise<null> {
         return axios
-            .delete(this.URI + '/' + id, { withCredentials: true })
+            .delete(this.URI + '/' + id)
             .then((result) => null);
     }
 }
