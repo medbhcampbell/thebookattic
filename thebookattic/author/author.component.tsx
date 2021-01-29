@@ -25,15 +25,12 @@ export default function AuthorComponent(props: AuthorProps) {
     return (
         <View>
             <Text>
-                <br/>
                 <Pressable onPress={()=> onAuthorSelect()}>
                     <Text>
                         Select
                     </Text>
                 </Pressable>
-                <br/>
                 {'Name: ' + props.author.firstname + ' ' + props.author.lastname}
-                <br/>
                 {'Rating: ' + props.author.avgrating}
             </Text>
         </View>
