@@ -23,7 +23,7 @@ class BookService {
         return axios.patch(this.URI + '/' + bookId).then(result => null);
     }
 
-    deleteBookById(bookId: string): Promise<null> {
+    deleteBookById(bookId: number): Promise<null> {
         return axios.delete(this.URI + '/' + bookId).then(result => null);
     }
 
