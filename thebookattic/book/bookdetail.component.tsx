@@ -22,16 +22,27 @@ export default function BookDetailComponent(props: BookDetailProps) {
     const user = useSelector((state: UserState) => state.user);
     let userIsAuthor = false;
 
-    useEffect(()=> {
-        if (user.role === 'author') {
-            authorService.getAuthorById(book.authorid).then((author) => {
-                if (author.authorid === book.authorid) {
-                    userIsAuthor = true;
-                }
-            }).catch((err) => {
-                console.log(err);
-            });
+    useEffect(() => {
+        //useEffect callback cannot be async, this lets us use await 
+        async function checkAuthor() {
+            console.log(`user is ${JSON.stringify(user)}`);
+            if (user.role === 'author') {
+                console.log(`user is an author`);
+                try {
+                    const author = await authorService.getAuthorByUserId(user.name);
+                    console.log(`author: ${JSON.stringify(author)}`);
+                    console.log(`user's authorid is ${author.id}, book's authorid is ${book.authorid}`);
+                    if (author.id === book.authorid) {
+                        userIsAuthor = true;
+                    }
+                } catch (err) {
+                    console.log(err);
+                };
+            }
+            console.log(`userIsAuthor = ${userIsAuthor}`);
         }
+
+        checkAuthor();
     }, [userIsAuthor]);
 
     //TODO rating component (with stars?)
@@ -47,7 +58,7 @@ export default function BookDetailComponent(props: BookDetailProps) {
             <Text>Page count: {book.page_count}</Text>
             <Text>Average rating: {book.rating}</Text>
             {userIsAuthor || user.role === 'admin' ?
-                <DeleteBookComponent bookid={book.id}/>
+                <DeleteBookComponent bookid={book.id} />
                 : <Text>My rating: TODO getRatingByUser</Text>}
             {/*TODO <ReviewList></ReviewList>*/}
         </View>

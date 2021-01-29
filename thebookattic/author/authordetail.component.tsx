@@ -21,7 +21,7 @@ export default function AuthorDetailComponent() {
 
     console.log('AuthorDetailComponent: ' + JSON.stringify(author));
     let newAuthor = new Author();
-    newAuthor.authorid = 9;
+    newAuthor.id = 9;
     newAuthor.userid = 111116;
     newAuthor.firstname = 'Joe';
     newAuthor.lastname = 'Author';
@@ -30,7 +30,7 @@ export default function AuthorDetailComponent() {
     newAuthor.picture = 'url';
 
     let updatedAuthor = new Author();
-    updatedAuthor.authorid = 7;
+    updatedAuthor.id = 7;
     updatedAuthor.userid = 111111;
     updatedAuthor.firstname = 'Jake';
     updatedAuthor.lastname = 'Austin';
