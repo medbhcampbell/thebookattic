@@ -46,7 +46,7 @@ export default function SubmitBookComponent() {
 
             //get the user's authorid to complete book info
             authorService.getAuthorByUserId(user.name).then(data => {
-                tempBook.authorid = data.authorid;
+                tempBook.authorid = data.id;
                 setBook(tempBook);
             }).catch(err => {
                 console.log(err);
