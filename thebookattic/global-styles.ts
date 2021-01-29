@@ -27,7 +27,14 @@ const styles = StyleSheet.create({
     },
     h1: {
         fontSize: 32
+    },
+    authorPreviewImg: {
+        alignSelf: 'center',
+        backgroundColor: '#e3e3e3',
+        width: 100,
+        height: 160
     }
+
 });
 
 export default styles;
