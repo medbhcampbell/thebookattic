@@ -1,13 +1,11 @@
-import React, {  SyntheticEvent, useEffect } from 'react';
+import React from 'react';
 import {
-     StyleSheet, 
      Text, 
      View,
      TextInput,
-     TouchableOpacity, 
      Button} from 'react-native';
 
-import { connect, ConnectedProps, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { UserState } from '../store/store';
 import style from '../global-styles';
 import userService from './user.service';
