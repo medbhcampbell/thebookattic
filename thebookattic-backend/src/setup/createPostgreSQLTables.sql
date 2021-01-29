@@ -45,6 +45,13 @@ create table reviews
     approved boolean default false
 );
 
+create table toread
+(
+	username varchar(10) not null,
+	bookid int not null,
+	constraint fk_bookid foreign key (bookid) references books (id)
+);
+
 -- Populating with some sample entries, feel free to add/remove
 insert into genres (name) values ('action');
 insert into genres (name) values ('adventure');
