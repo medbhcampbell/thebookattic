@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import userService from './user.service';
 import { UserState } from '../store/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeUser, getUser, loginAction } from '../store/actions';
+import { getUser, loginAction } from '../store/actions';
 import { Button, TextInput, Text, View } from 'react-native';
 import style from '../global-styles';
 import { User } from './user';
@@ -27,6 +27,7 @@ function LoginComponent({navigation}: LoginProp) {
         }
     }, []);
 
+   
     function submitForm() {
         userService.login(user).then((user) => {
             console.log(user);
@@ -35,9 +36,7 @@ function LoginComponent({navigation}: LoginProp) {
         });
     }
 
-
     
-
        return (
         <View style={[style.container, style.login]}>
             <Text>Username: </Text>
@@ -57,8 +56,9 @@ function LoginComponent({navigation}: LoginProp) {
                 }
                 value={user.password}
             />
-
+           
             <Button onPress={submitForm} title='Login' color='#880022' />
+            
             
             
         </View>

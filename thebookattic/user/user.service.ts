@@ -16,7 +16,12 @@ class UserService {
     }
 
     addUser(user: User): Promise<null> {
-        return axios.post(this.URI, user).then((result) => null);
+        return axios.post(this.URI, user).then(result => null)
+        .catch(err => {
+            console.log(err);
+            return null;
+        });
+        
       }
 
    

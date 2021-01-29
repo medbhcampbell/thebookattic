@@ -7,7 +7,7 @@ import Genre from '../genre/genre';
 export enum UserActions {
     GetUser = 'GET_USER',
     LoginChange = 'CHANGE_LOGIN',
-    ChangeUser = 'CHANGE_USER'
+   
 }
 
 export enum AuthorActions {
@@ -69,14 +69,6 @@ export function getUser(user: User): UserAction {
 export function loginAction(user: User): UserAction {
     const action: UserAction = {
         type: UserActions.LoginChange,
-        payload: user
-    };
-    return action;
-}
-
-export function changeUser(user: User): UserAction {
-    const action: UserAction = {
-        type: UserActions.ChangeUser,
         payload: user
     };
     return action;

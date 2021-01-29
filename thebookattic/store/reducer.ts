@@ -37,9 +37,6 @@ const reducer = (
         case Actions.UserActions.LoginChange:
             newState.loginUser = action.payload as User;
             return newState;
-        case Actions.UserActions.ChangeUser:
-                newState.loginUser = action.payload as User;
-                return newState;    
         case Actions.AuthorActions.GetAuthors:
             newState.authors = action.payload as Author[];
             return newState;
