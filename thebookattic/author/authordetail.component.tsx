@@ -1,24 +1,23 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { View, Text, Image, Pressable, ScrollView } from 'react-native';
 import { Card } from 'react-native-elements';
-import { FlatList } from 'react-native-gesture-handler';
-import { State } from 'react-native-gesture-handler';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 
 import style from '../global-styles';
 import { AuthorState, BookState } from '../store/store';
-import { getAuthor } from '../store/actions';
-import { Author } from './author';
-import authorService from './author.service';
 
 export default function AuthorDetailComponent() {
-    const dispatch = useDispatch();
     const navigation = useNavigation();
     const selectAuthor = (state: AuthorState) => state.author;
     const author = useSelector(selectAuthor);
     const selectBooks = (state: BookState) => state.books;
     const books = useSelector(selectBooks);
+
+    function onBookSelect(index: number) {
+        const book = books[index];
+        navigation.navigate('BookDetail', book);
+    }
     
     return (
         <ScrollView>
