@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Image } from 'react-native';
 import { RouteProp, useNavigation } from '@react-navigation/native';
 
@@ -20,30 +20,25 @@ export default function BookDetailComponent(props: BookDetailProps) {
 
     //check if this user is the book's author
     const user = useSelector((state: UserState) => state.user);
-    let userIsAuthor = false;
+    const [userIsAuthor, setUserIsAuthor] = useState(false);
 
     useEffect(() => {
         //useEffect callback cannot be async, this lets us use await 
         async function checkAuthor() {
-            console.log(`user is ${JSON.stringify(user)}`);
             if (user.role === 'author') {
-                console.log(`user is an author`);
                 try {
                     const author = await authorService.getAuthorByUserId(user.name);
-                    console.log(`author: ${JSON.stringify(author)}`);
-                    console.log(`user's authorid is ${author.id}, book's authorid is ${book.authorid}`);
                     if (author.id === book.authorid) {
-                        userIsAuthor = true;
+                        setUserIsAuthor(true);
                     }
                 } catch (err) {
                     console.log(err);
                 };
             }
-            console.log(`userIsAuthor = ${userIsAuthor}`);
         }
 
         checkAuthor();
-    }, [userIsAuthor]);
+    }, [setUserIsAuthor]);
 
     //TODO rating component (with stars?)
     return (
