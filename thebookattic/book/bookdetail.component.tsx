@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, Image } from 'react-native';
 import { RouteProp, useNavigation } from '@react-navigation/native';
 
+import style from '../global-styles';
 import { StackParams } from '../router/router.component';
 import { Book } from './book';
 import { useDispatch, useSelector } from 'react-redux';
@@ -43,6 +44,8 @@ export default function BookDetailComponent(props: BookDetailProps) {
     //TODO rating component (with stars?)
     return (
         <View>
+            {!book.approved &&
+                <Text style={style.dangerText}>This book needs approval before it becomes public!</Text>}
             <Image source={{ uri: book.cover }}></Image>
             <Text>{book.title}</Text>
             <Text>Author: TODO getAuthorByID</Text>
