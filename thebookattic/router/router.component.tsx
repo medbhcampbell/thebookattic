@@ -8,8 +8,10 @@ import HomeComponent from '../home.component';
 import BookDetailComponent from '../book/bookdetail.component';
 import AuthorListComponent from '../author/authorlist.component';
 import AuthorDetailComponent from '../author/authordetail.component';
+import SubmitBookComponent from '../book/submitbook.component';
 import { Book } from '../book/book';
 import { Author } from '../author/author';
+import NavBarComponent from './navbar.component';
 
 /* Parameter list for RouteProp requires a field for the route that we're on. */
 export type StackParams = {
@@ -18,15 +20,16 @@ export type StackParams = {
     BookDetail: Book;
     AuthorList: Author[];
     AuthorDetail: Author;
+    SubmitBook: undefined;
 };
 
 const Stack = createStackNavigator<StackParams>();
 const headerOptions: StackHeaderOptions = {
     headerTitle: () => <Text>The Book Attic</Text>,
-    
+    headerRight: () => <NavBarComponent />
 };
-function RouterComponent(props: any) {
-    
+
+function RouterComponent(props: any) {  
     return (
         <Stack.Navigator initialRouteName='Login'>
             <Stack.Screen
@@ -52,6 +55,11 @@ function RouterComponent(props: any) {
             <Stack.Screen
                 name='AuthorDetail'
                 component={AuthorDetailComponent}
+                options={headerOptions}
+            />
+            <Stack.Screen
+                name='SubmitBook'
+                component={SubmitBookComponent}
                 options={headerOptions}
             />
         </Stack.Navigator>

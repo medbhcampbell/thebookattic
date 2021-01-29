@@ -41,7 +41,9 @@ class BookService {
 
         try {
             const q = 'insert into books (authorid, title, cover, blurb, page_count, link, genreid) values($1::integer, $2::text, $3::text, $4::text, $5::integer, $6::text, $7::integer)';
-            const args = [book.authorId, book.title, book.cover, book.blurb, book.pageCount, book.link, book.genre];
+            const args = [book.authorid, book.title, book.cover, book.blurb, book.page_count, book.link, book.genreid];
+            console.log(`query" ${q}`);
+            console.log(`args: ${JSON.stringify(args)}`);
             await client.query(q, args);
             return true;
         } catch(err) {
@@ -85,18 +87,18 @@ class Book {
 
     //book's status on our site
     public rating: number = 0;
-    public isApproved: boolean = false;
+    public approved: boolean = false;
 
     constructor(
         //IDs from SQL
-        public authorId: number,
+        public authorid: number,
         //Info about book
         public title: string,
         public cover: string,
         public blurb: string,
-        public pageCount: number,
+        public page_count: number,
         public link: string,
-        public genre: number
+        public genreid: number
     ){}   
 }
 

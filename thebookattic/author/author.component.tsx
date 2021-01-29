@@ -20,12 +20,16 @@ export default function AuthorComponent(props: AuthorProps) {
         navigation.navigate('AuthorDetail');
     }
 
+    console.log(props.author);
+
     return (
         <View>
             <Text>
                 <br/>
                 <Pressable onPress={()=> onAuthorSelect()}>
-                    Select
+                    <Text>
+                        Select
+                    </Text>
                 </Pressable>
                 <br/>
                 {'Name: ' + props.author.firstname + ' ' + props.author.lastname}
