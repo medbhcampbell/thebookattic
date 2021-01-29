@@ -28,16 +28,16 @@ export default function AuthorListComponent() {
                         return (
                             <View>
                                 <Text>
-                                    This is where the author list may/will go. It may/will be awesome.
+                                    Authors
                                 </Text>
                                 {authors.map((value, index: number) => {
-                                        return (
-                                            <AuthorComponent
-                                                key={'author-' + index}
-                                                author={value}
-                                            ></AuthorComponent>
-                                        );
-                                    })}
+                                    return (
+                                        <AuthorComponent
+                                            key={'author-' + index}
+                                            author={value}
+                                        ></AuthorComponent>
+                                    );
+                                })}
                             </View>
                         )
                     } else {

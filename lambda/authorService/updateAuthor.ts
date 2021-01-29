@@ -1,7 +1,5 @@
 import { Client } from 'pg';
 
-const client = new Client();
-
 interface AuthorEvent {
     body: string
 }
@@ -28,6 +26,7 @@ export const handler = async (event: AuthorEvent): Promise<any> => {
 }
 
 async function updateAuthor(author: Author): Promise<boolean> {
+    const client = new Client();
     const query = 
         `update authors 
         set 

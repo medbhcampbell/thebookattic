@@ -37,43 +37,78 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.handler = void 0;
-var pg_1 = require("pg");
-var handler = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var client, books, head, response;
+exports.User = exports.handler = void 0;
+var AWS = __importStar(require("aws-sdk"));
+var docClient = new AWS.DynamoDB.DocumentClient({
+    region: 'us-west-2',
+    endpoint: 'http://dynamodb.us-west-2.amazonaws.com'
+});
+var handler = function (event) { return __awaiter(void 0, void 0, void 0, function () {
+    var obj, user, head;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                client = new pg_1.Client();
-                return [4 /*yield*/, client.connect()];
+                obj = JSON.parse(event.body);
+                return [4 /*yield*/, getUserByName(obj.name)];
             case 1:
-                _a.sent();
-                return [4 /*yield*/, client.query('select * from books where approved=true')];
-            case 2:
-                books = _a.sent();
-                return [4 /*yield*/, client.end()];
-            case 3:
-                _a.sent();
+                user = _a.sent();
                 head = {
                     'Content-Type': 'application/json',
                     'Access-Control-Allow-Origin': '*'
                 };
-                if (books) {
-                    response = {
-                        headers: head,
-                        statusCode: 200,
-                        body: JSON.stringify(books.rows)
-                    };
+                if (user) {
+                    if (obj.password === user.password) {
+                        return [2 /*return*/, {
+                                headers: head,
+                                statusCode: 200,
+                                body: JSON.stringify(user)
+                            }];
+                    }
+                    else {
+                        return [2 /*return*/, { headers: head, statusCode: 404, body: '' }];
+                    }
                 }
                 else {
-                    response = {
-                        headers: head,
-                        statusCode: 404,
-                        body: ''
-                    };
+                    return [2 /*return*/, { headers: head, statusCode: 404, body: '' }];
                 }
                 return [2 /*return*/, response];
         }
     });
 }); };
 exports.handler = handler;
+function getUserByName(id) {
+    return __awaiter(this, void 0, void 0, function () {
+        var params;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    params = {
+                        TableName: 'users',
+                        Key: {
+                            'name': id
+                        }
+                    };
+                    return [4 /*yield*/, docClient
+                            .get(params)
+                            .promise()
+                            .then(function (data) {
+                            if (data) {
+                                return data.Item;
+                            }
+                        })
+                            .catch(function (err) {
+                            return null;
+                        })];
+                case 1: return [2 /*return*/, _a.sent()];
+            }
+        });
+    });
+}
+var User = /** @class */ (function () {
+    function User() {
+        this.name = '';
+        this.password = '';
+    }
+    return User;
+}());
+exports.User = User;

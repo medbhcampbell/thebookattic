@@ -38,6 +38,7 @@ export const handler = async (event: AuthorEvent): Promise<any> => {
 }
 
 async function getAuthorById(authorId: number): Promise<Author | null> {
+    const client = new Client();
     const query = `select * from authors where id = '${authorId}'`;
     console.log(query);
     let result: any;
@@ -81,14 +82,4 @@ class Author {
 
     // Location of the author's picture
     picture: string = '';
-
-    constructor(authorId: number, userId: string, firstName: string, lastName: string, avgRating: number, bio: string, picture: string) {
-        this.authorId = authorId;
-        this.userId = userId;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.avgRating = avgRating;
-        this.bio = bio;
-        this.picture = picture;
-    }
 }

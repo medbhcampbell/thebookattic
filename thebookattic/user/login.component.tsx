@@ -5,7 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getUser, loginAction } from '../store/actions';
 import { Button, TextInput, Text, View } from 'react-native';
 import style from '../global-styles';
-import { User } from './user';
+
+
 
 // Function Component
 interface LoginProp {
@@ -13,7 +14,7 @@ interface LoginProp {
 }
 function LoginComponent({navigation}: LoginProp) {
     const userSelector = (state: UserState) => state.loginUser;
-    const user = useSelector(userSelector);
+    const login = useSelector(userSelector);
     const actualUser = useSelector((state: UserState) => state.user);
     const dispatch = useDispatch();
     
@@ -29,10 +30,13 @@ function LoginComponent({navigation}: LoginProp) {
 
    
     function submitForm() {
-        userService.login(user).then((user) => {
-            console.log(user);
-            dispatch(getUser(user));
-            navigation.navigate('Home');
+        userService.login(login).then((user) => {
+            if(user){
+                dispatch(getUser(user));  
+                navigation.navigate('Home');
+            }
+        }).catch(err=>{
+            console.log(err);
         });
     }
 
@@ -42,18 +46,18 @@ function LoginComponent({navigation}: LoginProp) {
             <TextInput
                 style={style.input}
                 onChangeText={(value) =>
-                    dispatch(loginAction({ ...user, name: value }))
+                    dispatch(loginAction({ ...login, name: value }))
                 }
-                value={user.name}
+                value={login.name}
             />
             <Text>Password: </Text>
             <TextInput
                 secureTextEntry={true}
                 style={style.input}
-                 onChangeText={(value) =>
-                    dispatch(loginAction({ ...user, password: value }))
+                onChangeText={(value) =>
+                    dispatch(loginAction({ ...login, password: value }))
                 }
-                value={user.password}
+                value={login.password}
             />
            
             <Button onPress={submitForm} title='Login' color='#880022' />

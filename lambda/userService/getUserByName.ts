@@ -15,17 +15,21 @@ export const handler = async (event: MyEvent): Promise<any> => {
     const head = {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*'
-    };   
+    };
     if (user) {
-        if(obj.password === user.password){
-            return {headers: head, statusCode: 200, body: JSON.stringify(user)};
-        }else{
-            return {headers: head,statusCode: 404, body: ''}
+        if (obj.password === user.password) {
+            return {
+                headers: head,
+                statusCode: 200,
+                body: JSON.stringify(user)
+            };
+        } else {
+            return { headers: head, statusCode: 404, body: '' };
         }
     } else {
-        return {headers: head,statusCode: 404, body: JSON.stringify({})};
+        return { headers: head, statusCode: 404, body: '' };
     }
-}
+};
 
 async function getUserByName(id: string): Promise<User | null> {
     const params = {
@@ -33,19 +37,21 @@ async function getUserByName(id: string): Promise<User | null> {
         Key: {
             'name': id
         }
-    }
-    return await docClient.get(params).promise().then((data) => {
-        return data.Item as User;
-    }).catch((err: any) => {
-        return null;
-    });
+    };
+    return await docClient
+        .get(params)
+        .promise()
+        .then((data) => {
+            return data.Item as User;
+        })
+        .catch((err: any) => {
+            return null;
+        });
 }
-
 
 export class User {
     name = '';
     password = '';
     role?: string;
-    constructor(){}
-    
+    constructor() {}
 }
