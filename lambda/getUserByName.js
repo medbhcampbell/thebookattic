@@ -62,19 +62,32 @@ var docClient = new AWS.DynamoDB.DocumentClient({
     endpoint: 'http://dynamodb.us-west-2.amazonaws.com'
 });
 var handler = function (event) { return __awaiter(void 0, void 0, void 0, function () {
-    var userName, user;
+    var obj, user, head;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                userName = event.path.substring(event.path.lastIndexOf('/') + 1, event.path.length);
-                return [4 /*yield*/, getUserByName(userName)];
+                obj = JSON.parse(event.body);
+                return [4 /*yield*/, getUserByName(obj.name)];
             case 1:
                 user = _a.sent();
+                head = {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                };
                 if (user) {
-                    return [2 /*return*/, { statusCode: 200, body: JSON.stringify(user) }];
+                    if (obj.password === user.password) {
+                        return [2 /*return*/, {
+                                headers: head,
+                                statusCode: 200,
+                                body: JSON.stringify(user)
+                            }];
+                    }
+                    else {
+                        return [2 /*return*/, { headers: head, statusCode: 404, body: '' }];
+                    }
                 }
                 else {
-                    return [2 /*return*/, { statusCode: 404, body: JSON.stringify({}) }];
+                    return [2 /*return*/, { headers: head, statusCode: 404, body: '' }];
                 }
                 return [2 /*return*/];
         }
@@ -93,9 +106,15 @@ function getUserByName(id) {
                             'name': id
                         }
                     };
-                    return [4 /*yield*/, docClient.get(params).promise().then(function (data) {
-                            return data.Item;
-                        }).catch(function (err) {
+                    return [4 /*yield*/, docClient
+                            .get(params)
+                            .promise()
+                            .then(function (data) {
+                            if (data) {
+                                return data.Item;
+                            }
+                        })
+                            .catch(function (err) {
                             return null;
                         })];
                 case 1: return [2 /*return*/, _a.sent()];

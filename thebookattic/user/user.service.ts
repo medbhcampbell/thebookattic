@@ -5,11 +5,11 @@ class UserService {
     private URI: string;
     constructor() {
         // URL of the express server
-        this.URI = 'http://localhost:3000/users';
+        this.URI =
+            'https://zp8675rt3l.execute-api.us-west-2.amazonaws.com/test/users';
     }
-    getLogin(): Promise<User> {
-        // withCredentials sends our cookies with the request.
-        return axios.get(this.URI, { withCredentials: true }).then((result) => {
+    getUsers(): Promise<User> {
+        return axios.get(this.URI).then((result) => {
             console.log(result);
             return result.data;
         });
@@ -17,14 +17,11 @@ class UserService {
 
     login(user: User): Promise<User> {
         return axios
-            .post(this.URI, user, { withCredentials: true })
-            .then((result) => result.data)
-            .catch((err) => err);
+            .post(this.URI + '/login', user)
+            .then((result) => result.data);
     }
     logout(): Promise<null> {
-        return axios
-            .delete(this.URI, { withCredentials: true })
-            .then((result) => null);
+        return axios.delete(this.URI).then((result) => null);
     }
 }
 
