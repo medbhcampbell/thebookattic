@@ -16,7 +16,25 @@ class BookService {
             client.end();
             console.log(err);
             return null;
-        };
+        }
+    }
+
+    async getBooksFromJoinTable(username: string, joinTable: string): Promise<Book[] | null> {
+        const client = new Client();
+        await client.connect();
+
+        let res;
+        const q = `select b.authorid, b.title, b.cover, b.blurb, b.page_count, b.approved, b.genreid from books b join ${joinTable} t on b.id = t.bookid where t.username=$1::text`;
+        const args = [username];
+        try {
+            res = await client.query(q, args);
+            client.end();
+            return res.rows as Book[];
+        } catch (err) {
+            client.end();
+            console.log(err);
+            return null;
+        }
     }
 
     async getBookById(bookid: number): Promise<Book | null> {
@@ -32,7 +50,7 @@ class BookService {
             client.end();
             console.log(err);
             return null;
-        };
+        }
     }
 
     async addBook(book: Book): Promise<boolean> {
