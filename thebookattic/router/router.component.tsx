@@ -12,6 +12,7 @@ import SubmitBookComponent from '../book/submitbook.component';
 import { Book } from '../book/book';
 import { Author } from '../author/author';
 import NavBarComponent from './navbar.component';
+import ToReadBooksComponent from '../book/toreadbooks.component';
 
 /* Parameter list for RouteProp requires a field for the route that we're on. */
 export type StackParams = {
@@ -21,6 +22,7 @@ export type StackParams = {
     AuthorList: Author[];
     AuthorDetail: Author;
     SubmitBook: undefined;
+    ToRead: undefined;
 };
 
 const Stack = createStackNavigator<StackParams>();
@@ -60,6 +62,11 @@ function RouterComponent(props: any) {
             <Stack.Screen
                 name='SubmitBook'
                 component={SubmitBookComponent}
+                options={headerOptions}
+            />
+            <Stack.Screen
+                name='ToRead'
+                component={ToReadBooksComponent}
                 options={headerOptions}
             />
         </Stack.Navigator>

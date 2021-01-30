@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
-import { changeBooks } from "../store/actions";
 import { UserState } from "../store/store";
 import { Book } from "./book";
 import bookService from "./book.service";
@@ -19,7 +18,7 @@ export default function ToReadBooksComponent() {
             books = result;
             setRetrievedBooks(true);
         });
-    }, []);
+    }, [books]);
 
     return (
         <BookListComponent books={books} retrievedBooks={retrievedBooks} />
