@@ -105,6 +105,6 @@ insert into books (authorid, title, cover, blurb, page_count, approved, genreid)
 	(select id from genres where name like 'horror'));
 
 
-insert into toread (username, bookid) values ('jausten', 2);
 insert into toread (username, bookid) values ('jausten', 3);
+insert into toread (username, bookid) values ('jausten', 4);
 insert into toread (username, bookid) values ('wshakespeare', 3);
