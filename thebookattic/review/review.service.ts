@@ -5,7 +5,7 @@ import { Review } from './review';
 class ReviewService {
     private URI: string;
     constructor() {
-        this.URI = process.env.REACT_APP_SERVER_URI + 'reviews';
+        this.URI = 'https://zp8675rt3l.execute-api.us-west-2.amazonaws.com/test/reviews';
     }
 
     getReviews(): Promise<Review[]> {

@@ -9,6 +9,8 @@ import { UserState } from '../store/store';
 import bookService from './book.service';
 import authorService from '../author/author.service';
 import DeleteBookComponent from './deletebook.component';
+import ReviewsComponent from '../review/reviews.component';
+import { Button, Divider } from 'react-native-elements';
 
 interface BookDetailProps {
     route: RouteProp<StackParams, 'BookDetail'>
@@ -17,7 +19,7 @@ interface BookDetailProps {
 export default function BookDetailComponent(props: BookDetailProps) {
 
     const book: Book = props.route.params;
-
+    const navigation = useNavigation();
     //check if this user is the book's author
     const user = useSelector((state: UserState) => state.user);
     const [userIsAuthor, setUserIsAuthor] = useState(false);
@@ -42,6 +44,7 @@ export default function BookDetailComponent(props: BookDetailProps) {
 
     //TODO rating component (with stars?)
     return (
+        <>
         <View>
             <Image source={{ uri: book.cover }}></Image>
             <Text>{book.title}</Text>
@@ -57,5 +60,19 @@ export default function BookDetailComponent(props: BookDetailProps) {
                 : <Text>My rating: TODO getRatingByUser</Text>}
             {/*TODO <ReviewList></ReviewList>*/}
         </View>
+        <Divider />
+        <View>
+            <Button
+                title="Add Review"
+                type="outline"
+                onPress={()=>navigation.navigate('SubmitReview', book)}
+            />
+            <Button
+                title="See All Reviews"
+                type="outline"
+                onPress={()=>navigation.navigate('Reviews', book)}
+            />
+        </View>
+        </>
     )
 }
