@@ -63,6 +63,15 @@ class BookService {
             return [];
         });
     }
+
+    getBooksToRead(username: string): Promise<Book[]> {
+        return axios.get(this.URI + '/toread/' + username)
+            .then(result => result.data)
+            .catch((err)=> {
+                console.log(err);
+                return [];
+            });
+    }
 }
 
 const bookService = new BookService();
