@@ -1,9 +1,11 @@
 import React from 'react';
 import { Button, Text, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { useSelector,useDispatch } from 'react-redux';
+import { useSelector} from 'react-redux';
 import { BookAtticState } from '../store/store';
-import userService from '../user/user.service';
+import LogoutComponent from '../user/logout.component';
+import style from '../global-styles';
+
 
 
 
@@ -13,20 +15,27 @@ function NavBarComponent() {
     const user = useSelector((state: BookAtticState) => state.user);
     return (
         <View >
-           {user.name && <Text>Welcome User you are here {user.name} </Text>}
-           
-                <Button
-                    onPress={() => {
-                        nav.navigate('Register');
-                    }}title='Register' color='#880022'
-                    
-                />
-                
-                                         
+                          
             {user.name && <Text>Welcome {user.name} </Text>}
             {user.role === 'author' && <Button title='Submit Book' onPress={() => nav.navigate('SubmitBook')} />}
+        <View>
+            {user.name ? 
+                <View style={style.userNavBar}>
+                    <LogoutComponent/>
+                   
+                </View> : 
+                <View style={style.userNavBar}> 
+                    <Button
+                        onPress={() => {
+                            nav.navigate('Register');
+                        }}title='Register' color='#880022'
+                    />
+                </View>
+            }
+        </View>
         </View>
     )
+    
 }
 
 export default NavBarComponent;

@@ -33,6 +33,11 @@ const styles = StyleSheet.create({
         backgroundColor: '#e3e3e3',
         width: 100,
         height: 160
+    },
+
+    userNavBar: {
+        flex: 1, 
+        flexDirection: 'row-reverse'
     }
 
 });

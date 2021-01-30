@@ -15,6 +15,7 @@ import NavBarComponent from './navbar.component';
 import RegisterComponent from '../user/register.component';
 import LogoutComponent from '../user/logout.component';
 
+
 /* Parameter list for RouteProp requires a field for the route that we're on. */
 export type StackParams = {
     Login: undefined;
@@ -50,6 +51,7 @@ function RouterComponent(props: any) {
             />
 
             <Stack.Screen
+                
                 name='Logout'
                 component={LogoutComponent}
                 options={headerOptions}

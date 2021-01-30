@@ -6,6 +6,7 @@ import { User } from "./user";
 import userService from "./user.service";
 import style from '../global-styles';
 import { Button, View } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 
 export  function LogoutComponent() {
@@ -13,11 +14,13 @@ export  function LogoutComponent() {
     const user = useSelector(userSelector);
     const dispatch = useDispatch();
     const loggedUser = user.name;
+    const nav = useNavigation();
     function logout() {
-      userService.logout().then(() => {
+      //userService.logout().then(() => {
         dispatch(getUser(new User()));
-      });
-    }
+        nav.navigate('Login');
+      };
+    
 
     return(
         
