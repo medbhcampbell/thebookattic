@@ -15,9 +15,9 @@ export default function ApproveBookComponent(props: ApproveBookProps) {
     const nav = useNavigation();
     const dispatch = useDispatch();
 
-    //Delete the book and update the books kept in the store
     function approveBook() {
         bookService.approveBookById(props.id).then(() => {
+            // Refresh the store with the update book set
             bookService.getAllBooks().then((allBooks) => {
                 dispatch(changeBooks(allBooks));
             }).catch((err) => {
@@ -26,8 +26,8 @@ export default function ApproveBookComponent(props: ApproveBookProps) {
         }).catch((err) => {
             console.log(err);
         }).finally(() => {
-            //take us home
-            nav.navigate('Home');
+            // Return to unapproved books
+            nav.navigate('UnapprovedBooks');
         })
     }
 

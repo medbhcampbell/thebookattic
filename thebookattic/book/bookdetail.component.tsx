@@ -56,11 +56,13 @@ export default function BookDetailComponent(props: BookDetailProps) {
             <Text>{book.genreid}: TODO getGenreByID</Text>
             <Text>Page count: {book.page_count}</Text>
             <Text>Average rating: {book.rating}</Text>
-            {userIsAuthor || user.role === 'admin' ?
-                <DeleteBookComponent bookid={book.id} approved={book.approved}/>
-                : <Text>My rating: TODO getRatingByUser</Text>}
-            {(!book.approved && user.role === 'admin') &&
-                <ApproveBookComponent id={book.id} />}
+            <View style={{flex: 1, flexDirection: 'row'}}>
+                {userIsAuthor || user.role === 'admin' ?
+                    <DeleteBookComponent bookid={book.id} approved={book.approved}/>
+                    : <Text>My rating: TODO getRatingByUser</Text>}
+                {(!book.approved && user.role === 'admin') &&
+                    <ApproveBookComponent id={book.id} />}
+            </View>
             {/*TODO <ReviewList></ReviewList>*/}
         </View>
     )

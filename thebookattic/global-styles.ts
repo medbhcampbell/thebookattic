@@ -39,8 +39,7 @@ const styles = StyleSheet.create({
     },
     approvalNotice: {
         alignSelf: 'center',
-        alignItems: 'center',
-        //flexDirection: 'row'
+        alignItems: 'center'
     }
 });
 
