@@ -13,25 +13,7 @@ import { User } from './user';
 import { useNavigation } from '@react-navigation/native';
 import { loginAction } from '../store/actions';
 
-/*
-const userProp = (state: UserState) => ({
-    user: state.user,
-  });
-  // This is the dispatcher I want to use from redux
-  const mapDispatch = {
-    updateUser: (user: User) =>
-      loginAction(user),
-  };
-  
-  // Put them in the connector
-  
-  const connector = connect(userProp, mapDispatch);
-  
-  // Function Component
-  // get the types of the props we created above so we can tell our component about them.
-  type PropsFromRedux = ConnectedProps<typeof connector>;
 
- */
   
 function RegisterComponent() {
     const userSelector = (state: UserState) => state.loginUser;
@@ -39,6 +21,7 @@ function RegisterComponent() {
     const user = useSelector(userSelector);
     const dispatch = useDispatch();
     const navigation = useNavigation();
+    const loggedUser = user.name;
 
  
 
@@ -49,6 +32,8 @@ function registerForm() {
            navigation.navigate('Login');
         });
     }
+
+ 
 
     return (
         <View style={[style.container, style.login]}>
@@ -82,6 +67,7 @@ function registerForm() {
             <Button onPress={registerForm} title='Register' color='#880022' />    
         </View>
     )
+            
 }
 
 export default RegisterComponent;
