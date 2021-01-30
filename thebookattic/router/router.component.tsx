@@ -13,10 +13,14 @@ import UnapprovedBooksComponent from '../book/unapprovedbooks.component';
 import { Book } from '../book/book';
 import { Author } from '../author/author';
 import NavBarComponent from './navbar.component';
+import RegisterComponent from '../user/register.component';
+import LogoutComponent from '../user/logout.component';
 
 /* Parameter list for RouteProp requires a field for the route that we're on. */
 export type StackParams = {
     Login: undefined;
+    Register: undefined;
+    Logout : undefined;
     Home: undefined;
     BookDetail: Book;
     AuthorList: Author[];
@@ -24,6 +28,8 @@ export type StackParams = {
     SubmitBook: undefined;
     UnapprovedBooks: undefined;
 };
+
+
 
 const Stack = createStackNavigator<StackParams>();
 const headerOptions: StackHeaderOptions = {
@@ -39,7 +45,18 @@ function RouterComponent(props: any) {
                 component={LoginComponent}
                 options={headerOptions}
             />
-           <Stack.Screen
+             <Stack.Screen
+                name='Register'
+                component={RegisterComponent}
+                options={headerOptions}
+            />
+
+            <Stack.Screen
+                name='Logout'
+                component={LogoutComponent}
+                options={headerOptions}
+            />
+            <Stack.Screen
                 name='Home'
                 component={HomeComponent}
                 options={headerOptions}
