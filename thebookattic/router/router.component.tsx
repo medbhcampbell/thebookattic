@@ -14,10 +14,14 @@ import { Author } from '../author/author';
 import NavBarComponent from './navbar.component';
 import ReviewsComponent from '../review/reviews.component';
 import SubmitReviewComponent from '../review/submitReview.component';
+import RegisterComponent from '../user/register.component';
+import LogoutComponent from '../user/logout.component';
 
 /* Parameter list for RouteProp requires a field for the route that we're on. */
 export type StackParams = {
     Login: undefined;
+    Register: undefined;
+    Logout : undefined;
     Home: undefined;
     BookDetail: Book;
     AuthorList: Author[];
@@ -41,7 +45,18 @@ function RouterComponent(props: any) {
                 component={LoginComponent}
                 options={headerOptions}
             />
-           <Stack.Screen
+             <Stack.Screen
+                name='Register'
+                component={RegisterComponent}
+                options={headerOptions}
+            />
+
+            <Stack.Screen
+                name='Logout'
+                component={LogoutComponent}
+                options={headerOptions}
+            />
+            <Stack.Screen
                 name='Home'
                 component={HomeComponent}
                 options={headerOptions}

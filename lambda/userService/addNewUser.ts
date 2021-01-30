@@ -12,10 +12,14 @@ interface MyEvent {
 export const handler = async (event: MyEvent): Promise<any> => {
   let user: User = JSON.parse(event.body) as User;
   let resp = await addUser(user);
+  const head = {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*'
+};   
   if (resp) {
-    return { statusCode: 204 };
+    return { headers:head,statusCode: 204 };
   } else {
-    return { statusCode: 400 };
+    return { headers:head,statusCode: 400 };
   }
 };
 
