@@ -44,12 +44,12 @@ class BookService {
         let res;
         try {
             res = await client.query('select * from books where id=$1::integer', [bookid]);
-            client.end();
             return res.rows[0] as Book;
         } catch (err) {
-            client.end();
             console.log(err);
             return null;
+        } finally {
+            client.end();
         }
     }
 
@@ -67,6 +67,25 @@ class BookService {
         } catch(err) {
             console.log(err);
             return false;
+        } finally {
+            client.end();
+        }
+    }
+
+    async addBookToJoinTable(username: string, bookid: number, joinTable: string): Promise<boolean> {
+        const client = new Client();
+        await client.connect();
+
+        try {
+            const q = `insert into ${joinTable} (username, bookid) values ($1::text, $2::integer)`;
+            const args = [username, bookid];
+            await client.query(q, args);
+            return true;
+        } catch(err) {
+            console.log(err);
+            return false;
+        } finally {
+            client.end();
         }
     }
 
