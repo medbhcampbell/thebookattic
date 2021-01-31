@@ -29,8 +29,6 @@ export type StackParams = {
     ToRead: undefined;
 };
 
-
-
 const Stack = createStackNavigator<StackParams>();
 const headerOptions: StackHeaderOptions = {
     headerTitle: () => <Text>The Book Attic</Text>,

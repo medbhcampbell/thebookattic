@@ -3,7 +3,7 @@ import { View, Text, Image, ActivityIndicator, Pressable } from 'react-native';
 import { Card } from 'react-native-elements';
 import { FlatList } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
-import {Picker} from '@react-native-picker/picker';
+import { Picker } from '@react-native-picker/picker';
 
 import style from '../global-styles';
 import { Book } from './book';
@@ -26,41 +26,44 @@ export default function BookListComponent(props: BookListProps) {
     const [filter, setFilter] = useState('');
     //have to render approved when no filter is applied
     //because useState is async and it's not using initial state upon first few renders
-    let approved = props.books.filter(item=>{return item.approved});
+    let approved = props.books.filter(item => { return item.approved });
     const [list, setList] = useState<Book[]>([]);
-    
+
     function onBookSelect(index: number) {
         const book = filter == '' ? approved[index] : list[index];
         navigation.navigate('BookDetail', book);
     }
     //set new list whenever user changes a genre
     //if no filter applied it's going to be a list of approved books
-    function handleFilter(itemValue: any){
+    function handleFilter(itemValue: any) {
         setFilter(itemValue);
-        if(itemValue){
-            setList(approved.filter(item=>item.genreid == itemValue));        
-        }else{
+        if (itemValue) {
+            setList(approved.filter(item => item.genreid == itemValue));
+        } else {
             setList(approved);
         }
     }
 
     useEffect(() => {
-        genreService.getGenres().then(data=>{
-            dispatch(getGenres(data));
-        }).catch(err=>{
-            console.log(err);
-        });
+        if (genres.length <= 0) {
+            genreService.getGenres().then(data => {
+                dispatch(getGenres(data));
+            }).catch(err => {
+                console.log(err);
+            });
+        }
+        //setList(approved);
     }, [dispatch]);
 
     // The component to be rendered for every book
     const BookPreview = (params: any) => {
         return (
-            <Pressable onPress={()=> onBookSelect(params.index)}>
+            <Pressable onPress={() => onBookSelect(params.index)}>
                 <Card>
                     <Text style={style.bookPreviewText}>{params.item.title}</Text>
-                    <Image style={style.bookPreviewImg} source={{uri: params.item.cover}}/>
+                    <Image style={style.bookPreviewImg} source={{ uri: params.item.cover }} />
                 </Card>
-            </Pressable>                
+            </Pressable>
         );
     }
 
@@ -68,25 +71,25 @@ export default function BookListComponent(props: BookListProps) {
     const keyExtractor = (item: object, index: number) => { return index.toString(); }
 
     return (
-        <View style={{alignItems: 'center'}}>
+        <View style={{ alignItems: 'center' }}>
             <Picker
-            selectedValue={filter}
-            onValueChange={handleFilter}>
+                selectedValue={filter}
+                onValueChange={handleFilter}>
                 <Picker.Item
                     label='No Filter'
                     value='' />
                 {genres.length > 0 && genres.map((genre) => {
-                return <Picker.Item
-                    key={genre.id}
-                    label={genre.name}
-                    value={genre.id} />
+                    return <Picker.Item
+                        key={genre.id}
+                        label={genre.name}
+                        value={genre.id} />
                 })}
             </Picker>
-            {props.retrievedBooks?
-                ((filter == '' && approved.length > 0) || list.length > 0) ? 
-                    <FlatList data={filter == '' ? approved : list} renderItem={BookPreview} keyExtractor={keyExtractor}/>
-                : <Text style={style.h1}> No books found!</Text>
-            : <ActivityIndicator/>}
+            {props.retrievedBooks ?
+                ((filter == '' && approved.length > 0) || list.length > 0) ?
+                    <FlatList data={filter == '' ? approved : list} renderItem={BookPreview} keyExtractor={keyExtractor} />
+                    : <Text style={style.h1}> No books found!</Text>
+                : <ActivityIndicator />}
         </View>
     )
 }
