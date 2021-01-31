@@ -72,6 +72,15 @@ class BookService {
                 return [];
             });
     }
+
+    addBookToRead(username: string, bookid: number): Promise<boolean> {
+        return axios.post(this.URI + '/toread/' + username, {"bookid": bookid})
+            .then(result => result.data)
+            .catch((err) => {
+                console.log(err);
+                return false;
+            });
+    }
 }
 
 const bookService = new BookService();
