@@ -10,13 +10,13 @@ class BookService {
         let res;
         try {
             res = await client.query('select * from books');
-            client.end();
             return res.rows as Book[];
         } catch (err) {
-            client.end();
             console.log(err);
             return null;
-        };
+        } finally {
+            client.end();
+        }
     }
 
     async getBookById(bookid: number): Promise<Book | null> {
@@ -26,13 +26,13 @@ class BookService {
         let res;
         try {
             res = await client.query('select * from books where id=$1::integer', [bookid]);
-            client.end();
             return res.rows[0] as Book;
         } catch (err) {
-            client.end();
             console.log(err);
             return null;
-        };
+        } finally {
+            client.end();
+        }
     }
 
     async addBook(book: Book): Promise<boolean> {
@@ -49,6 +49,8 @@ class BookService {
         } catch(err) {
             console.log(err);
             return false;
+        } finally {
+            client.end();
         }
     }
 
@@ -62,6 +64,8 @@ class BookService {
         } catch(err) {
             console.log(err);
             return false;
+        } finally {
+            client.end();
         }
     }
 
@@ -76,6 +80,8 @@ class BookService {
         } catch(err) {
             console.log(err);
             return 0;
+        } finally {
+            client.end();
         }
     }
 }
