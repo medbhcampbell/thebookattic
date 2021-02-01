@@ -35,8 +35,9 @@ export default function BookDetailComponent(props: BookDetailProps) {
     const user = useSelector((state: UserState) => state.user);
     const [userIsAuthor, setUserIsAuthor] = useState(false);
 
-    //check if this book is already on the user's to-read list
+    //check if this book is already on the user's to-read or have-read list
     const [toRead, setToRead] = useState(false);
+    const [haveRead, setHaveRead] = useState(false);
 
     useEffect(() => {
         
@@ -60,22 +61,24 @@ export default function BookDetailComponent(props: BookDetailProps) {
             }
         }
 
-        // check if this book is already on the user's to-read list: 'add to my to-read list'
+        // check if this book is already on the user's to-read/have-read list: 'add to my to-read list'
         //    button only appears if false
-        async function checkToRead() {
+        async function checkOnList() {
             try {
                 const toRead = await bookService.getBooksToRead(user.name);
-                //TODO change this to a check on book id when getBookFromJoinTable in backend is fixed
-                if(toRead.find((thisBook) => thisBook.title === book.title)) {
+                const haveRead = await bookService.getBooksHaveRead(user.name);
+                if(toRead.find((thisBook) => thisBook.id === book.id)) {
                     console.log('found it');
                     setToRead(true);
+                } else if(haveRead.find((thisBook) => thisBook.id === book.id)) {
+                    setHaveRead(true);
                 }
             } catch(err) {
                 console.log(err);
             }
         }
 
-        checkToRead();
+        checkOnList();
         checkAuthor();
 
     }, [setUserIsAuthor, setToRead]);
@@ -110,20 +113,33 @@ export default function BookDetailComponent(props: BookDetailProps) {
             <Button
                 title="Add Review"
                 type="outline"
-                onPress={()=>navigation.navigate('SubmitReview', book)}
+                onPress={()=> {
+                    bookService.addBookHaveRead(user.name, book.id);
+                    setHaveRead(true);
+                    navigation.navigate('SubmitReview', book)}
+                }
             />
             <Button
                 title="See All Reviews"
                 type="outline"
                 onPress={()=>navigation.navigate('Reviews', book)}
             />
-            {!userIsAuthor && !toRead &&
+            {!userIsAuthor && !toRead && !haveRead &&
                 <Button
                     title='Add to "To Read" list'
                     type='outline'
                     onPress={() => {
                         bookService.addBookToRead(user.name, book.id);
                         setToRead(true);
+                    }}
+                />}
+            {!userIsAuthor && !haveRead &&
+                <Button
+                    title='Add to "Have Read" list'
+                    type='outline'
+                    onPress={() => {
+                        bookService.addBookHaveRead(user.name, book.id);
+                        setHaveRead(true);
                     }}
                 />}
         </View>
