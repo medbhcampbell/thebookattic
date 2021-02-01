@@ -10,8 +10,8 @@ export const handler = async (event: BookEvent): Promise<any> => {
     const book = await bookService.getBookRating(bookid);
     
     if(book) {
-        console.log(JSON.stringify(book));
-        return {statusCode: 200, body: JSON.stringify(book), headers: {'Access-Control-Allow-Origin': '*'}};
+        console.log(book);
+        return {statusCode: 200, body: book.toString(), headers: {'Access-Control-Allow-Origin': '*'}};
     } else {
         return {statusCode: 404, body: JSON.stringify({}), headers: {'Access-Control-Allow-Origin': '*'}};
     }
