@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { changeBooks } from "../store/actions";
 import { BookState } from "../store/store";
+import { Book } from "./book";
 import bookService from "./book.service";
 import BookListComponent from "./booklist.component";
 
@@ -12,20 +13,23 @@ export default function AllBooksComponent() {
     const books = useSelector((state: BookState) => state.books);
     // Have the books been retrieved?
     const [retrievedBooks, setRetrievedBooks] = useState(false);
-    
+    const [approved, setApproved] = useState([] as Book[]);
+
     useEffect(()=>{
         if(books.length <= 0) {
             // If there's no books in the store, use the service to retrieve them
             bookService.getAllBooks().then((result)=>{
+                setApproved(result.filter(item=>{return item.approved}));
                 dispatch(changeBooks(result));
                 setRetrievedBooks(true);
             });
         } else {
+            setApproved(books.filter(item=>{return item.approved}));
             setRetrievedBooks(true);
         }
     }, []);
 
     return (
-        <BookListComponent books={books} retrievedBooks={retrievedBooks}/>
+        <BookListComponent books={approved} retrievedBooks={retrievedBooks}/>
     );
 }

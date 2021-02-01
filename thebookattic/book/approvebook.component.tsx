@@ -1,23 +1,23 @@
-import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { Button } from 'react-native';
 import { useDispatch } from 'react-redux';
+import { Button } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+
 import { changeBooks } from '../store/actions';
 import bookService from './book.service';
 import style from '../global-styles';
 
-interface DeleteBookProps {
-    bookid: number;
-    approved: boolean;
+interface ApproveBookProps {
+    id: number;
 }
 
-export default function DeleteBookComponent(props: DeleteBookProps) {
+export default function ApproveBookComponent(props: ApproveBookProps) {
     const nav = useNavigation();
     const dispatch = useDispatch();
 
-    //Delete the book and update the books kept in the store
-    function deleteBook() {
-        bookService.deleteBookById(props.bookid).then(() => {
+    function approveBook() {
+        bookService.approveBookById(props.id).then(() => {
+            // Refresh the store with the update book set
             bookService.getAllBooks().then((allBooks) => {
                 dispatch(changeBooks(allBooks));
             }).catch((err) => {
@@ -26,15 +26,15 @@ export default function DeleteBookComponent(props: DeleteBookProps) {
         }).catch((err) => {
             console.log(err);
         }).finally(() => {
-            //take us home
-            nav.navigate('Home');
+            // Return to unapproved books
+            nav.navigate('UnapprovedBooks');
         })
     }
 
     return (
         <Button
-            color='red'
-            title={props.approved? 'Delete':'Reject'}
-            onPress={deleteBook} />
+            color='green'
+            title='Approve'
+            onPress={approveBook} />
     )
 }

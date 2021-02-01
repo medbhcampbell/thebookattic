@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Image } from 'react-native';
 import { RouteProp, useNavigation } from '@react-navigation/native';
+import style from '../global-styles';
 import { StackParams } from '../router/router.component';
 
 import { getAuthor } from '../store/actions';
@@ -10,6 +11,7 @@ import { UserState, AuthorState } from '../store/store';
 import bookService from './book.service';
 import authorService from '../author/author.service';
 import DeleteBookComponent from './deletebook.component';
+import ApproveBookComponent from './approvebook.component';
 
 interface BookDetailProps {
     route: RouteProp<StackParams, 'BookDetail'>
@@ -53,6 +55,8 @@ export default function BookDetailComponent(props: BookDetailProps) {
     //TODO rating component (with stars?)
     return (
         <View>
+            {!book.approved &&
+                <Text style={style.dangerText}>This book needs approval before it becomes public!</Text>}
             <Image source={{ uri: book.cover }}></Image>
             <Text>{book.title}</Text>
             <Text>Author: {author.firstname + ' ' + author.lastname}</Text>
@@ -62,9 +66,13 @@ export default function BookDetailComponent(props: BookDetailProps) {
             <Text>{book.genreid}: TODO getGenreByID</Text>
             <Text>Page count: {book.page_count}</Text>
             <Text>Average rating: {book.rating}</Text>
-            {userIsAuthor || user.role === 'admin' ?
-                <DeleteBookComponent bookid={book.id} />
-                : <Text>My rating: TODO getRatingByUser</Text>}
+            <View style={{flex: 1, flexDirection: 'row'}}>
+                {userIsAuthor || user.role === 'admin' ?
+                    <DeleteBookComponent bookid={book.id} approved={book.approved}/>
+                    : <Text>My rating: TODO getRatingByUser</Text>}
+                {(!book.approved && user.role === 'admin') &&
+                    <ApproveBookComponent id={book.id} />}
+            </View>
             {/*TODO <ReviewList></ReviewList>*/}
         </View>
     )
