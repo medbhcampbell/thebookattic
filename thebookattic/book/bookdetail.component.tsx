@@ -11,6 +11,8 @@ import { UserState, AuthorState } from '../store/store';
 import bookService from './book.service';
 import authorService from '../author/author.service';
 import DeleteBookComponent from './deletebook.component';
+import ReviewsComponent from '../review/reviews.component';
+import { Button, Divider } from 'react-native-elements';
 import ApproveBookComponent from './approvebook.component';
 
 interface BookDetailProps {
@@ -20,9 +22,11 @@ interface BookDetailProps {
 export default function BookDetailComponent(props: BookDetailProps) {
     const dispatch = useDispatch();
     const book: Book = props.route.params;
+
+    const navigation = useNavigation();
+
     const selectAuthor = (state: AuthorState) => state.author;
     const author = useSelector(selectAuthor);
-
 
     //check if this user is the book's author
     const user = useSelector((state: UserState) => state.user);
@@ -54,6 +58,7 @@ export default function BookDetailComponent(props: BookDetailProps) {
 
     //TODO rating component (with stars?)
     return (
+        <>
         <View>
             {!book.approved &&
                 <Text style={style.dangerText}>This book needs approval before it becomes public!</Text>}
@@ -75,5 +80,19 @@ export default function BookDetailComponent(props: BookDetailProps) {
             </View>
             {/*TODO <ReviewList></ReviewList>*/}
         </View>
+        <Divider />
+        <View>
+            <Button
+                title="Add Review"
+                type="outline"
+                onPress={()=>navigation.navigate('SubmitReview', book)}
+            />
+            <Button
+                title="See All Reviews"
+                type="outline"
+                onPress={()=>navigation.navigate('Reviews', book)}
+            />
+        </View>
+        </>
     )
 }
