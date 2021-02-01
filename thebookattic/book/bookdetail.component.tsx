@@ -25,15 +25,16 @@ export default function BookDetailComponent(props: BookDetailProps) {
     const [userIsAuthor, setUserIsAuthor] = useState(false);
     const [authorName, setAuthorName] = useState('');
     const [genreName, setGenreName] = useState('');
+    const [toRead, setToRead] = useState(false);
 
     useEffect(() => {
-        //useEffect callback cannot be async, this lets us use await 
+        //useEffect callback cannot be async, making separate functions lets us use await
+        // check if the user is the author: deleteBook only appears if true
         async function checkAuthor() {
             if (user.role === 'author') {
                 try {
                     //check if the user is the author
                     const author = await authorService.getAuthorByUserId(user.name);
-                    console.log(`user is ${user.name}, authorid is ${author.id}: ${author.lastname}`);
                     if (author.id === book.authorid) {
                         setUserIsAuthor(true);
                     }
@@ -43,6 +44,7 @@ export default function BookDetailComponent(props: BookDetailProps) {
             }
         }
 
+        // get the name of the author and genre
         async function getBookInfo() {
             try {
                 console.log('getting author name etc');
@@ -56,27 +58,42 @@ export default function BookDetailComponent(props: BookDetailProps) {
             }
         }
 
-        checkAuthor();
+        // check if this book is already on the user's to-read list: 'add to my to-read list'
+        //    button only appears if false
+        async function checkToRead() {
+            try {
+                const toRead = await bookService.getBooksToRead(user.name);
+                if(toRead.find((thisBook) => thisBook.id === book.id)) {
+                    setToRead(true);
+                }
+            } catch(err) {
+                console.log(err);
+            }
+        }
+
         getBookInfo();
-        
-    }, [setUserIsAuthor, setAuthorName]);
+        checkToRead();
+        checkAuthor();
+
+    }, [setUserIsAuthor, setAuthorName, setToRead]);
 
     //TODO rating component (with stars?)
     return (
         <View>
             <Image source={{ uri: book.cover }}></Image>
             <Text>{book.title}</Text>
-            <Text>Author: {authorName}</Text>
+            <Text>{authorName}</Text>
             {book.link &&
                 <Text>Access it here: {book.link}</Text>}
             <Text>{book.blurb}</Text>
-            <Text>{book.genreid}: {genreName}</Text>
+            <Text>{genreName}</Text>
             <Text>Page count: {book.page_count}</Text>
             <Text>Average rating: {book.rating}</Text>
             {userIsAuthor || user.role === 'admin' ?
                 <DeleteBookComponent bookid={book.id} />
                 : <Text>My rating: TODO getRatingByUser</Text>}
-            <Button title='Add to "To Read" list' onPress={() => bookService.addBookToRead(user.name, book.id)}/>
+            {!userIsAuthor && !toRead &&
+                <Button title='Add to "To Read" list' onPress={() => bookService.addBookToRead(user.name, book.id)} />}
             {/*TODO <ReviewList></ReviewList>*/}
         </View>
     )
