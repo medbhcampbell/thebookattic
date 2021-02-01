@@ -18,7 +18,7 @@ class BookService {
             });
     }
 
-    approveBookById(bookId: string): Promise<null> {
+    approveBookById(bookId: number): Promise<null> {
         // This may not be the best method/uri to call, feel free to change
         return axios.patch(this.URI + '/' + bookId).then(result => null);
     }

@@ -1,30 +1,28 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getUser } from "../store/actions";
-import { UserState } from '../store/store';
-import { User } from "./user";
-import userService from "./user.service";
-import style from '../global-styles';
 import { Button, View } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigation } from '@react-navigation/native';
+
+import style from '../global-styles';
+import { UserState } from '../store/store';
+import { getUser } from "../store/actions";
+import { User } from "./user";
 
 
 export  function LogoutComponent() {
+    const navigation = useNavigation();
     const userSelector = (state: UserState) => state.user;
     const user = useSelector(userSelector);
     const dispatch = useDispatch();
-    const loggedUser = user.name;
     function logout() {
-      userService.logout().then(() => {
         dispatch(getUser(new User()));
-      });
+        navigation.navigate('Login');
     }
 
     return(
-        
         <View style={[style.container, style.login]}>
            <Button onPress={logout} title='Logout' color='#880022' />       
         </View>
-   
     )
 
 }
