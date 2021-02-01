@@ -24,7 +24,7 @@ class BookService {
         await client.connect();
 
         let res;
-        const q = `select b.authorid, b.title, b.cover, b.blurb, b.page_count, b.approved, b.genreid from books b join ${joinTable} t on b.id = t.bookid where t.username=$1::text`;
+        const q = `select b.id, b.authorid, b.title, b.cover, b.blurb, b.page_count, b.approved, b.genreid from books b join ${joinTable} t on b.id = t.bookid where t.username=$1::text`;
         const args = [username];
         try {
             res = await client.query(q, args);

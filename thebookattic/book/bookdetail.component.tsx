@@ -32,7 +32,6 @@ export default function BookDetailComponent(props: BookDetailProps) {
     //check if this user is the book's author
     const user = useSelector((state: UserState) => state.user);
     const [userIsAuthor, setUserIsAuthor] = useState(false);
-    const [authorName, setAuthorName] = useState('');
     const [genreName, setGenreName] = useState('');
     const [toRead, setToRead] = useState(false);
 
@@ -63,7 +62,6 @@ export default function BookDetailComponent(props: BookDetailProps) {
             try {
                 const genre = await genreService.getGenreById(book.genreid);
                 setGenreName(genre.name);
-                console.log(`genre: ${genreName}`);
             } catch (err) {
                 console.log(err);
             }
@@ -74,7 +72,9 @@ export default function BookDetailComponent(props: BookDetailProps) {
         async function checkToRead() {
             try {
                 const toRead = await bookService.getBooksToRead(user.name);
-                if(toRead.find((thisBook) => thisBook.id === book.id)) {
+                //TODO change this to a check on book id when getBookFromJoinTable in backend is fixed
+                if(toRead.find((thisBook) => thisBook.title === book.title)) {
+                    console.log('found it');
                     setToRead(true);
                 }
             } catch(err) {
@@ -86,7 +86,7 @@ export default function BookDetailComponent(props: BookDetailProps) {
         checkToRead();
         checkAuthor();
 
-    }, [setUserIsAuthor, setAuthorName, setToRead]);
+    }, [setUserIsAuthor, setToRead]);
 
     //TODO rating component (with stars?)
     return (
@@ -109,8 +109,7 @@ export default function BookDetailComponent(props: BookDetailProps) {
                     : <Text>My rating: TODO getRatingByUser</Text>}
                 {(!book.approved && user.role === 'admin') &&
                     <ApproveBookComponent id={book.id} />}
-                {!userIsAuthor && !toRead &&
-                    <Button title='Add to "To Read" list' onPress={() => bookService.addBookToRead(user.name, book.id)} />}
+                
             </View>
             {/*TODO <ReviewList></ReviewList>*/}
         </View>
@@ -126,6 +125,15 @@ export default function BookDetailComponent(props: BookDetailProps) {
                 type="outline"
                 onPress={()=>navigation.navigate('Reviews', book)}
             />
+            {!userIsAuthor && !toRead &&
+                <Button
+                    title='Add to "To Read" list'
+                    type='outline'
+                    onPress={() => {
+                        bookService.addBookToRead(user.name, book.id);
+                        setToRead(true);
+                    }}
+                />}
         </View>
         </>
     )
