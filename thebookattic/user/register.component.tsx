@@ -52,33 +52,31 @@ function registerForm() {
 
     return (
         <View style={[style.container, style.login]}>
-        <Text>Name</Text><br/>
-        <TextInput
+            <Text>Name</Text>
+            <TextInput
                 style={style.input}
                 onChangeText={(value) =>
                     dispatch(loginAction({ ...user, name: value }))
                 }
                 
-            /> <br/>
-        <Text>Password</Text><br/>
-        <TextInput
+            />
+            <Text>Password</Text>
+            <TextInput
                 style={style.input}
                 secureTextEntry={true} 
                 onChangeText={(value) =>
                     dispatch(loginAction({...user, password:value}))
                 }
                 
-            /> <br/>
-        <Text>Role</Text><br/>
-        <TextInput
+            />
+            <Text>Role</Text>
+            <TextInput
                 style={style.input}
                 placeholder="user/admin/author"
                 onChangeText={(value) =>
                     dispatch(loginAction({ ...user, role:value}))
                 }
-              
-            /> <br/>
-
+            />
             <Button onPress={registerForm} title='Register' color='#880022' />    
         </View>
     )

@@ -4,6 +4,7 @@ import { RouteProp, useNavigation } from '@react-navigation/native';
 import style from '../global-styles';
 import { StackParams } from '../router/router.component';
 
+import { BookAtticState } from '../store/store';
 import { getAuthor } from '../store/actions';
 import { Book } from './book';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,7 +12,6 @@ import { UserState, AuthorState } from '../store/store';
 import bookService from './book.service';
 import authorService from '../author/author.service';
 import DeleteBookComponent from './deletebook.component';
-import genreService from '../genre/genre.service';
 import ReviewsComponent from '../review/reviews.component';
 import { Button, Divider } from 'react-native-elements';
 import ApproveBookComponent from './approvebook.component';
@@ -28,11 +28,14 @@ export default function BookDetailComponent(props: BookDetailProps) {
 
     const selectAuthor = (state: AuthorState) => state.author;
     const author = useSelector(selectAuthor);
+    const genres = useSelector((state: BookAtticState) => state.genres);
+    const genre = genres.find(item => item.id == book.genreid);
 
     //check if this user is the book's author
     const user = useSelector((state: UserState) => state.user);
     const [userIsAuthor, setUserIsAuthor] = useState(false);
-    const [genreName, setGenreName] = useState('');
+
+    //check if this book is already on the user's to-read list
     const [toRead, setToRead] = useState(false);
 
     useEffect(() => {
@@ -57,16 +60,6 @@ export default function BookDetailComponent(props: BookDetailProps) {
             }
         }
 
-        // get the name of the author and genre
-        async function getGenre() {
-            try {
-                const genre = await genreService.getGenreById(book.genreid);
-                setGenreName(genre.name);
-            } catch (err) {
-                console.log(err);
-            }
-        }
-
         // check if this book is already on the user's to-read list: 'add to my to-read list'
         //    button only appears if false
         async function checkToRead() {
@@ -82,7 +75,6 @@ export default function BookDetailComponent(props: BookDetailProps) {
             }
         }
 
-        getGenre();
         checkToRead();
         checkAuthor();
 
@@ -100,7 +92,7 @@ export default function BookDetailComponent(props: BookDetailProps) {
             {book.link &&
                 <Text>Access it here: {book.link}</Text>}
             <Text>{book.blurb}</Text>
-            <Text>{genreName}</Text>
+            <Text>Genre: {genre?.name}</Text>
             <Text>Page count: {book.page_count}</Text>
             <Text>Average rating: {book.rating}</Text>
             <View style={{flex: 1, flexDirection: 'row'}}>
