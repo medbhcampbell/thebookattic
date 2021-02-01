@@ -46,7 +46,7 @@ export default function BookDetailComponent(props: BookDetailProps) {
         async function getBookInfo() {
             try {
                 console.log('getting author name etc');
-                const author = await authorService.getAuthorById(book.id);
+                const author = await authorService.getAuthorById(book.authorid);
                 setAuthorName(`${author.firstname} ${author.lastname}`);
                 const genre = await genreService.getGenreById(book.genreid);
                 setGenreName(genre.name);
