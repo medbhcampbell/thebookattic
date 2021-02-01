@@ -1,4 +1,3 @@
-import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { AirbnbRating, Button, Input, Text } from 'react-native-elements';
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,7 +5,6 @@ import { changeReview } from '../store/actions';
 import { ReviewState, UserState } from '../store/store';
 import { Review } from './review';
 import reviewService from './review.service';
-import style from '../global-styles';
 
 
 interface SubmitReviewProps {
@@ -17,7 +15,6 @@ export default function SubmitReviewComponent(props: SubmitReviewProps){
     const dispatch = useDispatch();
     const review = useSelector((state: ReviewState) => state.review);
     const user = useSelector((state: UserState) => state.user);
-    const navigation = useNavigation();
     
     function handleForm(){
         let rew = {...review};

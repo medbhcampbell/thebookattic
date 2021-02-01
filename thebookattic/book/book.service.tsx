@@ -63,6 +63,24 @@ class BookService {
             return [];
         });
     }
+
+    getBooksToRead(username: string): Promise<Book[]> {
+        return axios.get(this.URI + '/toread/' + username)
+            .then(result => result.data)
+            .catch((err)=> {
+                console.log(err);
+                return [];
+            });
+    }
+
+    addBookToRead(username: string, bookid: number): Promise<boolean> {
+        return axios.post(this.URI + '/toread/' + username, {"bookid": bookid})
+            .then(result => result.data)
+            .catch((err) => {
+                console.log(err);
+                return false;
+            });
+    }
 }
 
 const bookService = new BookService();

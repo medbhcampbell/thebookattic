@@ -13,8 +13,7 @@ import UnapprovedBooksComponent from '../book/unapprovedbooks.component';
 import { Book } from '../book/book';
 import { Author } from '../author/author';
 import NavBarComponent from './navbar.component';
-import ReviewsComponent from '../review/reviews.component';
-import SubmitReviewComponent from '../review/submitReview.component';
+import ToReadBooksComponent from '../book/toreadbooks.component';
 import RegisterComponent from '../user/register.component';
 import LogoutComponent from '../user/logout.component';
 
@@ -28,7 +27,7 @@ export type StackParams = {
     AuthorList: Author[];
     AuthorDetail: Author;
     SubmitBook: undefined;
-    SubmitReview: Book;
+    ToRead: undefined;
     UnapprovedBooks: undefined;
 };
 
@@ -46,12 +45,11 @@ function RouterComponent(props: any) {
                 component={LoginComponent}
                 options={headerOptions}
             />
-             <Stack.Screen
+            <Stack.Screen
                 name='Register'
                 component={RegisterComponent}
                 options={headerOptions}
             />
-
             <Stack.Screen
                 name='Logout'
                 component={LogoutComponent}
@@ -82,14 +80,9 @@ function RouterComponent(props: any) {
                 component={SubmitBookComponent}
                 options={headerOptions}
             />
-            {/* <Stack.Screen
-                name='Reviews'
-                component={ReviewsComponent}
-                options={headerOptions}
-            /> */}
             <Stack.Screen
-                name='SubmitReview'
-                component={SubmitReviewComponent}
+                name='ToRead'
+                component={ToReadBooksComponent}
                 options={headerOptions}
             />
             <Stack.Screen

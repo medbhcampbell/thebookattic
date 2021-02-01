@@ -2,11 +2,10 @@ import React from 'react';
 import { Button, Text, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import { useSelector,useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import style from '../global-styles';
 import { BookAtticState } from '../store/store';
-import userService from '../user/user.service';
 import LogoutComponent from '../user/logout.component';
 
 function NavBarComponent() {
@@ -18,7 +17,10 @@ function NavBarComponent() {
                 <View style={style.userNavBar}>
                     <LogoutComponent/>
                     <Text>Welcome, {user.name}</Text>
-                </View>}
+                </View> 
+            }
+            {user.name && <Button title='To Read' onPress={() => nav.navigate('ToRead')} />}
+            {user.role === 'author' && <Button title='Submit Book' onPress={() => nav.navigate('SubmitBook')} />}
         </View>
     )
 }
