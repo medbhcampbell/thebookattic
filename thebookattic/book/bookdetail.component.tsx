@@ -4,6 +4,7 @@ import { RouteProp, useNavigation } from '@react-navigation/native';
 import style from '../global-styles';
 import { StackParams } from '../router/router.component';
 
+import { BookAtticState } from '../store/store';
 import { getAuthor } from '../store/actions';
 import { Book } from './book';
 import { useDispatch, useSelector } from 'react-redux';
@@ -27,6 +28,8 @@ export default function BookDetailComponent(props: BookDetailProps) {
 
     const selectAuthor = (state: AuthorState) => state.author;
     const author = useSelector(selectAuthor);
+    const genres = useSelector((state: BookAtticState) => state.genres);
+    const genre = genres.find(item => item.id == book.genreid);
 
     //check if this user is the book's author
     const user = useSelector((state: UserState) => state.user);
@@ -68,7 +71,7 @@ export default function BookDetailComponent(props: BookDetailProps) {
             {book.link &&
                 <Text>Access it here: {book.link}</Text>}
             <Text>{book.blurb}</Text>
-            <Text>{book.genreid}: TODO getGenreByID</Text>
+            <Text>Genre: {genre?.name}</Text>
             <Text>Page count: {book.page_count}</Text>
             <Text>Average rating: {book.rating}</Text>
             <View style={{flex: 1, flexDirection: 'row'}}>
