@@ -54,6 +54,14 @@ create table toread
 	constraint fk_bookid foreign key (bookid) references books (id)
 );
 
+create table haveread
+(
+	username varchar(25) not null,
+	bookid int not null,
+	primary key(username, bookid),
+	constraint fk_bookid foreign key (bookid) references books (id)
+);
+
 -- Populating with some sample entries, feel free to add/remove
 insert into genres (name) values ('action');
 insert into genres (name) values ('adventure');
@@ -109,3 +117,5 @@ insert into books (authorid, title, cover, blurb, page_count, approved, genreid)
 insert into toread (username, bookid) values ('jausten', 3);
 insert into toread (username, bookid) values ('jausten', 4);
 insert into toread (username, bookid) values ('wshakespeare', 3);
+
+insert into haveread (username, bookid) values ('wshakespeare', 4);

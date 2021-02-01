@@ -1,4 +1,4 @@
-// Gets books on a user's to-read list
+// Gets books on a user's have-read list
 
 import BookService from 'bookservicelayer';
 
@@ -9,8 +9,8 @@ interface BookEvent {
 export const handler = async (event: BookEvent): Promise<any> => {
     const username = event.path.substring(event.path.lastIndexOf('/')+1, event.path.length);
     const bookService = new BookService();
-    console.log(`username ${username}, table 'toread'`);
-    const books = await bookService.getBooksFromJoinTable(username, 'toread');
+    console.log(`username ${username}, table 'haveread'`);
+    const books = await bookService.getBooksFromJoinTable(username, 'haveread');
     console.log(JSON.stringify(books));
 
     if(books) {

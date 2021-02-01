@@ -9,14 +9,15 @@ interface BookEvent {
 
 export const handler = async (event: BookEvent): Promise<any> => {
     const bookService = new BookService();
-    console.log('Beginning to add Book to ToRead');
+    console.log('Beginning to add Book to HaveRead');
     console.log(`parsing ${event.body}`);
     console.log(`body: ${JSON.parse(event.body).bookid}`);
 
     const bookid: number = Number(JSON.parse(event.body).bookid);
     const username = event.path.substring(event.path.lastIndexOf('/')+1, event.path.length);
 
-    const added = await bookService.addBookToJoinTable(username, bookid, 'toread');
+    const added = await bookService.addBookToJoinTable(username, bookid, 'haveread');
+    bookService.deleteBookFromJoinTable(username, bookid, 'toread');
 
     if(added) {
         return {statusCode: 201, body: JSON.stringify({}), headers: {'Access-Control-Allow-Origin': '*'}};

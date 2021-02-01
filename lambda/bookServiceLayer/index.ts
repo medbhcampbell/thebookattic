@@ -89,6 +89,23 @@ class BookService {
         }
     }
 
+    async deleteBookFromJoinTable(username: string, bookid: number, joinTable: string): Promise<boolean> {
+        const client = new Client();
+        await client.connect();
+
+        try {
+            const q = `delete from ${joinTable} where username=$1::text and bookid=$2::integer`;
+            const args = [username, bookid];
+            await client.query(q, args);
+            return true;
+        } catch(err) {
+            console.log(err);
+            return false;
+        } finally {
+            client.end();
+        }
+    }
+
     async deleteBookById(bookid: number): Promise<boolean> {
         const client = new Client();
         await client.connect();
