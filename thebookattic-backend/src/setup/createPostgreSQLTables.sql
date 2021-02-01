@@ -50,6 +50,7 @@ create table toread
 (
 	username varchar(25) not null,
 	bookid int not null,
+	primary key(username, bookid),
 	constraint fk_bookid foreign key (bookid) references books (id)
 );
 
