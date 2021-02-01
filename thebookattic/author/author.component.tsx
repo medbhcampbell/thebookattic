@@ -24,14 +24,16 @@ export default function AuthorComponent(props: AuthorProps) {
 
     return (
         <View>
+            <Pressable onPress={()=> onAuthorSelect()}>
+                <Text>
+                    Select
+                </Text>
+            </Pressable>
             <Text>
-                <Pressable onPress={()=> onAuthorSelect()}>
-                    <Text>
-                        Select
-                    </Text>
-                </Pressable>
-                {'Name: ' + props.author.firstname + ' ' + props.author.lastname}
-                {'Rating: ' + props.author.avgrating}
+                Name: {props.author.firstname + ' ' + props.author.lastname}
+            </Text>
+            <Text>
+                Rating: {props.author.avgrating}
             </Text>
         </View>
     )

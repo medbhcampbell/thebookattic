@@ -9,10 +9,13 @@ import BookDetailComponent from '../book/bookdetail.component';
 import AuthorListComponent from '../author/authorlist.component';
 import AuthorDetailComponent from '../author/authordetail.component';
 import SubmitBookComponent from '../book/submitbook.component';
+import UnapprovedBooksComponent from '../book/unapprovedbooks.component';
 import { Book } from '../book/book';
 import { Author } from '../author/author';
 import NavBarComponent from './navbar.component';
 import ToReadBooksComponent from '../book/toreadbooks.component';
+import ReviewsComponent from '../review/reviews.component';
+import SubmitReviewComponent from '../review/submitReview.component';
 import RegisterComponent from '../user/register.component';
 import LogoutComponent from '../user/logout.component';
 
@@ -27,6 +30,9 @@ export type StackParams = {
     AuthorDetail: Author;
     SubmitBook: undefined;
     ToRead: undefined;
+    Reviews: Book;
+    SubmitReview: Book;
+    UnapprovedBooks: undefined;
 };
 
 const Stack = createStackNavigator<StackParams>();
@@ -43,12 +49,11 @@ function RouterComponent(props: any) {
                 component={LoginComponent}
                 options={headerOptions}
             />
-             <Stack.Screen
+            <Stack.Screen
                 name='Register'
                 component={RegisterComponent}
                 options={headerOptions}
             />
-
             <Stack.Screen
                 name='Logout'
                 component={LogoutComponent}
@@ -82,6 +87,21 @@ function RouterComponent(props: any) {
             <Stack.Screen
                 name='ToRead'
                 component={ToReadBooksComponent}
+                options={headerOptions}
+            />
+            <Stack.Screen
+                name='Reviews'
+                component={ReviewsComponent}
+                options={headerOptions}
+            />
+            <Stack.Screen
+                name='SubmitReview'
+                component={SubmitReviewComponent}
+                options={headerOptions}
+            />
+            <Stack.Screen
+                name='UnapprovedBooks'
+                component={UnapprovedBooksComponent}
                 options={headerOptions}
             />
         </Stack.Navigator>

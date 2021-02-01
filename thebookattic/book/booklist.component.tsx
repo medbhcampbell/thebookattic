@@ -26,21 +26,20 @@ export default function BookListComponent(props: BookListProps) {
     const [filter, setFilter] = useState('');
     //have to render approved when no filter is applied
     //because useState is async and it's not using initial state upon first few renders
-    let approved = props.books.filter(item => { return item.approved });
     const [list, setList] = useState<Book[]>([]);
 
     function onBookSelect(index: number) {
-        const book = filter == '' ? approved[index] : list[index];
+        const book = filter == '' ? props.books[index] : list[index];
         navigation.navigate('BookDetail', book);
     }
     //set new list whenever user changes a genre
     //if no filter applied it's going to be a list of approved books
     function handleFilter(itemValue: any) {
         setFilter(itemValue);
-        if (itemValue) {
-            setList(approved.filter(item => item.genreid == itemValue));
-        } else {
-            setList(approved);
+        if(itemValue){
+            setList(props.books.filter(item=>item.genreid == itemValue));        
+        }else{
+            setList(props.books);
         }
     }
 
@@ -85,11 +84,11 @@ export default function BookListComponent(props: BookListProps) {
                         value={genre.id} />
                 })}
             </Picker>
-            {props.retrievedBooks ?
-                ((filter == '' && approved.length > 0) || list.length > 0) ?
-                    <FlatList data={filter == '' ? approved : list} renderItem={BookPreview} keyExtractor={keyExtractor} />
-                    : <Text style={style.h1}> No books found!</Text>
-                : <ActivityIndicator />}
+            {props.retrievedBooks?
+                ((filter == '' && props.books.length > 0) || list.length > 0) ? 
+                    <FlatList data={filter == '' ? props.books : list} renderItem={BookPreview} keyExtractor={keyExtractor}/>
+                : <Text style={style.h1}> No books found!</Text>
+            : <ActivityIndicator/>}
         </View>
     )
 }

@@ -100,7 +100,7 @@ export function getReviews(reviews: Review[]): ReviewAction {
     return action;
 }
 
-export function ChangeReview(review: Review): ReviewAction {
+export function changeReview(review: Review): ReviewAction {
     const action: ReviewAction = {
         type: ReviewActions.ChangeReview,
         payload: review
