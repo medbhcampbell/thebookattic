@@ -63,6 +63,10 @@ class BookService {
             return [];
         });
     }
+
+    getBookRating(bookId: number): Promise<number> {
+        return axios.get(this.URI+ '/ratings/' + bookId).then(result => result.data).catch(error => {console.error(error)});
+    }
 }
 
 const bookService = new BookService();
