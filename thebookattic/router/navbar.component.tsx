@@ -14,19 +14,11 @@ function NavBarComponent() {
     const user = useSelector((state: BookAtticState) => state.user);
     return (
         <View>
-            {user.name ? 
+            {user.name && 
                 <View style={style.userNavBar}>
                     <LogoutComponent/>
                     <Text>Welcome, {user.name}</Text>
-                </View> : 
-                <View style={style.userNavBar}> 
-                    <Button
-                        onPress={() => {
-                            nav.navigate('Register');
-                        }}title='Register' color='#880022'
-                    />
-                </View>
-            }
+                </View>}
         </View>
     )
 }

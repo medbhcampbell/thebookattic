@@ -1,15 +1,16 @@
-import { RouteProp, useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { AirbnbRating, Button, Input } from 'react-native-elements';
+import { AirbnbRating, Button, Input, Text } from 'react-native-elements';
 import { useDispatch, useSelector } from 'react-redux';
-import { StackParams } from '../router/router.component';
 import { changeReview } from '../store/actions';
 import { ReviewState, UserState } from '../store/store';
 import { Review } from './review';
 import reviewService from './review.service';
+import style from '../global-styles';
+
 
 interface SubmitReviewProps {
-    route: RouteProp<StackParams, 'SubmitReview'>
+    id: number
 }
 
 export default function SubmitReviewComponent(props: SubmitReviewProps){
@@ -21,11 +22,10 @@ export default function SubmitReviewComponent(props: SubmitReviewProps){
     function handleForm(){
         let rew = {...review};
         rew.username = user.name;
-        rew.bookid = props.route.params.id;
+        rew.bookid = props.id;
         if(rew.content){
             reviewService.addReview(rew).then(()=>{
                 dispatch(changeReview(new Review()));
-                navigation.goBack();
             }).catch(err=>{
                 console.log(err);
             })            
@@ -34,6 +34,7 @@ export default function SubmitReviewComponent(props: SubmitReviewProps){
 
     return(
         <>
+            <Text  h2 style={{textAlign: 'center'}}>Submit A Review</Text>
             <AirbnbRating
                 count={5}
                 reviews={["1", "2", "3", "4", "5"]}
@@ -42,6 +43,7 @@ export default function SubmitReviewComponent(props: SubmitReviewProps){
                 onFinishRating={(value)=>dispatch(changeReview({...review, rating: value}))}
             />   
             <Input
+                label='Leave a Review'
                 placeholder='Leave a Review'
                 multiline={true}
                 numberOfLines={4}

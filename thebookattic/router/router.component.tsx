@@ -28,7 +28,6 @@ export type StackParams = {
     AuthorList: Author[];
     AuthorDetail: Author;
     SubmitBook: undefined;
-    Reviews: Book;
     SubmitReview: Book;
     UnapprovedBooks: undefined;
 };
@@ -83,11 +82,11 @@ function RouterComponent(props: any) {
                 component={SubmitBookComponent}
                 options={headerOptions}
             />
-            <Stack.Screen
+            {/* <Stack.Screen
                 name='Reviews'
                 component={ReviewsComponent}
                 options={headerOptions}
-            />
+            /> */}
             <Stack.Screen
                 name='SubmitReview'
                 component={SubmitReviewComponent}
