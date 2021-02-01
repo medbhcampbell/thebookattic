@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
     approvalNotice: {
         alignSelf: 'center',
         alignItems: 'center'
+    },
     userNavBar: {
         flex: 1, 
         flexDirection: 'row-reverse'
