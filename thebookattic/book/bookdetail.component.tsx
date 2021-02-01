@@ -35,29 +35,50 @@ export default function BookDetailComponent(props: BookDetailProps) {
     const user = useSelector((state: UserState) => state.user);
     const [userIsAuthor, setUserIsAuthor] = useState(false);
 
+    //check if this book is already on the user's to-read list
+    const [toRead, setToRead] = useState(false);
+
     useEffect(() => {
+        
+        // check if the user is the author: deleteBook only appears if true
         authorService.getAuthorById(book.authorid).then((author) => {
             dispatch(getAuthor(author));
         });
-    }, []);
 
-    useEffect(() => {
-        //useEffect callback cannot be async, this lets us use await 
+        //useEffect callback cannot be async, making separate functions lets us use await 
         async function checkAuthor() {
             if (user.role === 'author') {
                 try {
-                    const author = await authorService.getAuthorByUserId(user.name);
-                    if (author.id === book.authorid) {
+                    //check if the user is the author
+                    const userAuthor = await authorService.getAuthorByUserId(user.name);
+                    if (userAuthor.id === book.authorid) {
                         setUserIsAuthor(true);
                     }
                 } catch (err) {
                     console.log(err);
-                };
+                }
             }
         }
 
+        // check if this book is already on the user's to-read list: 'add to my to-read list'
+        //    button only appears if false
+        async function checkToRead() {
+            try {
+                const toRead = await bookService.getBooksToRead(user.name);
+                //TODO change this to a check on book id when getBookFromJoinTable in backend is fixed
+                if(toRead.find((thisBook) => thisBook.title === book.title)) {
+                    console.log('found it');
+                    setToRead(true);
+                }
+            } catch(err) {
+                console.log(err);
+            }
+        }
+
+        checkToRead();
         checkAuthor();
-    }, [setUserIsAuthor]);
+
+    }, [setUserIsAuthor, setToRead]);
 
     //TODO rating component (with stars?)
     return (
@@ -80,6 +101,7 @@ export default function BookDetailComponent(props: BookDetailProps) {
                     : <Text>My rating: TODO getRatingByUser</Text>}
                 {(!book.approved && user.role === 'admin') &&
                     <ApproveBookComponent id={book.id} />}
+                
             </View>
             {/*TODO <ReviewList></ReviewList>*/}
         </View>
@@ -95,6 +117,15 @@ export default function BookDetailComponent(props: BookDetailProps) {
                 type="outline"
                 onPress={()=>navigation.navigate('Reviews', book)}
             />
+            {!userIsAuthor && !toRead &&
+                <Button
+                    title='Add to "To Read" list'
+                    type='outline'
+                    onPress={() => {
+                        bookService.addBookToRead(user.name, book.id);
+                        setToRead(true);
+                    }}
+                />}
         </View>
         </>
     )

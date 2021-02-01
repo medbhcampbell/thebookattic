@@ -1,4 +1,5 @@
 drop table if exists reviews;
+drop table if exists toread;
 drop table if exists books;
 drop table if exists genres;
 drop table if exists authors;
@@ -40,9 +41,17 @@ create table reviews
     id serial primary key,
     rating int not null,
     content text not null,
-    username varchar(10) not null,
+    username varchar(25) not null,
     bookid int not null references books(id) not null,
     approved boolean default false
+);
+
+create table toread
+(
+	username varchar(25) not null,
+	bookid int not null,
+	primary key(username, bookid),
+	constraint fk_bookid foreign key (bookid) references books (id)
 );
 
 -- Populating with some sample entries, feel free to add/remove
@@ -95,3 +104,8 @@ insert into books (authorid, title, cover, blurb, page_count, approved, genreid)
 	'100',
 	true,
 	(select id from genres where name like 'horror'));
+
+
+insert into toread (username, bookid) values ('jausten', 3);
+insert into toread (username, bookid) values ('jausten', 4);
+insert into toread (username, bookid) values ('wshakespeare', 3);
