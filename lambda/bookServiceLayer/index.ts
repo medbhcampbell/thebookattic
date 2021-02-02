@@ -136,6 +136,22 @@ class BookService {
             client.end();
         }
     }
+    
+    async getBookRating(bookid: number): Promise<number | null> {
+        const client = new Client();
+        await client.connect();
+
+        let res;
+        try {
+            res = await client.query('select avg(rating) from reviews where bookid=$1::integer', [bookid]);
+            client.end();
+            return Number(res.rows[0].avg);
+        } catch (err) {
+            client.end();
+            console.log(err);
+            return null;
+        };
+    }
 }
 
 class Book {
