@@ -17,6 +17,7 @@ import ToReadBooksComponent from '../book/toreadbooks.component';
 import RegisterComponent from '../user/register.component';
 import LogoutComponent from '../user/logout.component';
 import HaveReadBooksComponent from '../book/havereadbooks.component';
+import UnapprovedReviewsComponent from '../review/unapprovedreviews.component';
 
 /* Parameter list for RouteProp requires a field for the route that we're on. */
 export type StackParams = {
@@ -31,6 +32,7 @@ export type StackParams = {
     ToRead: undefined;
     HaveRead: undefined;
     UnapprovedBooks: undefined;
+    UnapprovedReviews :undefined;
 };
 
 const Stack = createStackNavigator<StackParams>();
@@ -53,6 +55,7 @@ function RouterComponent(props: any) {
                 options={headerOptions}
             />
             <Stack.Screen
+                
                 name='Logout'
                 component={LogoutComponent}
                 options={headerOptions}
@@ -95,6 +98,11 @@ function RouterComponent(props: any) {
             <Stack.Screen
                 name='UnapprovedBooks'
                 component={UnapprovedBooksComponent}
+                options={headerOptions}
+            />
+             <Stack.Screen
+                name='UnapprovedReviews'
+                component={UnapprovedReviewsComponent}
                 options={headerOptions}
             />
         </Stack.Navigator>

@@ -18,6 +18,7 @@ function LoginComponent({navigation}: LoginProp) {
     const login = useSelector(userSelector);
     const actualUser = useSelector((state: UserState) => state.user);
     const dispatch = useDispatch();
+
     
     
     useEffect(() => {
@@ -40,6 +41,8 @@ function LoginComponent({navigation}: LoginProp) {
             console.log(err);
         });
     }
+
+  
 
      return (
         <View style={style.container}>
