@@ -30,6 +30,7 @@ create table books
 	blurb varchar(500) not null,
 	page_count int not null,
 	link varchar(50),
+	rating float default 0,
 	approved boolean default false,
 	genreid int not null,
 	constraint fk_authorid foreign key (authorid) references authors (id),

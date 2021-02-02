@@ -64,6 +64,10 @@ class BookService {
         });
     }
 
+    getBookRating(bookId: number): Promise<number> {
+        return axios.get(this.URI+ '/ratings/' + bookId).then(result => result.data).catch(error => {console.error(error)});
+    }
+    
     getBooksToRead(username: string): Promise<Book[]> {
         return axios.get(this.URI + '/toread/' + username)
             .then(result => result.data)
