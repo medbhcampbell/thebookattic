@@ -21,8 +21,24 @@ function NavBarComponent() {
             }
             {user.name && <Button title='To Read' onPress={() => nav.navigate('ToRead')} />}
             {user.role === 'author' && <Button title='Submit Book' onPress={() => nav.navigate('SubmitBook')} />}
+        <View>
+            {user.name ? 
+                <View style={style.userNavBar}>
+                    <LogoutComponent/>
+                   
+                </View> : 
+                <View style={style.userNavBar}> 
+                    <Button
+                        onPress={() => {
+                            nav.navigate('Register');
+                        }}title='Register' color='#880022'
+                    />
+                </View>
+            }
+        </View>
         </View>
     )
+    
 }
 
 export default NavBarComponent;
