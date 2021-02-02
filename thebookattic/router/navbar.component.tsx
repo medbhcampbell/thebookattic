@@ -28,11 +28,7 @@ function NavBarComponent() {
                    
                 </View> : 
                 <View style={style.userNavBar}> 
-                    <Button
-                        onPress={() => {
-                            nav.navigate('Register');
-                        }}title='Register' color='#880022'
-                    />
+                    
                 </View>
             }
         </View>
