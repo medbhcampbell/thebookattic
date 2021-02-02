@@ -4,7 +4,6 @@ import { RouteProp, useNavigation } from '@react-navigation/native';
 import style from '../global-styles';
 import { StackParams } from '../router/router.component';
 
-import { BookAtticState } from '../store/store';
 import { getAuthor } from '../store/actions';
 import { Book } from './book';
 import { useDispatch, useSelector } from 'react-redux';
@@ -25,8 +24,6 @@ export default function BookDetailComponent(props: BookDetailProps) {
     const dispatch = useDispatch();
     const book: Book = props.route.params;
 
-    const navigation = useNavigation();
-
     const selectAuthor = (state: AuthorState) => state.author;
     const author = useSelector(selectAuthor);
     const genres = useSelector((state: GenreState) => state.genres);
@@ -40,7 +37,7 @@ export default function BookDetailComponent(props: BookDetailProps) {
     const [haveRead, setHaveRead] = useState(false);
 
     useEffect(() => {
-        
+
         // check if the user is the author: deleteBook only appears if true
         authorService.getAuthorById(book.authorid).then((author) => {
             dispatch(getAuthor(author));
@@ -67,13 +64,13 @@ export default function BookDetailComponent(props: BookDetailProps) {
             try {
                 const toRead = await bookService.getBooksToRead(user.name);
                 const haveRead = await bookService.getBooksHaveRead(user.name);
-                if(toRead.find((thisBook) => thisBook.id === book.id)) {
+                if (toRead.find((thisBook) => thisBook.id === book.id)) {
                     console.log('found it');
                     setToRead(true);
-                } else if(haveRead.find((thisBook) => thisBook.id === book.id)) {
+                } else if (haveRead.find((thisBook) => thisBook.id === book.id)) {
                     setHaveRead(true);
                 }
-            } catch(err) {
+            } catch (err) {
                 console.log(err);
             }
         }
@@ -83,55 +80,57 @@ export default function BookDetailComponent(props: BookDetailProps) {
 
     }, [setUserIsAuthor, setToRead]);
 
-    //TODO rating component (with stars?)
     return (
         <View>
             <View style={style.bookDetailContainer}>
                 {!book.approved &&
                     <Text style={style.dangerText}>This book needs approval before it becomes public!</Text>}
-                <Text  h1 style={{textAlign: 'center'}}>{book.title}</Text>
+                <Text h1 style={{ textAlign: 'center' }}>{book.title}</Text>
                 <Image source={{ uri: book.cover }}></Image>
                 <Text>Author: {author.firstname + ' ' + author.lastname}</Text>
                 {book.link &&
                     <Text>Access it here: {book.link}</Text>}
                 <Text>{book.blurb}</Text>
-                <Text>{genres.length && genres.find(item=>item.id == book.genreid)?.name}</Text>
+                <Text>{genres.length && genres.find(item => item.id == book.genreid)?.name}</Text>
                 <Text>Page count: {book.page_count}</Text>
                 <Text>Average rating: {book.rating}
                     <Rating ratingBackgroundColor='#F9F9F9' imageSize={20} readonly startingValue={book.rating} />
                 </Text>
-                <View style={{flex: 1, flexDirection: 'row'}}>
+                <View style={{ flex: 1, flexDirection: 'row' }}>
                     {userIsAuthor || user.role === 'admin' ?
-                        <DeleteBookComponent bookid={book.id} approved={book.approved}/>
+                        <DeleteBookComponent bookid={book.id} approved={book.approved} />
                         : <Text>My rating: TODO getRatingByUser</Text>}
                     {(!book.approved && user.role === 'admin') &&
                         <ApproveBookComponent id={book.id} />}
                 </View>
+                <View style={{ flex: 1, flexDirection: 'row' }}>
+                    {!userIsAuthor && !toRead && !haveRead &&
+                        <Button
+                            title='Add to "To Read" list'
+                            type='outline'
+                            onPress={async () => {
+                                await bookService.addBookToRead(user.name, book.id);
+                                setToRead(true);
+                            }}
+                        />}
+                    {!userIsAuthor && !haveRead &&
+                        <Button
+                            title='Add to "Have Read" list'
+                            type='outline'
+                            onPress={async () => {
+                                await bookService.addBookHaveRead(user.name, book.id);
+                                setHaveRead(true);
+                                setToRead(false);
+                            }}
+                        />}
+                </View>
             </ View>
             <View style={style.bookDetailContainer}>
-                <SubmitReviewComponent id={book.id}/>
+                <SubmitReviewComponent id={book.id} />
             </View>
             <View style={style.bookDetailContainer}>
-                <ReviewsComponent book={book}/>
+                <ReviewsComponent book={book} />
             </View>
-            {!userIsAuthor && !toRead &&
-                <Button
-                    title='Add to "To Read" list'
-                    type='outline'
-                    onPress={() => {
-                        bookService.addBookToRead(user.name, book.id);
-                        setToRead(true);
-                    }}
-                />}
-            {!userIsAuthor && !haveRead &&
-                <Button
-                    title='Add to "Have Read" list'
-                    type='outline'
-                    onPress={() => {
-                        bookService.addBookHaveRead(user.name, book.id);
-                        setHaveRead(true);
-                    }}
-                />}
         </View>
     )
 }

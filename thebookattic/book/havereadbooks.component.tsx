@@ -6,7 +6,7 @@ import { Book } from "./book";
 import bookService from "./book.service";
 import BookListComponent from "./booklist.component";
 
-//Users can make a 'to read' list of books, and view it here
+//Users can make a 'have read' list of books, and view it here
 export default function HaveReadBooksComponent() {
     
     const [retrievedBooks, setRetrievedBooks] = useState(false);
