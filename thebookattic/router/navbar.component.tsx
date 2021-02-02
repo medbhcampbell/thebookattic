@@ -22,15 +22,11 @@ function NavBarComponent() {
             {user.name && <Button title='To Read' onPress={() => nav.navigate('ToRead')} />}
             {user.role === 'author' && <Button title='Submit Book' onPress={() => nav.navigate('SubmitBook')} />}
         <View>
-            {user.name ? 
+            {user.name &&
                 <View style={style.userNavBar}>
                     <LogoutComponent/>
                    
-                </View> : 
-                <View style={style.userNavBar}> 
-                    
-                </View>
-            }
+                </View>                        }
         </View>
         </View>
     )
