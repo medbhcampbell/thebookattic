@@ -1,9 +1,5 @@
 import React from 'react';
-import {
-     Text, 
-     View,
-     TextInput,
-     Button} from 'react-native';
+import { View } from 'react-native';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { UserState } from '../store/store';
@@ -12,6 +8,7 @@ import userService from './user.service';
 import { User } from './user';
 import { useNavigation } from '@react-navigation/native';
 import { loginAction } from '../store/actions';
+import { Input, Button } from 'react-native-elements';
 
 /*
 const userProp = (state: UserState) => ({
@@ -51,33 +48,34 @@ function registerForm() {
     }
 
     return (
-        <View style={[style.container, style.login]}>
-            <Text>Name</Text>
-            <TextInput
-                style={style.input}
-                onChangeText={(value) =>
-                    dispatch(loginAction({ ...user, name: value }))
-                }
-                
+        <View style={style.container}>
+        <Input
+            label='Name'
+            style={style.input}
+            onChangeText={(value) =>
+                dispatch(loginAction({ ...user, name: value }))
+            }
             />
-            <Text>Password</Text>
-            <TextInput
-                style={style.input}
-                secureTextEntry={true} 
-                onChangeText={(value) =>
-                    dispatch(loginAction({...user, password:value}))
-                }
-                
-            />
-            <Text>Role</Text>
-            <TextInput
-                style={style.input}
-                placeholder="user/admin/author"
-                onChangeText={(value) =>
-                    dispatch(loginAction({ ...user, role:value}))
-                }
-            />
-            <Button onPress={registerForm} title='Register' color='#880022' />    
+        <Input
+            label='Password'
+            style={style.input}
+            secureTextEntry={true} 
+            onChangeText={(value) =>
+                dispatch(loginAction({...user, password:value}))
+            }
+            
+        />
+        <Input
+            label='Role'
+            style={style.input}
+            placeholder="user/admin/author"
+            onChangeText={(value) =>
+                dispatch(loginAction({ ...user, role:value}))
+            }
+              
+        />
+
+            <Button onPress={registerForm} title='Register' type='outline'/>    
         </View>
     )
 }

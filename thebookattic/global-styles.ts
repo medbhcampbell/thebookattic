@@ -1,20 +1,14 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'center',
-        borderColor: '#880022',
-        borderStyle: 'solid',
-        borderWidth: 3
+        justifyContent: 'center'
     },
     input: {
         backgroundColor: '#fff',
-        borderRadius: 20
-    },
-    login: {
-        backgroundColor: '#aaa'
+        borderRadius: 12
     },
     bookPreviewText: {
         alignSelf: 'center'
@@ -42,8 +36,17 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     userNavBar: {
-        flex: 1, 
+        flex: 1,
         flexDirection: 'row-reverse'
+    },
+    bookDetailContainer: {
+        display: 'flex',
+        marginHorizontal: 'auto',
+        marginVertical: '4%',
+        width: '80%',
+        backgroundColor: '#fff',
+        borderRadius: 12,
+        padding: '3%'
     }
 });
 

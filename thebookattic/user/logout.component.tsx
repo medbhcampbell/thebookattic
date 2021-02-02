@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, View } from "react-native";
+import { View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from '@react-navigation/native';
 
@@ -7,6 +7,7 @@ import style from '../global-styles';
 import { UserState } from '../store/store';
 import { getUser } from "../store/actions";
 import { User } from "./user";
+import { Button } from "react-native-elements";
 
 
 export  function LogoutComponent() {
@@ -20,8 +21,8 @@ export  function LogoutComponent() {
     }
 
     return(
-        <View style={[style.container, style.login]}>
-           <Button onPress={logout} title='Logout' color='#880022' />       
+        <View style={style.container}>
+           <Button onPress={logout} title='Logout' type='clear' />       
         </View>
     )
 

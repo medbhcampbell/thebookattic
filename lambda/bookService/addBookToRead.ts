@@ -15,7 +15,7 @@ export const handler = async (event: BookEvent): Promise<any> => {
     let tablename = 'toread';
     if(event.path.includes('haveread')) {
         tablename = 'haveread';
-        bookService.deleteBookFromJoinTable(username, bookid, 'toread');
+        await bookService.deleteBookFromJoinTable(username, bookid, 'toread');
     }
 
     console.log(`adding book ${bookid} to ${username}'s ${tablename} list`);
