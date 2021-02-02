@@ -305,3 +305,4 @@ insert into haveread (username, bookid) values ('gmartin', 4);
 insert into haveread (username, bookid) values ('gmartin', 5);
 insert into haveread (username, bookid) values ('mshelley', 24);
 insert into haveread (username, bookid) values ('mshelley', 23);
+insert into haveread (username, bookid) values ('wshakespeare', 4);
