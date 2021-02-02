@@ -1,5 +1,6 @@
 drop table if exists reviews;
 drop table if exists toread;
+drop table if exists haveread;
 drop table if exists books;
 drop table if exists genres;
 drop table if exists authors;
