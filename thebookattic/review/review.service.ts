@@ -19,6 +19,14 @@ class ReviewService {
     updateReview(id: number): Promise<null> {
         return axios.patch(this.URI, id).then(() => null);
     }
+
+    approveReviewById(reviewId: number): Promise<null> {
+        return axios.put(this.URI + '/' + reviewId).then(result => null);
+   }
+   
+   deleteReviewById(reviewid: number): Promise<null> {
+       return axios.delete(this.URI+'/'+ reviewid).then(() => null);
+   }
 }
 
 const reviewService = new ReviewService();
