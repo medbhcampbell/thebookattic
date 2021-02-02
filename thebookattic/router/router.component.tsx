@@ -16,6 +16,7 @@ import NavBarComponent from './navbar.component';
 import ToReadBooksComponent from '../book/toreadbooks.component';
 import RegisterComponent from '../user/register.component';
 import LogoutComponent from '../user/logout.component';
+import BookRecListComponent from '../book/bookRecList.component';
 
 /* Parameter list for RouteProp requires a field for the route that we're on. */
 export type StackParams = {
@@ -29,6 +30,7 @@ export type StackParams = {
     SubmitBook: undefined;
     ToRead: undefined;
     UnapprovedBooks: undefined;
+    BookRecList: undefined;
 };
 
 const Stack = createStackNavigator<StackParams>();
@@ -88,6 +90,11 @@ function RouterComponent(props: any) {
             <Stack.Screen
                 name='UnapprovedBooks'
                 component={UnapprovedBooksComponent}
+                options={headerOptions}
+            />
+            <Stack.Screen
+                name='BookRecList'
+                component={BookRecListComponent}
                 options={headerOptions}
             />
         </Stack.Navigator>

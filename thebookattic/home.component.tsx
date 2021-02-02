@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, Button } from 'react-native';
+import { View, Text, Image, Button, Pressable } from 'react-native';
 import { Card } from 'react-native-elements';
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
@@ -7,10 +7,12 @@ import { useDispatch } from 'react-redux';
 
 import style from './global-styles';
 import { BookState, UserState } from './store/store';
-import { getGenres } from './store/actions';
+import { getGenres, getReviews, getAllAuthors } from './store/actions';
 import AllBooksComponent from './book/allbooks.component';
 import { Book } from './book/book';
 import genreService from './genre/genre.service';
+import reviewService from './review/review.service';
+import authorService from './author/author.service';
 
 export default function HomeComponent() {
     const nav = useNavigation();
@@ -23,6 +25,10 @@ export default function HomeComponent() {
         nav.navigate('UnapprovedBooks');
     }
 
+    function toBookRecList() {
+        nav.navigate('BookRecList');
+    }
+
     useEffect(() => {
         setUnapprovedBooks(books.filter(item => {
             return !item.approved}));
@@ -31,6 +37,18 @@ export default function HomeComponent() {
     useEffect(() => {
         genreService.getGenres().then((genres) => {
             dispatch(getGenres(genres));
+        });
+    }, []);
+
+    useEffect(() => {
+        reviewService.getReviews().then((reviews) => {
+            dispatch(getReviews(reviews));
+        });
+    }, []);
+
+    useEffect(() => {
+        authorService.getAllAuthors().then((authors) => {
+            dispatch(getAllAuthors(authors));
         });
     }, []);
 
@@ -45,6 +63,11 @@ export default function HomeComponent() {
                     </View>
                 </Card>}
             <AllBooksComponent/>
+            <Pressable onPress={toBookRecList}>
+                <Text>
+                    Test BookRecList
+                </Text>
+            </Pressable>
         </View>
     )
 }
