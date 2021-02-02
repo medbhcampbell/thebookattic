@@ -18,6 +18,7 @@ import RegisterComponent from '../user/register.component';
 import LogoutComponent from '../user/logout.component';
 import UnapprovedReviewsComponent from '../review/unapprovedreviews.component';
 
+
 /* Parameter list for RouteProp requires a field for the route that we're on. */
 export type StackParams = {
     Login: undefined;
@@ -53,6 +54,7 @@ function RouterComponent(props: any) {
                 options={headerOptions}
             />
             <Stack.Screen
+                
                 name='Logout'
                 component={LogoutComponent}
                 options={headerOptions}
