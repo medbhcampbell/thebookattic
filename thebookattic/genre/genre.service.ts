@@ -5,7 +5,7 @@ import Genre from './genre';
 class GenreService {
     private URI: string;
     constructor() {
-        this.URI = process.env.SERVER_URI + 'genres';
+        this.URI = process.env.THEBOOKATTIC_URI + 'genres';
     }
 
     getGenres(): Promise<Genre[]> {
