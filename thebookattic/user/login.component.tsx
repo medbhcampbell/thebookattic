@@ -3,7 +3,7 @@ import userService from './user.service';
 import { UserState } from '../store/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser, loginAction } from '../store/actions';
-import {  View } from 'react-native';
+import {  Text, View } from 'react-native';
 import style from '../global-styles';
 import { Button, Input} from 'react-native-elements';
 
@@ -54,6 +54,7 @@ function LoginComponent({navigation}: LoginProp) {
                 }
                 value={login.name}
             />
+            
             <Input
                 label='Password'
                 secureTextEntry={true}
@@ -61,7 +62,9 @@ function LoginComponent({navigation}: LoginProp) {
                 onChangeText={(value) =>
                     dispatch(loginAction({ ...login, password: value }))
                 }
+                
                 value={login.password}
+              
             />
            
             <Button type='outline' onPress={submitForm} title='Login' />
