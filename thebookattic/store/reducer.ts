@@ -22,8 +22,9 @@ export const initialState: BookAtticState = {
 
 // Make sure that the reducer has a default argument of the inital state or it will not work.
 const reducer = (
-    action: Actions.AppAction,
-    state: BookAtticState = initialState
+    state: BookAtticState = initialState,
+    action: Actions.AppAction
+    
     
 ): BookAtticState => {
     //console.log(action);
