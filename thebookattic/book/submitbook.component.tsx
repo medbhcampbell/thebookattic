@@ -22,7 +22,7 @@ export default function SubmitBookComponent() {
 
     const [book, setBook] = useState(new Book());
     //genreId needs its own state because otherwise the picker doesn't update
-    const [genreId, setGenreId] = useState(0);
+    const [genreId, setGenreId] = useState(1);
     // have a temporary variable that stores new info about the book before calling setBook
     //    because directly setting state variables can be unpredictable
     const tempBook = book;
@@ -38,11 +38,15 @@ export default function SubmitBookComponent() {
             if (genres.length === 0) {
                 genreService.getGenres().then(data => {
                     dispatch(getGenres(data));
-                    setGenreId(genres[0].id);
                 }).catch(err => {
                     console.log(err);
                 });
             }
+
+            //set the book's genre to the automatically selected genre
+            setGenreId(genres[0].id);
+            tempBook.genreid = genreId;
+            setBook(tempBook);
 
             //get the user's authorid to complete book info
             authorService.getAuthorByUserId(user.name).then(data => {
@@ -63,8 +67,9 @@ export default function SubmitBookComponent() {
     }
 
     const submitBook = () => {
+        console.log(JSON.stringify(book));
         bookService.addBook(book);
-        nav.navigate('AuthorDetail');
+        nav.navigate('Home');
     }
 
     return (
