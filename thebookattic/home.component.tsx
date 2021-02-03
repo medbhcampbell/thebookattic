@@ -51,8 +51,8 @@ export default function HomeComponent() {
     }, []);
 
     useEffect(() => {
-        reviewService.getReviews().then((reviews) => {
-            dispatch(getReviews(reviews));
+        reviewService.getReviews().then((reviewsres) => {
+            dispatch(getReviews(reviewsres));
         });
     }, []);
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Text, View } from 'react-native';
+import { Button, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import { useSelector } from 'react-redux';
