@@ -51,7 +51,7 @@ export default function HomeComponent() {
     return (
         <View>
             {/* TODO: Put other stuff here, links, reccomendations, to-read list, etc (maybe move allbooks to a separate page)*/}
-            {(user.role === 'admin' && unapprovedBooks || unapprovedReviews) && 
+            {(user.role === 'admin' && unapprovedBooks) && 
                 <Card>
                     <View style={style.approvalNotice}>
                         <Text style={style.dangerText}>There are some books that need approval!</Text>
