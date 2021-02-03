@@ -1,19 +1,26 @@
-import { useNavigation } from '@react-navigation/native';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { Button, View } from 'react-native';
-import {Text} from 'react-native-elements';
+import { Button, View, Text } from 'react-native';
+import { useDispatch } from 'react-redux';
+import style from './global-styles';
+import { getUser } from './store/actions';
+import { User } from './user/user';
 
-function ErrorBoundaryScreen(props: { error: Error}) {
-    const nav = useNavigation();
+function ErrorBoundaryScreen(props: { error: Error, resetError: Function }) {
+    const dispatch = useDispatch();
 
     return (
         <View>
-            <Text>
-                Uh oh, something went horribly wrong...
+            <Text style={style.h1}>
+                Oops, something went horribly wrong...
             </Text>
+            <Text style={style.dangerText}>{props.error.toString()}</Text>
             <Button
                 title='Return to Home'
-                onPress={()=>nav.navigate('Home')}/>
+                onPress={()=>{
+                    dispatch(getUser(new User));
+                    props.resetError();    
+                }}/>
         </View>
     )
 }
