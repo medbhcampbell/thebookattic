@@ -5,7 +5,7 @@ import Genre from './genre';
 class GenreService {
     private URI: string;
     constructor() {
-        this.URI = 'https://zp8675rt3l.execute-api.us-west-2.amazonaws.com/test/genres';
+        this.URI = process.env.SERVER_URI + 'genres';
     }
 
     getGenres(): Promise<Genre[]> {
@@ -21,9 +21,7 @@ class GenreService {
     }
 
     removeGenre(id: number): Promise<null> {
-        return axios
-            .delete(this.URI + '/' + id)
-            .then((result) => null);
+        return axios.delete(this.URI + '/' + id).then((result) => null);
     }
 }
 
