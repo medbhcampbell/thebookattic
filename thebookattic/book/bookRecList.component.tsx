@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, Image, Button, Pressable } from 'react-native';
+ import React, { useEffect, useState } from 'react';
+import { View, Text, Image, Pressable } from 'react-native';
 import { Card } from 'react-native-elements';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
@@ -30,37 +30,28 @@ export default function BookRecListComponent() {
     let bookRecList: any = [ ...books ];
     
     // I don't actually know if the useEffects help, but they're not hurting, so...
-    useEffect(()=>{
-        if(books.length <= 0) {
-            // If there's no books in the store, use the service to retrieve them
-            bookService.getAllBooks().then((result)=>{
-                setApproved(result.filter(item=>{return item.approved}));
-                dispatch(changeBooks(result));
-                setRetrievedBooks(true);
-            });
-        } else {
-            setApproved(books.filter(item=>{return item.approved}));
-            setRetrievedBooks(true);
-        }
-    }, []);
-
-    useEffect(() => {
-        genreService.getGenres().then((genres) => {
-            dispatch(getGenres(genres));
-        });
-    }, []);
-
-    useEffect(() => {
-        reviewService.getReviews().then((reviews) => {
-            dispatch(getReviews(reviews));
-        });
-    }, []);
-
-    useEffect(() => {
-        authorService.getAllAuthors().then((authors) => {
-            dispatch(getAllAuthors(authors));
-        });
-    }, []);
+    // useEffect(()=>{
+    //     if(books.length <= 0) {
+    //         // If there's no books in the store, use the service to retrieve them
+    //         bookService.getAllBooks().then((result)=>{
+    //             setApproved(result.filter(item=>{return item.approved}));
+    //             dispatch(changeBooks(result));
+    //             setRetrievedBooks(true);
+    //         });
+    //     } else {
+    //         setApproved(books.filter(item=>{return item.approved}));
+    //         setRetrievedBooks(true);
+    //     }
+    //     genreService.getGenres().then((genres) => {
+    //         dispatch(getGenres(genres));
+    //     });
+    //     reviewService.getReviews().then((reviews) => {
+    //         dispatch(getReviews(reviews));
+    //     });
+    //     authorService.getAllAuthors().then((authors) => {
+    //         dispatch(getAllAuthors(authors));
+    //     });
+    // }, []);
   
     function onBookSelect(index: number) {
         let bookRecToBook = bookRecList[index];
@@ -80,7 +71,6 @@ export default function BookRecListComponent() {
                 ratingChange = -1;
                 break;
             case 3:
-                ratingChange = 0;
                 break;
             case 4:
                 ratingChange = 1;
@@ -89,7 +79,6 @@ export default function BookRecListComponent() {
                 ratingChange = 2;
                 break;
         }
-        console.log('ratingChange: ' + ratingChange);
         return ratingChange;
     }
 
@@ -129,8 +118,12 @@ export default function BookRecListComponent() {
         let authorIndex = authors.findIndex(author => author.id == bookRecList[i].authorid);
         bookRecList[i].recRating = 0;
         bookRecList[i].recRating += adjustBookRecRating(genreIndex, authorIndex);
-    };
+    }
     bookRecList.sort((a: any, b: any) => (a.recRating < b.recRating) ? 1 : -1);
+    let arrBookRecList = [ ...bookRecList ];
+
+    console.log(userReviews);
+    console.log(bookRecList);
 
     return (
         <View style={{alignItems: 'center'}}>
@@ -138,7 +131,10 @@ export default function BookRecListComponent() {
                 if (bookRecList[0]) {
                     return (
                         <View>
-                                {bookRecList.map((value, index: number) => {
+                            {arrBookRecList.map((book: any, index: number) => {
+                                console.log(book);
+                                if ((userReviews.filter(review => review.bookid == book.id)).length < 1) {
+                                    console.log(book.title + ' does not have a review from this user.');
                                     return (
                                         <View>
                                             <Pressable onPress={()=> onBookSelect(index)}>
@@ -149,7 +145,11 @@ export default function BookRecListComponent() {
                                             </Pressable>
                                         </View>
                                     );
-                                })}
+                                } else {
+                                    console.log(book.title + ' does have a review from this user.');
+                                    return null;
+                                }
+                            })}
                         </View>
                     )
                 } else {

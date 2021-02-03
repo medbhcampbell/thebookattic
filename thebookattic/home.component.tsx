@@ -45,9 +45,6 @@ export default function HomeComponent() {
         reviewService.getReviews().then((reviews) => {
             dispatch(getReviews(reviews));
         });
-    }, []);
-
-    useEffect(() => {
         authorService.getAllAuthors().then((authors) => {
             dispatch(getAllAuthors(authors));
         });
