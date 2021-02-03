@@ -120,10 +120,6 @@ export default function BookRecListComponent() {
         bookRecList[i].recRating += adjustBookRecRating(genreIndex, authorIndex);
     }
     bookRecList.sort((a: any, b: any) => (a.recRating < b.recRating) ? 1 : -1);
-    let arrBookRecList = [ ...bookRecList ];
-
-    console.log(userReviews);
-    console.log(bookRecList);
 
     return (
         <View style={{alignItems: 'center'}}>
@@ -131,7 +127,7 @@ export default function BookRecListComponent() {
                 if (bookRecList[0]) {
                     return (
                         <View>
-                            {arrBookRecList.map((book: any, index: number) => {
+                            {bookRecList.map((book: any, index: number) => {
                                 console.log(book);
                                 if ((userReviews.filter(review => review.bookid == book.id)).length < 1) {
                                     console.log(book.title + ' does not have a review from this user.');
