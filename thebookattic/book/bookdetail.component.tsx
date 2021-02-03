@@ -88,7 +88,7 @@ export default function BookDetailComponent(props: BookDetailProps) {
                 <Text h1 style={{ textAlign: 'center' }}>{book.title}</Text>
                 <Image source={{ uri: book.cover }}></Image>
                 <Text>Author: {author.firstname + ' ' + author.lastname}</Text>
-                {book.link &&
+                {!!book.link &&
                     <Text>Access it here: {book.link}</Text>}
                 <Text>{book.blurb}</Text>
                 <Text>{genres.length && genres.find(item => item.id == book.genreid)?.name}</Text>

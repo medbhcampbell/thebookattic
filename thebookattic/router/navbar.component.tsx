@@ -13,17 +13,17 @@ function NavBarComponent() {
     const user = useSelector((state: BookAtticState) => state.user);
     return (
         <View>
-            {user.name && 
+            {!!user.name && 
                 <View style={style.userNavBar}>
                     <LogoutComponent/>
                     <Text>Welcome, {user.name}</Text>
                 </View> 
             }
-            {user.name && <Button title='To Read' onPress={() => nav.navigate('ToRead')} />}
-            {user.name && <Button title='Have Read' onPress={() => nav.navigate('HaveRead')} />}
+            {!!user.name && <Button title='To Read' onPress={() => nav.navigate('ToRead')} />}
+            {!!user.name && <Button title='Have Read' onPress={() => nav.navigate('HaveRead')} />}
             {user.role === 'author' && <Button title='Submit Book' onPress={() => nav.navigate('SubmitBook')} />}
         <View>
-            {user.name ? 
+            {!!user.name ? 
                 <View style={style.userNavBar}>
                     <LogoutComponent/>
                    
