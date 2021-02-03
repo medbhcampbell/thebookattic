@@ -150,7 +150,7 @@ class BookService {
             client.end();
             console.log(err);
             return null;
-        };
+        }
     }
 }
 

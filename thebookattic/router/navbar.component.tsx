@@ -19,6 +19,7 @@ function NavBarComponent() {
                     <Text>Welcome, {user.name}</Text>
                 </View> 
             }
+            {!!user.name && <Button title='Recommended' onPress={() => nav.navigate('BookRecList')} />}
             {!!user.name && <Button title='To Read' onPress={() => nav.navigate('ToRead')} />}
             {!!user.name && <Button title='Have Read' onPress={() => nav.navigate('HaveRead')} />}
             {user.role === 'author' && <Button title='Submit Book' onPress={() => nav.navigate('SubmitBook')} />}

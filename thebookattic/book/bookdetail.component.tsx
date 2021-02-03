@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Image } from 'react-native';
-import { RouteProp, useNavigation } from '@react-navigation/native';
+import { RouteProp } from '@react-navigation/native';
 import style from '../global-styles';
 import { StackParams } from '../router/router.component';
 
@@ -45,8 +45,8 @@ export default function BookDetailComponent(props: BookDetailProps) {
     useEffect(() => {
 
         // check if the user is the author: deleteBook only appears if true
-        authorService.getAuthorById(book.authorid).then((author) => {
-            dispatch(getAuthor(author));
+        authorService.getAuthorById(book.authorid).then((authorres) => {
+            dispatch(getAuthor(authorres));
         });
 
         // Check the reviews for one this user has submitted
@@ -73,12 +73,12 @@ export default function BookDetailComponent(props: BookDetailProps) {
         //    button only appears if false
         async function checkOnList() {
             try {
-                const toRead = await bookService.getBooksToRead(user.name);
-                const haveRead = await bookService.getBooksHaveRead(user.name);
-                if (toRead.find((thisBook) => thisBook.id === book.id)) {
+                const toReadnow = await bookService.getBooksToRead(user.name);
+                const haveReadnow = await bookService.getBooksHaveRead(user.name);
+                if (toReadnow.find((thisBook) => thisBook.id === book.id)) {
                     console.log('found it');
                     setToRead(true);
-                } else if (haveRead.find((thisBook) => thisBook.id === book.id)) {
+                } else if (haveReadnow.find((thisBook) => thisBook.id === book.id)) {
                     setHaveRead(true);
                 }
             } catch (err) {

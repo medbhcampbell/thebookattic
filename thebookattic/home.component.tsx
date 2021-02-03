@@ -1,24 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, Button } from 'react-native';
+import { View, Text,Button } from 'react-native';
 import { Card } from 'react-native-elements';
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 
 import style from './global-styles';
-import { BookState, ReviewState, UserState } from './store/store';
-import { getGenres } from './store/actions';
+import { BookAtticState } from './store/store';
+import { getGenres, getReviews, getAllAuthors } from './store/actions';
 import AllBooksComponent from './book/allbooks.component';
 import { Book } from './book/book';
+import { Review } from './review/review'
 import genreService from './genre/genre.service';
-import { Review } from './review/review';
+import reviewService from './review/review.service';
+import authorService from './author/author.service';
 
 export default function HomeComponent() {
     const nav = useNavigation();
     const dispatch = useDispatch();
-    const user = useSelector((state: UserState) => state.user);
-    const books = useSelector((state: BookState) => state.books);
-    const reviews = useSelector((state: ReviewState)=> state.reviews);
+    const user = useSelector((state: BookAtticState) => state.user);
+    const books = useSelector((state: BookAtticState) => state.books);
+    const reviews = useSelector((state: BookAtticState)=> state.reviews);
     const [unapprovedBooks, setUnapprovedBooks] = useState([] as Book[]);
     const [unapprovedReviews,setUnapprovedReviews]= useState([] as Review[]);
 
@@ -38,6 +40,18 @@ export default function HomeComponent() {
             dispatch(getGenres(genres));
         });
     }, [books, reviews]);
+
+    useEffect(() => {
+        reviewService.getReviews().then((reviews) => {
+            dispatch(getReviews(reviews));
+        });
+    }, []);
+
+    useEffect(() => {
+        authorService.getAllAuthors().then((authors) => {
+            dispatch(getAllAuthors(authors));
+        });
+    }, []);
 
     return (
         <View>
