@@ -14,17 +14,16 @@ import { Input, Button } from 'react-native-elements';
   
 function RegisterComponent() {
     const userSelector = (state: UserState) => state.loginUser;
-    const actualUser = useSelector((state: UserState) => state.user);
     const user = useSelector(userSelector);
     const dispatch = useDispatch();
     const navigation = useNavigation();
-    const loggedUser = user.name;
+    
 
  
 
 function registerForm() {
-        userService.addUser(user).then((user) => {
-           console.log(user);
+        userService.addUser(user).then((userres) => {
+           console.log(userres);
            dispatch(loginAction(new User()));
            navigation.navigate('Login');
         });
@@ -53,7 +52,7 @@ function registerForm() {
         <Input
             label='Role'
             style={style.input}
-            placeholder="user/admin/author"
+            placeholder="user/author"
             onChangeText={(value) =>
                 dispatch(loginAction({ ...user, role:value}))
             }
@@ -63,8 +62,10 @@ function registerForm() {
             <Button onPress={registerForm} title='Register' type='outline'/>    
         </View>
     )
+    
             
 }
+
 
 export default RegisterComponent;
 

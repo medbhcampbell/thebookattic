@@ -5,7 +5,7 @@ import { Review } from './review';
 class ReviewService {
     private URI: string;
     constructor() {
-        this.URI = process.env.SERVER_URI + 'reviews';
+        this.URI = process.env.THEBOOKATTIC_URI + 'reviews';
     }
 
     getReviews(): Promise<Review[]> {
@@ -21,7 +21,7 @@ class ReviewService {
     }
 
     approveReviewById(reviewId: number): Promise<null> {
-        return axios.put(this.URI + '/' + reviewId).then(result => null);
+        return axios.put(this.URI + '/' + reviewId).then(() => null);
    }
    
    deleteReviewById(reviewid: number): Promise<null> {

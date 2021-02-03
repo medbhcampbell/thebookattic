@@ -4,7 +4,7 @@ import { Button } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { changeBooks } from '../store/actions';
 import bookService from './book.service';
-import style from '../global-styles';
+
 
 interface DeleteBookProps {
     bookid: number;

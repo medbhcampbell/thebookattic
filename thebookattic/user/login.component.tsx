@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getUser, loginAction } from '../store/actions';
 import {  View } from 'react-native';
 import style from '../global-styles';
-import { Button, Input, Text } from 'react-native-elements';
+import { Button, Input} from 'react-native-elements';
 
 
 
@@ -43,7 +43,7 @@ function LoginComponent({navigation}: LoginProp) {
     }
 
   
-
+    
      return (
         <View style={style.container}>
             <Input
@@ -74,7 +74,10 @@ function LoginComponent({navigation}: LoginProp) {
             />
 
         </View>
-    );
-}
+    ); 
+
+            }
+        
+
 
 export default LoginComponent;

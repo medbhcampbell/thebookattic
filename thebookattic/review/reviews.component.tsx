@@ -3,7 +3,6 @@ import { FlatList, ListRenderItem, View } from "react-native";
 import { Card, Rating, Text } from "react-native-elements";
 import { useDispatch, useSelector } from "react-redux";
 import { Book } from "../book/book";
-import styles from "../global-styles";
 
 import { getReviews } from "../store/actions";
 import { ReviewState } from "../store/store";

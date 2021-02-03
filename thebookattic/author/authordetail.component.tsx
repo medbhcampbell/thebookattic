@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, Image, Pressable, ScrollView } from 'react-native';
 import { Card } from 'react-native-elements';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector} from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 
 import style from '../global-styles';

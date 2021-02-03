@@ -16,6 +16,7 @@ import NavBarComponent from './navbar.component';
 import ToReadBooksComponent from '../book/toreadbooks.component';
 import RegisterComponent from '../user/register.component';
 import LogoutComponent from '../user/logout.component';
+import BookRecListComponent from '../book/bookRecList.component';
 import HaveReadBooksComponent from '../book/havereadbooks.component';
 import UnapprovedReviewsComponent from '../review/unapprovedreviews.component';
 
@@ -32,6 +33,7 @@ export type StackParams = {
     ToRead: undefined;
     HaveRead: undefined;
     UnapprovedBooks: undefined;
+    BookRecList: undefined;
     UnapprovedReviews :undefined;
 };
 
@@ -100,7 +102,11 @@ function RouterComponent(props: any) {
                 component={UnapprovedBooksComponent}
                 options={headerOptions}
             />
-             <Stack.Screen
+            <Stack.Screen
+                name='BookRecList'
+                component={BookRecListComponent}
+            />
+            <Stack.Screen
                 name='UnapprovedReviews'
                 component={UnapprovedReviewsComponent}
                 options={headerOptions}

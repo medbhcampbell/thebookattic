@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import {  useSelector } from "react-redux";
 import { Text, View } from "react-native";
 
-import { changeBooks } from "../store/actions";
+
 import { BookState } from "../store/store";
 import { Book } from "./book";
-import bookService from "./book.service";
 import BookListComponent from "./booklist.component";
 import styles from '../global-styles';
 
