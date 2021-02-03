@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import { changeBooks } from '../store/actions';
 import bookService from './book.service';
-import style from '../global-styles';
+
 
 interface ApproveBookProps {
     id: number;

@@ -13,8 +13,8 @@ export default function AuthorListComponent() {
     const dispatch: any = useDispatch();
 
     useEffect(() => {
-        authorService.getAllAuthors().then((authors) => {
-            dispatch(getAllAuthors(authors))
+        authorService.getAllAuthors().then((authorres) => {
+            dispatch(getAllAuthors(authorres))
         })
     }, []);
 

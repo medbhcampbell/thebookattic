@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 
 import { getReviews } from "../store/actions";
-import { ReviewState, UserState } from "../store/store";
+import {  UserState } from "../store/store";
 import ApproveReviewComponent from "./approvereview.component";
 import DeleteReviewComponent from "./deletereview.component";
 import {Review} from "./review";

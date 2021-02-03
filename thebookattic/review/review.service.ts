@@ -21,7 +21,7 @@ class ReviewService {
     }
 
     approveReviewById(reviewId: number): Promise<null> {
-        return axios.put(this.URI + '/' + reviewId).then(result => null);
+        return axios.put(this.URI + '/' + reviewId).then(() => null);
    }
    
    deleteReviewById(reviewid: number): Promise<null> {
