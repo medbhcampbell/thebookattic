@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 
 import { getReviews } from "../store/actions";
-import { ReviewState, UserState } from "../store/store";
+import {  UserState } from "../store/store";
 import ApproveReviewComponent from "./approvereview.component";
 import DeleteReviewComponent from "./deletereview.component";
 import {Review} from "./review";
@@ -20,10 +20,6 @@ interface ReviewProps {
 
 export default function ReviewsListComponent(props: ReviewProps) {
     const dispatch = useDispatch();
-<<<<<<< HEAD
-    //const reviews : Review[] = useSelector((state: ReviewState) => state.review);
-=======
->>>>>>> a4fee5b94b16cb93202c3d24ee5f034dd85c65d8
     const user = useSelector((state: UserState) => state.user);
     const reviews = props.reviews;
     

@@ -20,10 +20,6 @@ export default function ApproveReviewComponent(props: ApproveReviewProps) {
         reviewService.approveReviewById(props.id).then(() => {
             // Refresh the store with the update book set
             reviewService.getReviews().then((review) => {
-<<<<<<< HEAD
-                dispatch(changeReview(new Review));
-=======
->>>>>>> a4fee5b94b16cb93202c3d24ee5f034dd85c65d8
                 dispatch(getReviews(review));
             }).catch((err) => {
                 console.log(err);
