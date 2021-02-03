@@ -5,7 +5,7 @@ import { Review } from './review';
 class ReviewService {
     private URI: string;
     constructor() {
-        this.URI = process.env.THEBOOKATTIC_URI + 'users';
+        this.URI = process.env.THEBOOKATTIC_URI + 'reviews';
     }
 
     getReviews(): Promise<Review[]> {

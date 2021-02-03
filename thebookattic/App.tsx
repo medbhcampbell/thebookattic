@@ -5,10 +5,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import store from './store/store';
 import RouterComponent from './router/router.component';
 
-import dotenv from 'dotenv';
-
-dotenv.config();
-
 export default function App() {
     return (
         <Provider store={store}>
