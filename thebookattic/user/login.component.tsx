@@ -3,8 +3,11 @@ import userService from './user.service';
 import { UserState } from '../store/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser, loginAction } from '../store/actions';
-import { Button, TextInput, Text, View } from 'react-native';
+import {  View } from 'react-native';
 import style from '../global-styles';
+import { Button, Input, Text } from 'react-native-elements';
+
+
 
 // Function Component
 interface LoginProp {
@@ -12,47 +15,64 @@ interface LoginProp {
 }
 function LoginComponent({navigation}: LoginProp) {
     const userSelector = (state: UserState) => state.loginUser;
-    const user = useSelector(userSelector);
+    const login = useSelector(userSelector);
     const actualUser = useSelector((state: UserState) => state.user);
     const dispatch = useDispatch();
 
+    
+    
     useEffect(() => {
         // Check to see if we're already logged in. Redirect if we are.
-        userService.getLogin().then((loggedUser)=>{
-            dispatch(getUser(loggedUser));
-            navigation.navigate('Restaurants');
-        }).catch((err)=>{
-            console.error(err);
-        });
+        console.log(actualUser);
+        if(actualUser.role){
+            console.log(actualUser);
+            navigation.navigate('Home');
+        }
     }, []);
 
+   
     function submitForm() {
-        userService.login(user).then((user) => {
-            console.log(user);
-            dispatch(getUser(user));
-            navigation.navigate('Restaurants');
+        userService.login(login).then((user) => {
+            if(user){
+                dispatch(getUser(user));  
+                navigation.navigate('Home');
+            }
+        }).catch(err=>{
+            console.log(err);
         });
     }
-    return (
-        <View style={[style.container, style.login]}>
-            <Text>Username: </Text>
-            <TextInput
+
+  
+
+     return (
+        <View style={style.container}>
+            <Input
+                label='Username'
                 style={style.input}
                 onChangeText={(value) =>
-                    dispatch(loginAction({ ...user, name: value }))
+                    dispatch(loginAction({ ...login, name: value }))
                 }
-                value={user.name}
+                value={login.name}
             />
-            <Text>Password: </Text>
-            <TextInput
+            <Input
+                label='Password'
                 secureTextEntry={true}
                 style={style.input}
                 onChangeText={(value) =>
-                    dispatch(loginAction({ ...user, password: value }))
+                    dispatch(loginAction({ ...login, password: value }))
                 }
-                value={user.password}
+                value={login.password}
             />
-            <Button onPress={submitForm} title='Login' color='#880022' />
+           
+            <Button type='outline' onPress={submitForm} title='Login' />
+            <Button
+                type='clear'
+                onPress={() => {
+                    navigation.navigate('Register');
+                }}
+                title='Register'
+            />
+
         </View>
     );
 }
