@@ -61,6 +61,11 @@ export default function HomeComponent() {
                     <View style={style.approvalNotice}>
                         <Text style={style.dangerText}>There are some books that need approval!</Text>
                         <Button title='View' color='red' onPress={viewNeedApproval}/>
+                    </View>
+                </Card>}
+            {(user.role === 'admin' && unapprovedReviews.length > 0) && 
+                <Card>
+                    <View style={style.approvalNotice}>
                         <Text style={style.dangerText}>There are some reviews that need approval!</Text>
                         <Button title='View' color='blue' onPress={viewReviewApproval}/>
                     </View>
