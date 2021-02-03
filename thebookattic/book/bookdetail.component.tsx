@@ -12,10 +12,9 @@ import bookService from './book.service';
 import authorService from '../author/author.service';
 import DeleteBookComponent from './deletebook.component';
 import ReviewsComponent from '../review/reviews.component';
-import { Text, Rating, Button, Card } from 'react-native-elements';
+import { Text, Rating, Button } from 'react-native-elements';
 import ApproveBookComponent from './approvebook.component';
 import SubmitReviewComponent from '../review/submitReview.component';
-import { Review } from '../review/review';
 
 interface BookDetailProps {
     route: RouteProp<StackParams, 'BookDetail'>
