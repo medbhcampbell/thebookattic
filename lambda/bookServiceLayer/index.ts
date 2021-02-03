@@ -10,12 +10,12 @@ class BookService {
         let res;
         try {
             res = await client.query('select * from books');
-            client.end();
             return res.rows as Book[];
         } catch (err) {
-            client.end();
             console.log(err);
             return null;
+        } finally {
+            client.end();
         }
     }
 
@@ -28,12 +28,12 @@ class BookService {
         const args = [username];
         try {
             res = await client.query(q, args);
-            client.end();
             return res.rows as Book[];
         } catch (err) {
-            client.end();
             console.log(err);
             return null;
+        } finally {
+            client.end();
         }
     }
 
@@ -89,6 +89,23 @@ class BookService {
         }
     }
 
+    async deleteBookFromJoinTable(username: string, bookid: number, joinTable: string): Promise<boolean> {
+        const client = new Client();
+        await client.connect();
+
+        try {
+            const q = `delete from ${joinTable} where username=$1::text and bookid=$2::integer`;
+            const args = [username, bookid];
+            await client.query(q, args);
+            return true;
+        } catch(err) {
+            console.log(err);
+            return false;
+        } finally {
+            client.end();
+        }
+    }
+
     async deleteBookById(bookid: number): Promise<boolean> {
         const client = new Client();
         await client.connect();
@@ -99,6 +116,8 @@ class BookService {
         } catch(err) {
             console.log(err);
             return false;
+        } finally {
+            client.end();
         }
     }
 
@@ -113,7 +132,25 @@ class BookService {
         } catch(err) {
             console.log(err);
             return 0;
+        } finally {
+            client.end();
         }
+    }
+    
+    async getBookRating(bookid: number): Promise<number | null> {
+        const client = new Client();
+        await client.connect();
+
+        let res;
+        try {
+            res = await client.query('select avg(rating) from reviews where bookid=$1::integer', [bookid]);
+            client.end();
+            return Number(res.rows[0].avg);
+        } catch (err) {
+            client.end();
+            console.log(err);
+            return null;
+        };
     }
 }
 

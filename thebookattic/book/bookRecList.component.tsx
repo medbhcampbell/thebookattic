@@ -1,24 +1,75 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Image, Button, Pressable } from 'react-native';
+import { Card } from 'react-native-elements';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 
+import style from '../global-styles';
 import { BookAtticState } from '../store/store';
+import { changeBooks, getGenres, getReviews, getAllAuthors } from "../store/actions";
 import { Review } from '../review/review';
-import genreService from '../genre/genre.service';
 import { Book } from './book';
+import bookService from "./book.service";
+import genreService from '../genre/genre.service';
+import reviewService from '../review/review.service';
+import authorService from '../author/author.service';
 
 export default function BookRecListComponent() {
+    const navigation = useNavigation();
+    const dispatch = useDispatch();
     const books = useSelector((state: BookAtticState) => state.books);
     const authors = useSelector((state: BookAtticState) => state.authors);
     const user = useSelector((state: BookAtticState) => state.user);
     const genres = useSelector((state: BookAtticState) => state.genres);
     const reviews = useSelector((state: BookAtticState) => state.reviews);
+    const [retrievedBooks, setRetrievedBooks] = useState(false);
+    const [approved, setApproved] = useState([] as Book[]);
+    let userReviews: Review[] = [];
+    let userGenreRating: any = [];
+    let userAuthorRating: any = [];
+    let bookRecList: any = [ ...books ];
     
-    console.log('BookRecList - books: ' + JSON.stringify(books));
-    console.log('BookRecList - user: ' + JSON.stringify(user));
-    console.log('BookRecList - genres: ' + JSON.stringify(genres));
-    console.log('BookRecList - reviews: ' + JSON.stringify(reviews));
+    // I don't actually know if the useEffects help, but they're not hurting, so...
+    useEffect(()=>{
+        if(books.length <= 0) {
+            // If there's no books in the store, use the service to retrieve them
+            bookService.getAllBooks().then((result)=>{
+                setApproved(result.filter(item=>{return item.approved}));
+                dispatch(changeBooks(result));
+                setRetrievedBooks(true);
+            });
+        } else {
+            setApproved(books.filter(item=>{return item.approved}));
+            setRetrievedBooks(true);
+        }
+    }, []);
 
+    useEffect(() => {
+        genreService.getGenres().then((genres) => {
+            dispatch(getGenres(genres));
+        });
+    }, []);
+
+    useEffect(() => {
+        reviewService.getReviews().then((reviews) => {
+            dispatch(getReviews(reviews));
+        });
+    }, []);
+
+    useEffect(() => {
+        authorService.getAllAuthors().then((authors) => {
+            dispatch(getAllAuthors(authors));
+        });
+    }, []);
+  
+    function onBookSelect(index: number) {
+        let bookRecToBook = bookRecList[index];
+        delete bookRecToBook.recRating;
+        const book: Book = bookRecToBook;
+        navigation.navigate('BookDetail', book);
+    }
+
+    // Adjusts the user's recommendation rating for each genre and author
     function adjustRecRating(reviewRating: number): number {
         let ratingChange: number = 0;
         switch (reviewRating) {
@@ -42,65 +93,63 @@ export default function BookRecListComponent() {
         return ratingChange;
     }
 
-    function adjustBookRecRating(books: Book[], bookRecList: any, userReviews: any, index: number): number {
-        let newRating = 0;
+    // Applies the user's recommendation ratings to each book
+    function adjustBookRecRating(genreIndex: number, authorIndex: number): number {
+        let ratingChange = 0;
 
-        
+        ratingChange += userGenreRating[genreIndex].rating;
+        ratingChange += userAuthorRating[authorIndex].rating;
 
-        return newRating;
+        return ratingChange;
     }
-    
-    let userReviews: Review[] = [];
-    userReviews = reviews.filter(review => review.username == user.name);22
-    
-    console.log('BookRecList - userReviews: ' + JSON.stringify(userReviews));
 
-    let userGenreRating = [];
+    // Filters for user's own reviews and add rating property to user's genre and author lists
+    userReviews = reviews.filter(review => review.username == user.name);
     for (let i = 0; i < genres.length; i++) {
         userGenreRating[i] = { ...genres[i]};
         userGenreRating[i].rating = 0;
     }
-    
-    let userAuthorRating = [];
     for (let i = 0; i < authors.length; i++) {
         userAuthorRating[i] = { ...authors[i]};
         userAuthorRating[i].rating = 0;
     }
-    
-    console.log('BookRecList - userGenreRating: ' + JSON.stringify(userGenreRating));
-    console.log('BookRecList - userAuthorRating: ' + JSON.stringify(userAuthorRating));
 
+    // Adjusts the user's recommendation rating for each genre and author
     for (let i = 0; i < userReviews.length; i++) {
         let bookIndex = books.findIndex(book => book.id == userReviews[i].bookid);
         let genreIndex = genres.findIndex(genre => genre.id == books[bookIndex].genreid);
         let authorIndex = authors.findIndex(author => author.id == books[bookIndex].authorid);
         userGenreRating[genreIndex].rating += adjustRecRating(userReviews[i].rating);
         userAuthorRating[authorIndex].rating += adjustRecRating(userReviews[i].rating);
-        console.log(userGenreRating[genreIndex].name + ' rating now at ' + userGenreRating[genreIndex].rating);
-        console.log(userAuthorRating[authorIndex].firstname + ' ' + userAuthorRating[authorIndex].lastname + ' rating now at ' + userAuthorRating[authorIndex].rating);
     }
-    
-    console.log('BookRecList - after change - userGenreRating: ' + JSON.stringify(userGenreRating));
-    console.log('BookRecList - after change - userAuthorRating: ' + JSON.stringify(userAuthorRating));
 
-    // let bookRecList = [];
-    // for (let i = 0; i < userReviews.length; i++) {
-    //     let index = books.findIndex(book => book.id == userReviews[i].bookid);
-    //     bookRecList[index] = { ...books[index]};
-    //     bookRecList[index].recRating = adjustBookRecRating(books, bookRecList, userReviews, index);
-    // };
-
-    // console.log('BookRecList - bookRecList: ' + JSON.stringify(bookRecList));
+    // Applies the user's recommendation ratings to each book, then sorts the list by rating
+    for (let i = 0; i < bookRecList.length; i++) {
+        let genreIndex = genres.findIndex(genre => genre.id == bookRecList[i].genreid);
+        let authorIndex = authors.findIndex(author => author.id == bookRecList[i].authorid);
+        bookRecList[i].recRating = 0;
+        bookRecList[i].recRating += adjustBookRecRating(genreIndex, authorIndex);
+    };
+    bookRecList.sort((a: any, b: any) => (a.recRating < b.recRating) ? 1 : -1);
 
     return (
-        <View>
+        <View style={{alignItems: 'center'}}>
             {(() => {
-                if (books[0] && user && genres[0] && reviews[0]) {
+                if (bookRecList[0]) {
                     return (
                         <View>
-                            <Text>
-                                Loaded
-                            </Text>
+                                {bookRecList.map((value, index: number) => {
+                                    return (
+                                        <View>
+                                            <Pressable onPress={()=> onBookSelect(index)}>
+                                                <Card>
+                                                    <Text style={style.bookPreviewText}>{bookRecList[index].title}</Text>
+                                                    <Image style={style.bookPreviewImg} source={{uri: bookRecList[index].cover}}/>
+                                                </Card>
+                                            </Pressable>
+                                        </View>
+                                    );
+                                })}
                         </View>
                     )
                 } else {

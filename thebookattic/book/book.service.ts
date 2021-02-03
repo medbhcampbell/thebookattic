@@ -6,7 +6,7 @@ class BookService {
     private URI: string;
     constructor() {
         // Existing URI to be replaced with AWS Lambda URI
-        this.URI = 'https://zp8675rt3l.execute-api.us-west-2.amazonaws.com/test/books';
+        this.URI = 'https://joktupv6lc.execute-api.us-west-2.amazonaws.com/test/books';
     }
 
     addBook(book: Book): Promise<null> {
@@ -64,6 +64,10 @@ class BookService {
         });
     }
 
+    getBookRating(bookId: number): Promise<number> {
+        return axios.get(this.URI+ '/ratings/' + bookId).then(result => result.data).catch(error => {console.error(error)});
+    }
+    
     getBooksToRead(username: string): Promise<Book[]> {
         return axios.get(this.URI + '/toread/' + username)
             .then(result => result.data)
@@ -75,6 +79,24 @@ class BookService {
 
     addBookToRead(username: string, bookid: number): Promise<boolean> {
         return axios.post(this.URI + '/toread/' + username, {"bookid": bookid})
+            .then(result => result.data)
+            .catch((err) => {
+                console.log(err);
+                return false;
+            });
+    }
+
+    getBooksHaveRead(username: string): Promise<Book[]> {
+        return axios.get(this.URI + '/haveread/' + username)
+            .then(result => result.data)
+            .catch((err)=> {
+                console.log(err);
+                return [];
+            });
+    }
+
+    addBookHaveRead(username: string, bookid: number): Promise<boolean> {
+        return axios.post(this.URI + '/haveread/' + username, {"bookid": bookid})
             .then(result => result.data)
             .catch((err) => {
                 console.log(err);

@@ -1,6 +1,6 @@
-// Users can add a book to their 'to read' list
+// Users can add a book to their 'to read' or 'have read' list
 
-import BookService, { Book } from 'bookservicelayer';
+import BookService from 'bookservicelayer';
 
 interface BookEvent {
     body: string;
@@ -9,14 +9,17 @@ interface BookEvent {
 
 export const handler = async (event: BookEvent): Promise<any> => {
     const bookService = new BookService();
-    console.log('Beginning to add Book to ToRead');
-    console.log(`parsing ${event.body}`);
-    console.log(`body: ${JSON.parse(event.body).bookid}`);
 
     const bookid: number = Number(JSON.parse(event.body).bookid);
     const username = event.path.substring(event.path.lastIndexOf('/')+1, event.path.length);
+    let tablename = 'toread';
+    if(event.path.includes('haveread')) {
+        tablename = 'haveread';
+        await bookService.deleteBookFromJoinTable(username, bookid, 'toread');
+    }
 
-    const added = await bookService.addBookToJoinTable(username, bookid, 'toread');
+    console.log(`adding book ${bookid} to ${username}'s ${tablename} list`);
+    const added = await bookService.addBookToJoinTable(username, bookid, tablename);
 
     if(added) {
         return {statusCode: 201, body: JSON.stringify({}), headers: {'Access-Control-Allow-Origin': '*'}};

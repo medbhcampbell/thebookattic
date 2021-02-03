@@ -12,17 +12,29 @@ function NavBarComponent() {
     const nav = useNavigation();
     const user = useSelector((state: BookAtticState) => state.user);
     return (
+        <View style={style.userNavBar}>
+            {user.name && <Button title='Recommended' onPress={() => nav.navigate('BookRecList')} />}
+            {user.name && <Button title='To Read' onPress={() => nav.navigate('ToRead')} />}
+            {user.name && <Button title='Have Read' onPress={() => nav.navigate('HaveRead')} />}
+            {user.role === 'author' && <Button title='Submit Book' onPress={() => nav.navigate('SubmitBook')} />}
         <View>
-            {user.name && 
+            {user.name ? 
                 <View style={style.userNavBar}>
                     <LogoutComponent/>
                     <Text>Welcome, {user.name}</Text>
-                </View> 
+                </View> : 
+                <View style={style.userNavBar}> 
+                    <Button
+                        onPress={() => {
+                            nav.navigate('Register');
+                        }}title='Register' color='#880022'
+                    />
+                </View>
             }
-            {user.name && <Button title='To Read' onPress={() => nav.navigate('ToRead')} />}
-            {user.role === 'author' && <Button title='Submit Book' onPress={() => nav.navigate('SubmitBook')} />}
+        </View>
         </View>
     )
+    
 }
 
 export default NavBarComponent;
