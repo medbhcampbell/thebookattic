@@ -64,6 +64,10 @@ class BookService {
         });
     }
 
+    getBookRating(bookId: number): Promise<number> {
+        return axios.get(this.URI+ '/ratings/' + bookId).then(result => result.data).catch(error => {console.error(error)});
+    }
+    
     getBooksToRead(username: string): Promise<Book[]> {
         return axios.get(this.URI + '/toread/' + username)
             .then(result => result.data)
@@ -75,6 +79,24 @@ class BookService {
 
     addBookToRead(username: string, bookid: number): Promise<boolean> {
         return axios.post(this.URI + '/toread/' + username, {"bookid": bookid})
+            .then(result => result.data)
+            .catch((err) => {
+                console.log(err);
+                return false;
+            });
+    }
+
+    getBooksHaveRead(username: string): Promise<Book[]> {
+        return axios.get(this.URI + '/haveread/' + username)
+            .then(result => result.data)
+            .catch((err)=> {
+                console.log(err);
+                return [];
+            });
+    }
+
+    addBookHaveRead(username: string, bookid: number): Promise<boolean> {
+        return axios.post(this.URI + '/haveread/' + username, {"bookid": bookid})
             .then(result => result.data)
             .catch((err) => {
                 console.log(err);

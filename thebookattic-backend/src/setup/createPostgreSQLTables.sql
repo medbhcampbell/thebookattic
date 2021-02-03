@@ -1,5 +1,6 @@
 drop table if exists reviews;
 drop table if exists toread;
+drop table if exists haveread;
 drop table if exists books;
 drop table if exists genres;
 drop table if exists authors;
@@ -30,6 +31,7 @@ create table books
 	blurb varchar(500) not null,
 	page_count int not null,
 	link varchar(50),
+	rating float default 0,
 	approved boolean default false,
 	genreid int not null,
 	constraint fk_authorid foreign key (authorid) references authors (id),
@@ -47,6 +49,14 @@ create table reviews
 );
 
 create table toread
+(
+	username varchar(25) not null,
+	bookid int not null,
+	primary key(username, bookid),
+	constraint fk_bookid foreign key (bookid) references books (id)
+);
+
+create table haveread
 (
 	username varchar(25) not null,
 	bookid int not null,
@@ -109,3 +119,5 @@ insert into books (authorid, title, cover, blurb, page_count, approved, genreid)
 insert into toread (username, bookid) values ('jausten', 3);
 insert into toread (username, bookid) values ('jausten', 4);
 insert into toread (username, bookid) values ('wshakespeare', 3);
+
+insert into haveread (username, bookid) values ('wshakespeare', 4);
