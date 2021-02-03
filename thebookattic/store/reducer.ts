@@ -22,8 +22,9 @@ export const initialState: BookAtticState = {
 
 // Make sure that the reducer has a default argument of the inital state or it will not work.
 const reducer = (
-    state: BookAtticState = initialState,
-    action: Actions.AppAction
+    action: Actions.AppAction,
+    state: BookAtticState = initialState
+    
 ): BookAtticState => {
     //console.log(action);
     // We want to call setState. (redux will do that when we return a new state object from the reducer)

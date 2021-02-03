@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import { getAuthor} from '../store/actions';
 import { Author } from './author';
-import authorService from './author.service';
+
 
 interface AuthorProps {
     author: Author;

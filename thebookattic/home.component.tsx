@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, Button } from 'react-native';
+import { View, Text,Button } from 'react-native';
 import { Card } from 'react-native-elements';
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
@@ -51,7 +51,7 @@ export default function HomeComponent() {
     return (
         <View>
             {/* TODO: Put other stuff here, links, reccomendations, to-read list, etc (maybe move allbooks to a separate page)*/}
-            {(user.role === 'admin' && unapprovedBooks) && 
+            {(user.role === 'admin' && unapprovedBooks || unapprovedReviews) && 
                 <Card>
                     <View style={style.approvalNotice}>
                         <Text style={style.dangerText}>There are some books that need approval!</Text>

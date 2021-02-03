@@ -21,13 +21,14 @@ export default function ApproveReviewComponent(props: ApproveReviewProps) {
             // Refresh the store with the update book set
             reviewService.getReviews().then((review) => {
                 dispatch(changeReview(new Review));
+                dispatch(getReviews(review));
             }).catch((err) => {
                 console.log(err);
             });
         }).catch((err) => {
             console.log(err);
         }).finally(() => {
-              nav.navigate('UnapproveReviews');
+              nav.navigate('UnapprovedReviews');
         })
     }
 

@@ -5,7 +5,7 @@ class UserService {
     private URI: string;
     constructor() {
         // URL of the express server
-        this.URI = process.env.SERVER_URI + 'users';
+        this.URI = process.env.THEBOOKATTIC_URI + 'users';
     }
     getUsers(): Promise<User> {
         return axios.get(this.URI).then((result) => {

@@ -14,7 +14,7 @@ export default function UnapprovedReviewsComponent() {
     useEffect(()=>{
         // Get unapproved reviews
         setUnapprovedReviews(reviews.filter(item=>{return !item.approved}));
-    }, []);
+    }, [reviews]);
 
     return (
         <View style={{alignItems: 'center'}}>
