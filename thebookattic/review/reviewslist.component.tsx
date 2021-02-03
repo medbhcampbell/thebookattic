@@ -20,7 +20,6 @@ interface ReviewProps {
 
 export default function ReviewsListComponent(props: ReviewProps) {
     const dispatch = useDispatch();
-    //const reviews : Review[] = useSelector((state: ReviewState) => state.review);
     const user = useSelector((state: UserState) => state.user);
     const reviews = props.reviews;
     

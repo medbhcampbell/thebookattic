@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Button } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -20,7 +20,6 @@ export default function ApproveReviewComponent(props: ApproveReviewProps) {
         reviewService.approveReviewById(props.id).then(() => {
             // Refresh the store with the update book set
             reviewService.getReviews().then((review) => {
-                dispatch(changeReview(new Review));
                 dispatch(getReviews(review));
             }).catch((err) => {
                 console.log(err);
