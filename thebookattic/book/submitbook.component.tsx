@@ -4,11 +4,11 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, Button } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
+
 import genreService from '../genre/genre.service';
 import { getGenres } from '../store/actions';
 import { GenreState, UserState } from '../store/store';
 import style from '../global-styles';
-
 import { Book } from './book';
 import bookService from './book.service';
 import authorService from '../author/author.service';
