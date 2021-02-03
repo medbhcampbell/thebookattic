@@ -5,7 +5,7 @@ class AuthorService {
     private URI: string;
     constructor() {
         // Existing URI to be replaced with AWS Lambda URI
-        this.URI = 'https://joktupv6lc.execute-api.us-west-2.amazonaws.com/test/authors';
+        this.URI = process.env.THEBOOKATTIC_URI + 'users';
     }
 
     getAllAuthors(): Promise<Author[]> {

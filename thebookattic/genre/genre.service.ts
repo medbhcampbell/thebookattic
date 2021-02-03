@@ -5,7 +5,7 @@ import Genre from './genre';
 class GenreService {
     private URI: string;
     constructor() {
-        this.URI = 'https://joktupv6lc.execute-api.us-west-2.amazonaws.com/test/genres';
+        this.URI = process.env.THEBOOKATTIC_URI + 'users';
     }
 
     getGenres(): Promise<Genre[]> {
