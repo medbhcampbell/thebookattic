@@ -1,4 +1,4 @@
- import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { View, Text, Image, Pressable } from 'react-native';
 import { Card } from 'react-native-elements';
 import { useSelector, useDispatch } from 'react-redux';
@@ -6,13 +6,8 @@ import { useNavigation } from '@react-navigation/native';
 
 import style from '../global-styles';
 import { BookAtticState } from '../store/store';
-import { changeBooks, getGenres, getReviews, getAllAuthors } from "../store/actions";
 import { Review } from '../review/review';
 import { Book } from './book';
-import bookService from "./book.service";
-import genreService from '../genre/genre.service';
-import reviewService from '../review/review.service';
-import authorService from '../author/author.service';
 
 export default function BookRecListComponent() {
     const navigation = useNavigation();
@@ -28,30 +23,6 @@ export default function BookRecListComponent() {
     let userGenreRating: any = [];
     let userAuthorRating: any = [];
     let bookRecList: any = [ ...books ];
-    
-    // I don't actually know if the useEffects help, but they're not hurting, so...
-    // useEffect(()=>{
-    //     if(books.length <= 0) {
-    //         // If there's no books in the store, use the service to retrieve them
-    //         bookService.getAllBooks().then((result)=>{
-    //             setApproved(result.filter(item=>{return item.approved}));
-    //             dispatch(changeBooks(result));
-    //             setRetrievedBooks(true);
-    //         });
-    //     } else {
-    //         setApproved(books.filter(item=>{return item.approved}));
-    //         setRetrievedBooks(true);
-    //     }
-    //     genreService.getGenres().then((genres) => {
-    //         dispatch(getGenres(genres));
-    //     });
-    //     reviewService.getReviews().then((reviews) => {
-    //         dispatch(getReviews(reviews));
-    //     });
-    //     authorService.getAllAuthors().then((authors) => {
-    //         dispatch(getAllAuthors(authors));
-    //     });
-    // }, []);
   
     function onBookSelect(index: number) {
         let bookRecToBook = bookRecList[index];
