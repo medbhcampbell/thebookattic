@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { View, Image, ScrollView } from 'react-native';
-import { RouteProp, useNavigation } from '@react-navigation/native';
+import { RouteProp } from '@react-navigation/native';
 import style from '../global-styles';
-import { StackParams } from '../unusedComponents/router.component';
 
 import { getAuthor } from '../store/actions';
 import { Book } from './book';
 import { useDispatch, useSelector } from 'react-redux';
-import { UserState, AuthorState, GenreState } from '../store/store';
+import { UserState, AuthorState, GenreState, ReviewState } from '../store/store';
 import bookService from './book.service';
 import authorService from '../author/author.service';
 import DeleteBookComponent from './deletebook.component';
@@ -15,6 +14,7 @@ import ReviewsComponent from '../review/reviews.component';
 import { Text, Rating, Button } from 'react-native-elements';
 import ApproveBookComponent from './approvebook.component';
 import SubmitReviewComponent from '../review/submitReview.component';
+import { StackParams } from '../router/router.component';
 
 interface BookDetailProps {
     route: RouteProp<StackParams, 'BookDetail'>
@@ -27,7 +27,7 @@ export default function BookDetailComponent(props: BookDetailProps) {
     const selectAuthor = (state: AuthorState) => state.author;
     const author = useSelector(selectAuthor);
     const genres = useSelector((state: GenreState) => state.genres);
-
+    
     //check if this user is the book's author
     const user = useSelector((state: UserState) => state.user);
     const [userIsAuthor, setUserIsAuthor] = useState(false);
@@ -36,12 +36,22 @@ export default function BookDetailComponent(props: BookDetailProps) {
     const [toRead, setToRead] = useState(false);
     const [haveRead, setHaveRead] = useState(false);
 
+    // Check if this user has reviewed this book already    
+    const reviews = useSelector((state: ReviewState) => state.reviews);
+    const [haveReviewed, setHaveReviewed] = useState(false);
+
+
     useEffect(() => {
 
         // check if the user is the author: deleteBook only appears if true
-        authorService.getAuthorById(book.authorid).then((author) => {
-            dispatch(getAuthor(author));
+        authorService.getAuthorById(book.authorid).then((authorres) => {
+            dispatch(getAuthor(authorres));
         });
+
+        // Check the reviews for one this user has submitted
+        setHaveReviewed(reviews.find((review) => {
+            return (review.bookid === book.id) && (review.username === user.name);
+        }) !== undefined);
 
         //useEffect callback cannot be async, making separate functions lets us use await 
         async function checkAuthor() {
@@ -62,12 +72,12 @@ export default function BookDetailComponent(props: BookDetailProps) {
         //    button only appears if false
         async function checkOnList() {
             try {
-                const toRead = await bookService.getBooksToRead(user.name);
-                const haveRead = await bookService.getBooksHaveRead(user.name);
-                if (toRead.find((thisBook) => thisBook.id === book.id)) {
+                const toReadnow = await bookService.getBooksToRead(user.name);
+                const haveReadnow = await bookService.getBooksHaveRead(user.name);
+                if (toReadnow.find((thisBook) => thisBook.id === book.id)) {
                     console.log('found it');
                     setToRead(true);
-                } else if (haveRead.find((thisBook) => thisBook.id === book.id)) {
+                } else if (haveReadnow.find((thisBook) => thisBook.id === book.id)) {
                     setHaveRead(true);
                 }
             } catch (err) {
@@ -78,7 +88,7 @@ export default function BookDetailComponent(props: BookDetailProps) {
         checkOnList();
         checkAuthor();
 
-    }, [setUserIsAuthor, setToRead]);
+    }, [setUserIsAuthor, setToRead, reviews]);
 
     return (
         <ScrollView>
@@ -88,12 +98,12 @@ export default function BookDetailComponent(props: BookDetailProps) {
                 <Text h3 style={{ textAlign: 'center' }}>{book.title}</Text>
                 <Image source={{ uri: book.cover }}></Image>
                 <Text>Author: {author.firstname + ' ' + author.lastname}</Text>
-                {book.link &&
+                {!!book.link &&
                     <Text>Access it here: {book.link}</Text>}
                 <Text>{book.blurb}</Text>
                 <Text>{genres.length && genres.find(item => item.id == book.genreid)?.name}</Text>
                 <Text>Page count: {book.page_count}</Text>
-                <Text>Average rating: {book.rating}
+                <Text>Average rating:
                     <Rating ratingBackgroundColor='#F9F9F9' imageSize={20} readonly startingValue={book.rating} />
                 </Text>
                 <View style={{ flex: 1, flexDirection: 'row' }}>
@@ -125,9 +135,10 @@ export default function BookDetailComponent(props: BookDetailProps) {
                         />}
                 </View>
             </ View>
-            <View style={style.bookDetailContainer}>
-                <SubmitReviewComponent id={book.id} />
-            </View>
+            {!haveReviewed &&
+                <View style={style.bookDetailContainer}>
+                    <SubmitReviewComponent id={book.id} />
+                </View>}
             <View style={style.bookDetailContainer}>
                 <ReviewsComponent book={book} />
             </View>

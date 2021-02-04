@@ -1,11 +1,12 @@
 import axios from 'axios';
 
 import { Review } from './review';
+import env from '../environment';
 
 class ReviewService {
     private URI: string;
     constructor() {
-        this.URI = process.env.THEBOOKATTIC_URI + 'reviews';
+        this.URI = env.THEBOOKATTIC_URI + 'reviews';
     }
 
     getReviews(): Promise<Review[]> {
@@ -21,7 +22,7 @@ class ReviewService {
     }
 
     approveReviewById(reviewId: number): Promise<null> {
-        return axios.put(this.URI + '/' + reviewId).then(result => null);
+        return axios.put(this.URI + '/' + reviewId).then(() => null);
    }
    
    deleteReviewById(reviewid: number): Promise<null> {

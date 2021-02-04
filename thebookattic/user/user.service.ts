@@ -1,11 +1,12 @@
 import axios from 'axios';
 import { User } from './user';
+import env from '../environment';
 
 class UserService {
     private URI: string;
     constructor() {
         // URL of the express server
-        this.URI = process.env.SERVER_URI + 'users';
+        this.URI = env.THEBOOKATTIC_URI + 'users';
     }
     getUsers(): Promise<User> {
         return axios.get(this.URI).then((result) => {

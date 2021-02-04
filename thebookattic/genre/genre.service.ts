@@ -1,11 +1,12 @@
 import axios from 'axios';
 
 import Genre from './genre';
+import env from '../environment';
 
 class GenreService {
     private URI: string;
     constructor() {
-        this.URI = process.env.SERVER_URI + 'genres';
+        this.URI = env.THEBOOKATTIC_URI + 'genres';
     }
 
     getGenres(): Promise<Genre[]> {

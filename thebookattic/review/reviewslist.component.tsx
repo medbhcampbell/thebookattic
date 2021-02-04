@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
-import { FlatList, ListRenderItem, SafeAreaView, View } from "react-native";
+import { FlatList, ListRenderItem, SafeAreaView, ScrollView, View } from "react-native";
 import { Card, Rating, Text } from "react-native-elements";
 import { useDispatch, useSelector } from "react-redux";
 
 
 import { getReviews } from "../store/actions";
-import { ReviewState, UserState } from "../store/store";
+import {  UserState } from "../store/store";
 import ApproveReviewComponent from "./approvereview.component";
 import DeleteReviewComponent from "./deletereview.component";
 import {Review} from "./review";
@@ -20,9 +20,8 @@ interface ReviewProps {
 
 export default function ReviewsListComponent(props: ReviewProps) {
     const dispatch = useDispatch();
-    const reviews : Review[] = useSelector((state: ReviewState) => state.reviews);
     const user = useSelector((state: UserState) => state.user);
-    const review = props.reviews;
+    const reviews = props.reviews;
     
      useEffect(()=>{
         reviewService.getReviews().then(res=>{
@@ -56,11 +55,11 @@ export default function ReviewsListComponent(props: ReviewProps) {
 
     return (
         
-        <SafeAreaView>
+        <ScrollView>
             {reviews.length > 0 ? 
             <FlatList data={reviews} renderItem={Reviews} keyExtractor={item => String(item.id)}/> :
             <Text>No Reviews Found!</Text>}  
-        </SafeAreaView>
+        </ScrollView>
        
       
     );

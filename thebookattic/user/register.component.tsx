@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View } from 'react-native';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,68 +9,123 @@ import { User } from './user';
 import { useNavigation } from '@react-navigation/native';
 import { loginAction } from '../store/actions';
 import { Input, Button } from 'react-native-elements';
+import { Picker } from '@react-native-picker/picker';
+import { Author } from '../author/author';
+import authorService from '../author/author.service';
 
-
-  
 function RegisterComponent() {
     const userSelector = (state: UserState) => state.loginUser;
-    const actualUser = useSelector((state: UserState) => state.user);
     const user = useSelector(userSelector);
     const dispatch = useDispatch();
     const navigation = useNavigation();
-    const loggedUser = user.name;
 
- 
+    const roles = ['user', 'author'];
+    const [role, setRole] = useState(roles[0]);
+    const [author, setAuthor] = useState(new Author());
+    let tempAuthor = author;
 
-function registerForm() {
-        userService.addUser(user).then((user) => {
-           console.log(user);
-           dispatch(loginAction(new User()));
-           navigation.navigate('Login');
+    const pickRole = (itemValue: React.ReactText) => {
+        setRole(itemValue as string);
+        dispatch(loginAction({ ...user, role: role }));
+    }
+
+    function registerForm() {
+        user.role = role;
+        userService.addUser(user).then((userres) => {
+            console.log(userres);
+
+            if(role === 'author') {
+                authorService.addAuthor(author).then(() => {
+                    console.log(`added author ${JSON.stringify(author)}`);
+                }).catch((err) => {
+                    console.log(err);
+                });
+            }
+
+            dispatch(loginAction(new User()));
+            navigation.navigate('Login');
         });
     }
 
- 
-
     return (
         <View style={style.container}>
-        <Input
-            label='Name'
-            onChangeText={(value) =>
-                dispatch(loginAction({ ...user, name: value }))
-            }
-            placeholder='username'
+            <Input
+                label='Username (no spaces)'
+                onChangeText={(value) => {
+                    dispatch(loginAction({ ...user, name: value }))
+                    tempAuthor.userid = value;
+                    setAuthor(tempAuthor);
+                }}
+                placeholder='username'
                 leftIcon={{
                     type: 'font-awesome-5',
                     name: 'user-alt'
                 }}
             />
-        <Input
-            label='Password'
-            secureTextEntry={true} 
-            onChangeText={(value) =>
-                dispatch(loginAction({...user, password:value}))
-            }
-            placeholder='password'
+            <Input
+                label='Password'
+                secureTextEntry={true}
+                onChangeText={(value) =>
+                    dispatch(loginAction({ ...user, password: value }))
+                }
+                placeholder='username'
                 leftIcon={{
                     type: 'font-awesome-5',
                     name: 'key'
                 }}
-        />
-        <Input
-            label='Role'
-            placeholder="user/admin/author"
-            onChangeText={(value) =>
-                dispatch(loginAction({ ...user, role:value}))
-            }
-              
-        />
-
-            <Button onPress={registerForm} title='Register' type='outline'/>    
+            />
+            <Picker
+                selectedValue={role}
+                style={{ height: 50, width: 100 }}
+                onValueChange={pickRole}>
+                {roles.map((role) => {
+                    return <Picker.Item
+                        key={role}
+                        label={role}
+                        value={role} />
+                })}
+            </Picker>
+            {role === 'author' &&
+                <>
+                    <Input
+                        label='First name'
+                        onChangeText={(value) => {
+                            tempAuthor.firstname = value;
+                            setAuthor(tempAuthor);
+                        }}
+                    />
+                    <Input
+                        label='Last name'
+                        onChangeText={(value) => {
+                            tempAuthor.lastname = value;
+                            setAuthor(tempAuthor);
+                        }}
+                    />
+                    <Input
+                        label='Tell us about yourself'
+                        multiline
+                        numberOfLines={2}
+                        scrollEnabled
+                        spellCheck={true}
+                        onChangeText={(value) => {
+                            tempAuthor.bio = value;
+                            setAuthor(tempAuthor);
+                        }}
+                    />
+                    <Input
+                        label='Link to your photo/logo'
+                        defaultValue='url'
+                        onChangeText={(value) => {
+                            tempAuthor.picture = value;
+                            setAuthor(tempAuthor);
+                        }}
+                    />
+                </>}
+            <Button onPress={registerForm} title='Register' type='outline' />
         </View>
     )
-            
 }
+
 
 export default RegisterComponent;
 

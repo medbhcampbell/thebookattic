@@ -3,9 +3,9 @@ import { useDispatch } from 'react-redux';
 import { Button } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import { changeReview, getReviews } from '../store/actions';
+import {  getReviews } from '../store/actions';
 import reviewService from './review.service';
-import { Review } from './review';
+
 
 
 interface ApproveReviewProps {
@@ -20,14 +20,14 @@ export default function ApproveReviewComponent(props: ApproveReviewProps) {
         reviewService.approveReviewById(props.id).then(() => {
             // Refresh the store with the update book set
             reviewService.getReviews().then((review) => {
-                dispatch(changeReview(new Review));
+                dispatch(getReviews(review));
             }).catch((err) => {
                 console.log(err);
             });
         }).catch((err) => {
             console.log(err);
         }).finally(() => {
-              nav.navigate('UnapproveReviews');
+              nav.navigate('UnapprovedReviews');
         })
     }
 

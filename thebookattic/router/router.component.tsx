@@ -14,12 +14,29 @@ import NavBarComponent from './navbar.component';
 import AdminComponent from './admin.component';
 import AuthorComponent from '../author/author.component';
 import { Icon } from 'react-native-elements';
+import ApproveBookComponent from '../book/approvebook.component';
+import UnapprovedBooksComponent from '../book/unapprovedbooks.component';
+import { sub } from 'react-native-reanimated';
+import SubmitBookComponent from '../book/submitbook.component';
+import UnapprovedReviewsComponent from '../review/unapprovedreviews.component';
+import { Book } from '../book/book';
+import { Author } from '../author/author';
 
 
-// let user = {name: 'emma', password: 'pass', role: ''};
-//  user = {...user, role: 'admin'};
-// user = {...user, role: 'author'};
-// user = {...user, role: 'user'};
+export type StackParams = {
+    Login: undefined;
+    Register: undefined;
+    Logout : undefined;
+    Home: undefined;
+    BookDetail: Book;
+    AuthorList: Author[];
+    AuthorDetail: Author;
+    SubmitBook: undefined;
+    ToRead: undefined;
+    HaveRead: undefined;
+    UnapprovedBooks: undefined;
+    UnapprovedReviews :undefined;
+};
 
 const headerOptions: StackHeaderOptions = {
     headerRight: () => <NavBarComponent />
@@ -113,14 +130,30 @@ function AdminAuthorStack() {
     return(
         <AAStack.Navigator>
             {user.role == 'admin' ? (
-                <AAStack.Screen 
-                    name="Admin" 
-                    component={AdminComponent} 
-                />
+                <>
+                    <AAStack.Screen 
+                        name="Admin" 
+                        component={AdminComponent} 
+                    />
+                    <AAStack.Screen 
+                        name="UnapprovedBooks" 
+                        component={UnapprovedBooksComponent} 
+                    /> 
+                    <AAStack.Screen 
+                        name="UnapprovedReviews" 
+                        component={UnapprovedReviewsComponent} 
+                    />  
+                    <AAStack.Screen 
+                        name="BookDetail" 
+                        component={BookDetailComponent} 
+                        options={headerOptions}
+                    />             
+                </>
+
             ) : (
                 <AAStack.Screen 
-                    name="Author" 
-                    component={AuthorComponent} 
+                    name="SubmitBook" 
+                    component={SubmitBookComponent} 
                     options={headerOptions}
                 />
             )}
@@ -180,7 +213,7 @@ function BottomTab() {
                 name="AdminAuthor" 
                 component={AdminAuthorStack} 
                 options={{
-                    tabBarLabel: 'Actions',
+                    tabBarLabel: 'Functionality',
                     unmountOnBlur: true,
                     tabBarIcon: () => (
                         <Icon
