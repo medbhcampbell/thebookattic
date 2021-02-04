@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { View, Image } from 'react-native';
+import { View, Image, ScrollView } from 'react-native';
 import { RouteProp, useNavigation } from '@react-navigation/native';
 import style from '../global-styles';
-import { StackParams } from '../router/router.component';
+import { StackParams } from '../unusedComponents/router.component';
 
 import { getAuthor } from '../store/actions';
 import { Book } from './book';
@@ -81,11 +81,11 @@ export default function BookDetailComponent(props: BookDetailProps) {
     }, [setUserIsAuthor, setToRead]);
 
     return (
-        <View>
+        <ScrollView>
             <View style={style.bookDetailContainer}>
                 {!book.approved &&
                     <Text style={style.dangerText}>This book needs approval before it becomes public!</Text>}
-                <Text h1 style={{ textAlign: 'center' }}>{book.title}</Text>
+                <Text h3 style={{ textAlign: 'center' }}>{book.title}</Text>
                 <Image source={{ uri: book.cover }}></Image>
                 <Text>Author: {author.firstname + ' ' + author.lastname}</Text>
                 {book.link &&
@@ -131,6 +131,6 @@ export default function BookDetailComponent(props: BookDetailProps) {
             <View style={style.bookDetailContainer}>
                 <ReviewsComponent book={book} />
             </View>
-        </View>
+        </ScrollView>
     )
 }

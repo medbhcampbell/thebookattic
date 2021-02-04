@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, Button } from 'react-native';
+import { View, Text, Image, Button, ScrollView } from 'react-native';
 import { Card } from 'react-native-elements';
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
@@ -49,7 +49,7 @@ export default function HomeComponent() {
     }, []);
 
     return (
-        <View>
+        <ScrollView>
             {/* TODO: Put other stuff here, links, reccomendations, to-read list, etc (maybe move allbooks to a separate page)*/}
             {(user.role === 'admin' && unapprovedBooks) && 
                 <Card>
@@ -61,6 +61,6 @@ export default function HomeComponent() {
                     </View>
                 </Card>}
             <AllBooksComponent/>
-        </View>
+        </ScrollView>
     )
 }

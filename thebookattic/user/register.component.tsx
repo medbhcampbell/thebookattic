@@ -36,23 +36,29 @@ function registerForm() {
         <View style={style.container}>
         <Input
             label='Name'
-            style={style.input}
             onChangeText={(value) =>
                 dispatch(loginAction({ ...user, name: value }))
             }
+            placeholder='username'
+                leftIcon={{
+                    type: 'font-awesome-5',
+                    name: 'user-alt'
+                }}
             />
         <Input
             label='Password'
-            style={style.input}
             secureTextEntry={true} 
             onChangeText={(value) =>
                 dispatch(loginAction({...user, password:value}))
             }
-            
+            placeholder='password'
+                leftIcon={{
+                    type: 'font-awesome-5',
+                    name: 'key'
+                }}
         />
         <Input
             label='Role'
-            style={style.input}
             placeholder="user/admin/author"
             onChangeText={(value) =>
                 dispatch(loginAction({ ...user, role:value}))

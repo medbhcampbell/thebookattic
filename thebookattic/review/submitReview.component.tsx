@@ -34,7 +34,7 @@ export default function SubmitReviewComponent(props: SubmitReviewProps) {
 
     return (
         <>
-            <Text h2 style={{ textAlign: 'center' }}>Submit A Review</Text>
+            <Text h3 style={{ textAlign: 'center' }}>Submit A Review</Text>
             <AirbnbRating
                 count={5}
                 reviews={["1", "2", "3", "4", "5"]}

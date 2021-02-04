@@ -5,7 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getUser, loginAction } from '../store/actions';
 import {  View } from 'react-native';
 import style from '../global-styles';
-import { Button, Input, Text } from 'react-native-elements';
+import { Button, Divider, Icon, Input, Text } from 'react-native-elements';
+import styles from '../global-styles';
 
 
 
@@ -26,7 +27,6 @@ function LoginComponent({navigation}: LoginProp) {
         console.log(actualUser);
         if(actualUser.role){
             console.log(actualUser);
-            navigation.navigate('Home');
         }
     }, []);
 
@@ -35,7 +35,6 @@ function LoginComponent({navigation}: LoginProp) {
         userService.login(login).then((user) => {
             if(user){
                 dispatch(getUser(user));  
-                navigation.navigate('Home');
             }
         }).catch(err=>{
             console.log(err);
@@ -48,20 +47,28 @@ function LoginComponent({navigation}: LoginProp) {
         <View style={style.container}>
             <Input
                 label='Username'
-                style={style.input}
                 onChangeText={(value) =>
                     dispatch(loginAction({ ...login, name: value }))
                 }
                 value={login.name}
+                placeholder='username'
+                leftIcon={{
+                    type: 'font-awesome-5',
+                    name: 'user-alt'
+                }}
             />
             <Input
                 label='Password'
                 secureTextEntry={true}
-                style={style.input}
                 onChangeText={(value) =>
                     dispatch(loginAction({ ...login, password: value }))
                 }
                 value={login.password}
+                placeholder='password'
+                leftIcon={{
+                    type: 'font-awesome-5',
+                    name: 'key'
+                }}
             />
            
             <Button type='outline' onPress={submitForm} title='Login' />

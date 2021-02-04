@@ -6,7 +6,7 @@ class BookService {
     private URI: string;
     constructor() {
         // Existing URI to be replaced with AWS Lambda URI
-        this.URI = process.env.SERVER_URI + 'books';
+        this.URI = process.env.THEBOOKATTIC_URI + 'books';
     }
 
     addBook(book: Book): Promise<null> {

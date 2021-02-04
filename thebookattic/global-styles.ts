@@ -6,10 +6,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center'
     },
-    input: {
-        backgroundColor: '#fff',
-        borderRadius: 12
-    },
     bookPreviewText: {
         alignSelf: 'center'
     },
