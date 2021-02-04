@@ -74,20 +74,28 @@ function RegisterComponent() {
         <View style={style.container}>
             <Input
                 label='Username (no spaces)'
-                style={style.input}
                 onChangeText={(value) => {
                     dispatch(loginAction({ ...user, name: value }));
                     tempAuthor.userid = value;
                     setAuthor(tempAuthor);
                 }}
+                placeholder='username'
+                leftIcon={{
+                    type: 'font-awesome-5',
+                    name: 'user-alt'
+                }}
             />
             <Input
                 label='Password'
-                style={style.input}
                 secureTextEntry={true}
                 onChangeText={(value) =>
                     dispatch(loginAction({ ...user, password: value }))
                 }
+                placeholder='username'
+                leftIcon={{
+                    type: 'font-awesome-5',
+                    name: 'key'
+                }}
             />
             <Picker
                 selectedValue={role}
@@ -104,7 +112,6 @@ function RegisterComponent() {
                 <>
                     <Input
                         label='First name'
-                        style={style.input}
                         onChangeText={(value) => {
                             tempAuthor.firstname = value;
                             setAuthor(tempAuthor);
@@ -113,7 +120,6 @@ function RegisterComponent() {
                     />
                     <Input
                         label='Last name'
-                        style={style.input}
                         onChangeText={(value) => {
                             tempAuthor.lastname = value;
                             setAuthor(tempAuthor);
@@ -122,7 +128,6 @@ function RegisterComponent() {
                     />
                     <Input
                         label='Tell us about yourself'
-                        style={style.input}
                         multiline
                         numberOfLines={2}
                         scrollEnabled

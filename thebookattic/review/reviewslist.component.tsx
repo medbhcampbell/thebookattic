@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { FlatList, ListRenderItem, SafeAreaView, View } from "react-native";
+import { FlatList, ListRenderItem, ScrollView, View } from "react-native";
 import { Card, Rating, Text } from "react-native-elements";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -55,11 +55,11 @@ export default function ReviewsListComponent(props: ReviewProps) {
 
     return (
         
-        <SafeAreaView>
+        <ScrollView>
             {reviews.length > 0 ? 
             <FlatList data={reviews} renderItem={Reviews} keyExtractor={item => String(item.id)}/> :
             <Text>No Reviews Found!</Text>}  
-        </SafeAreaView>
+        </ScrollView>
        
       
     );

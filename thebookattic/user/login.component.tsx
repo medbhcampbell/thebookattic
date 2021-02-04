@@ -3,9 +3,9 @@ import userService from './user.service';
 import { UserState } from '../store/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser, loginAction } from '../store/actions';
-import {  Text, View } from 'react-native';
+import { View } from 'react-native';
 import style from '../global-styles';
-import { Button, Input} from 'react-native-elements';
+import { Button, Input, Text } from 'react-native-elements';
 import { User } from './user';
 
 
@@ -30,7 +30,6 @@ function LoginComponent({navigation}: LoginProp) {
         console.log(actualUser);
         if(actualUser.role){
             console.log(actualUser);
-            navigation.navigate('Home');
         }
     }, []);
 
@@ -40,7 +39,6 @@ function LoginComponent({navigation}: LoginProp) {
             if(user){
                 setLoginFailed(false);
                 dispatch(getUser(user));  
-                navigation.navigate('Home');
             }
         }).catch(err=>{
             setLoginFailed(true);
@@ -54,23 +52,30 @@ function LoginComponent({navigation}: LoginProp) {
         <View style={style.container}>
             <Input
                 label='Username'
-                style={style.input}
                 onChangeText={(value) =>
                     dispatch(loginAction({ ...login, name: value }))
                 }
                 value={login.name}
+                placeholder='username'
+                leftIcon={{
+                    type: 'font-awesome-5',
+                    name: 'user-alt'
+                }}
             />
             
             <Input
                 label='Password'
                 secureTextEntry={true}
-                style={style.input}
                 onChangeText={(value) =>
                     dispatch(loginAction({ ...login, password: value }))
                 }
                 
                 value={login.password}
-              
+                placeholder='password'
+                leftIcon={{
+                    type: 'font-awesome-5',
+                    name: 'key'
+                }}
             />
 
             {(loginFailed === true) &&

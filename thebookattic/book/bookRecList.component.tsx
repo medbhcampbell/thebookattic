@@ -12,7 +12,6 @@ import bookService from "./book.service";
 
 export default function BookRecListComponent() {
     const navigation = useNavigation();
-    const dispatch = useDispatch();
     const books = useSelector((state: BookAtticState) => state.books);
     const authors = useSelector((state: BookAtticState) => state.authors);
     const user = useSelector((state: BookAtticState) => state.user);
