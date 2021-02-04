@@ -39,7 +39,7 @@ export type StackParams = {
 
 const Stack = createStackNavigator<StackParams>();
 const headerOptions: StackHeaderOptions = {
-    headerTitle: () => <Text>The Book Attic</Text>,
+    headerTitle: () => <Text>The Book Attic {"\n"}    - a reader's guide</Text>,
     headerRight: () => <NavBarComponent />
 };
 
