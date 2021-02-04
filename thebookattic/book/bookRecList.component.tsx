@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Image, Pressable } from 'react-native';
 import { Card } from 'react-native-elements';
 import { useSelector, useDispatch } from 'react-redux';
@@ -8,6 +8,7 @@ import style from '../global-styles';
 import { BookAtticState } from '../store/store';
 import { Review } from '../review/review';
 import { Book } from './book';
+import bookService from "./book.service";
 
 export default function BookRecListComponent() {
     const navigation = useNavigation();
@@ -19,6 +20,8 @@ export default function BookRecListComponent() {
     const reviews = useSelector((state: BookAtticState) => state.reviews);
     const [retrievedBooks, setRetrievedBooks] = useState(false);
     const [approved, setApproved] = useState([] as Book[]);
+    const temp: Book[] = [];
+    const [readBooks, setBooks] = useState(temp);
     let userReviews: Review[] = [];
     let userGenreRating: any = [];
     let userAuthorRating: any = [];
@@ -91,6 +94,16 @@ export default function BookRecListComponent() {
         bookRecList[i].recRating += adjustBookRecRating(genreIndex, authorIndex);
     }
     bookRecList.sort((a: any, b: any) => (a.recRating < b.recRating) ? 1 : -1);
+   
+    useEffect(() => {
+        // get the user's list of books to read
+        console.log(`getting haveread list for ${user.name}`);
+        bookService.getBooksHaveRead(user.name).then((readBooks) => {
+            setBooks(readBooks);
+            console.log(JSON.stringify(books));
+            setRetrievedBooks(true);
+        });
+    }, []);
 
     return (
         <View style={{alignItems: 'center'}}>
@@ -100,7 +113,7 @@ export default function BookRecListComponent() {
                         <View>
                             {bookRecList.map((book: any, index: number) => {
                                 console.log(book);
-                                if ((userReviews.filter(review => review.bookid == book.id)).length < 1) {
+                                if ((readBooks.filter(readBook => readBook.id == book.id)).length < 1) {
                                     console.log(book.title + ' does not have a review from this user.');
                                     return (
                                         <View>
