@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { View, Image, ScrollView } from 'react-native';
-import { RouteProp } from '@react-navigation/native';
+import { View, Image, Pressable, ScrollView } from 'react-native';
+import { RouteProp, useNavigation } from '@react-navigation/native';
 import style from '../global-styles';
 
 import { getAuthor } from '../store/actions';
@@ -21,13 +21,15 @@ interface BookDetailProps {
 }
 
 export default function BookDetailComponent(props: BookDetailProps) {
+    const nav = useNavigation();
+
     const dispatch = useDispatch();
     const book: Book = props.route.params;
 
     const selectAuthor = (state: AuthorState) => state.author;
     const author = useSelector(selectAuthor);
     const genres = useSelector((state: GenreState) => state.genres);
-    
+
     //check if this user is the book's author
     const user = useSelector((state: UserState) => state.user);
     const [userIsAuthor, setUserIsAuthor] = useState(false);
@@ -94,10 +96,12 @@ export default function BookDetailComponent(props: BookDetailProps) {
         <ScrollView>
             <View style={style.bookDetailContainer}>
                 {!book.approved &&
-                    <Text style={style.dangerText}>This book needs approval before it becomes public!</Text>}
+                    <Text style={{color: 'red'}}>This book needs approval before it becomes public!</Text>}
                 <Text h3 style={{ textAlign: 'center' }}>{book.title}</Text>
                 <Image source={{ uri: book.cover }}></Image>
-                <Text>Author: {author.firstname + ' ' + author.lastname}</Text>
+                <Pressable onPress={()=>nav.navigate('AuthorDetail')}>
+                    <Text h3 style={{ textAlign: 'center' }}>{author.firstname + ' ' + author.lastname}</Text>
+                </Pressable>
                 {!!book.link &&
                     <Text>Access it here: {book.link}</Text>}
                 <Text>{book.blurb}</Text>

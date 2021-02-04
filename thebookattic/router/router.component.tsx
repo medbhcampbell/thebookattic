@@ -12,11 +12,8 @@ import HaveReadBooksComponent from '../book/havereadbooks.component';
 import { StackHeaderOptions } from '@react-navigation/stack/lib/typescript/src/types';
 import NavBarComponent from './navbar.component';
 import AdminComponent from './admin.component';
-import AuthorComponent from '../author/author.component';
-import { Icon } from 'react-native-elements';
-import ApproveBookComponent from '../book/approvebook.component';
+import { Icon, Text } from 'react-native-elements';
 import UnapprovedBooksComponent from '../book/unapprovedbooks.component';
-import { sub } from 'react-native-reanimated';
 import SubmitBookComponent from '../book/submitbook.component';
 import UnapprovedReviewsComponent from '../review/unapprovedreviews.component';
 import { Book } from '../book/book';
@@ -39,6 +36,7 @@ export type StackParams = {
 };
 
 const headerOptions: StackHeaderOptions = {
+    headerTitle: () => <Text>The Book Attic {"\n"}    - a reader's guide</Text>,
     headerRight: () => <NavBarComponent />
 };
 

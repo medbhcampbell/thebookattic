@@ -18,6 +18,10 @@ const styles = StyleSheet.create({
     h1: {
         fontSize: 32
     },
+    h2: {
+        fontSize: 32,
+        textAlign: 'center'
+    },
     authorPreviewImg: {
         alignSelf: 'center',
         backgroundColor: '#e3e3e3',
@@ -43,6 +47,16 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         borderRadius: 12,
         padding: '3%'
+    },
+    authorDetailContainer: {
+        display: 'flex',
+        marginHorizontal: 'auto',
+        marginVertical: '4%',
+        width: '80%',
+        backgroundColor: '#fff',
+        borderRadius: 12,
+        padding: '3%',
+        alignItems: 'center'
     }
 });
 
