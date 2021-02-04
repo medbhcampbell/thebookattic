@@ -33,22 +33,13 @@ export default function HomeComponent() {
     }
 
     useEffect(() => {
-        setUnapprovedBooks(books.filter(item => {
-            return !item.approved}));
-    }, []);
+        setUnapprovedBooks(books.filter(item => { return !item.approved }));
+        setUnapprovedReviews(reviews.filter(item => { return !item.approved }));
 
-    useEffect(()=>{
-        setUnapprovedReviews(reviews.filter(item=>{return !item.approved}));
-    }, []);
-
-
-
-
-    useEffect(() => {
         genreService.getGenres().then((genres) => {
             dispatch(getGenres(genres));
         });
-    }, []);
+    }, [books, reviews]);
 
     useEffect(() => {
         reviewService.getReviews().then((reviewsres) => {
@@ -65,11 +56,16 @@ export default function HomeComponent() {
     return (
         <View>
             {/* TODO: Put other stuff here, links, reccomendations, to-read list, etc (maybe move allbooks to a separate page)*/}
-            {(user.role === 'admin' && unapprovedBooks) && 
+            {(user.role === 'admin' && unapprovedBooks.length > 0) && 
                 <Card>
                     <View style={style.approvalNotice}>
                         <Text style={style.dangerText}>There are some books that need approval!</Text>
                         <Button title='View' color='red' onPress={viewNeedApproval}/>
+                    </View>
+                </Card>}
+            {(user.role === 'admin' && unapprovedReviews.length > 0) && 
+                <Card>
+                    <View style={style.approvalNotice}>
                         <Text style={style.dangerText}>There are some reviews that need approval!</Text>
                         <Button title='View' color='blue' onPress={viewReviewApproval}/>
                     </View>

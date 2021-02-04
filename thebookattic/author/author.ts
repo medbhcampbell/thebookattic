@@ -1,7 +1,7 @@
 export class Author {
     // ID for the author's page vs ID for the author's user account
     id: number = 0;
-    userid: number = 0;
+    userid: string = '';
     firstname: string = '';
     lastname: string = '';
 
