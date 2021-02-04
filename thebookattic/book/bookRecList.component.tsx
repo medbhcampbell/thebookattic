@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, Button, Pressable } from 'react-native';
+import { View, Text, Image, Pressable } from 'react-native';
 import { Card } from 'react-native-elements';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
@@ -45,20 +45,20 @@ export default function BookRecListComponent() {
     }, []);
 
     useEffect(() => {
-        genreService.getGenres().then((genres) => {
-            dispatch(getGenres(genres));
+        genreService.getGenres().then((genresres) => {
+            dispatch(getGenres(genresres));
         });
     }, []);
 
     useEffect(() => {
-        reviewService.getReviews().then((reviews) => {
-            dispatch(getReviews(reviews));
+        reviewService.getReviews().then((reviewsres) => {
+            dispatch(getReviews(reviewsres));
         });
     }, []);
 
     useEffect(() => {
-        authorService.getAllAuthors().then((authors) => {
-            dispatch(getAllAuthors(authors));
+        authorService.getAllAuthors().then((authorsres) => {
+            dispatch(getAllAuthors(authorsres));
         });
     }, []);
   
@@ -129,7 +129,7 @@ export default function BookRecListComponent() {
         let authorIndex = authors.findIndex(author => author.id == bookRecList[i].authorid);
         bookRecList[i].recRating = 0;
         bookRecList[i].recRating += adjustBookRecRating(genreIndex, authorIndex);
-    };
+    }
     bookRecList.sort((a: any, b: any) => (a.recRating < b.recRating) ? 1 : -1);
 
     return (

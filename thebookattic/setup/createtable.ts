@@ -46,13 +46,13 @@ ddb.deleteTable(removeUsers, function (err, data) {
         console.log('Deleted table. Table description JSON:', JSON.stringify(data, null, 2));
     }
     setTimeout(()=>{
-        ddb.createTable(usersSchema, (err, data) => {
+        ddb.createTable(usersSchema, (error, datares) => {
             if (err) {
                 // log the error
-                console.log('Error', err);
+                console.log('Error', error);
             } else {
                 // celebrate, I guess
-                console.log('Table Created', data);
+                console.log('Table Created', datares);
                 setTimeout(()=>{
                     populateUsersTable();
                 }, 10000);

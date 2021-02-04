@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Button } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import { changeReview, getReviews } from '../store/actions';
+import {  getReviews } from '../store/actions';
 import reviewService from './review.service';
-import { Review } from './review';
+
 
 
 interface ApproveReviewProps {
