@@ -206,7 +206,7 @@ function BottomTab() {
                 )
             }}
         />
-        {!(user.role == 'user')  && (
+        {user.role != 'user'  && (
             <Tab.Screen 
                 name="AdminAuthor" 
                 component={AdminAuthorStack} 

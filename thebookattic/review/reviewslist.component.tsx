@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { FlatList, ListRenderItem, SafeAreaView, ScrollView, View } from "react-native";
+import { FlatList, ListRenderItem, ScrollView, View } from "react-native";
 import { Card, Rating, Text } from "react-native-elements";
 import { useDispatch, useSelector } from "react-redux";
 

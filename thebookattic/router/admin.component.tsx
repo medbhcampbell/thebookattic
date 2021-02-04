@@ -2,7 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react'
 import { View, Text } from 'react-native';
 import { Button, Card } from 'react-native-elements';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Book } from '../book/book';
 import { Review } from '../review/review';
 import { BookAtticState } from '../store/store';

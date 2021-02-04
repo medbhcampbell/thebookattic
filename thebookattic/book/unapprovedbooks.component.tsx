@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {  useSelector } from "react-redux";
-import { ScrollView, Text, View } from "react-native";
+import { ScrollView, Text } from "react-native";
 
 
 import { BookState } from "../store/store";
