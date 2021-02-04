@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect ,useState} from 'react';
 import userService from './user.service';
 import { UserState } from '../store/store';
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,19 +6,23 @@ import { getUser, loginAction } from '../store/actions';
 import {  Text, View } from 'react-native';
 import style from '../global-styles';
 import { Button, Input} from 'react-native-elements';
+import { User } from './user';
 
 
 
 // Function Component
 interface LoginProp {
     navigation: any
+    loginFailed: Boolean;
 }
 function LoginComponent({navigation}: LoginProp) {
     const userSelector = (state: UserState) => state.loginUser;
     const login = useSelector(userSelector);
     const actualUser = useSelector((state: UserState) => state.user);
     const dispatch = useDispatch();
-
+    const [loginFailed,setLoginFailed] = useState(false);
+    
+      
     
     
     useEffect(() => {
@@ -34,12 +38,14 @@ function LoginComponent({navigation}: LoginProp) {
     function submitForm() {
         userService.login(login).then((user) => {
             if(user){
+                setLoginFailed(false);
                 dispatch(getUser(user));  
                 navigation.navigate('Home');
             }
         }).catch(err=>{
-            console.log(err);
-        });
+            setLoginFailed(true);
+            dispatch(getUser(new User()));
+           });
     }
 
   
@@ -66,6 +72,10 @@ function LoginComponent({navigation}: LoginProp) {
                 value={login.password}
               
             />
+
+            {(loginFailed === true) &&
+             <Text style={style.dangerText}>Login Failed: Incorrect UserName or Password!</Text>
+             }
            
             <Button type='outline' onPress={submitForm} title='Login' />
             <Button
