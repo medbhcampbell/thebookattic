@@ -6,10 +6,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center'
     },
-    input: {
-        backgroundColor: '#fff',
-        borderRadius: 12
-    },
     bookPreviewText: {
         alignSelf: 'center'
     },
@@ -33,7 +29,7 @@ const styles = StyleSheet.create({
         height: 160
     },
     dangerText: {
-        color: 'red'
+        color: '#FF0000'
     },
     approvalNotice: {
         alignSelf: 'center',

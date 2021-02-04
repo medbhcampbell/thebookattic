@@ -27,7 +27,7 @@ export default function DeleteReviewComponent(props: DeleteReviewProps) {
             console.log(err);
         }).finally(() => {
             //take us home
-            nav.navigate('Home');
+            nav.navigate('UnapprovedReviews');
         })
     }
 

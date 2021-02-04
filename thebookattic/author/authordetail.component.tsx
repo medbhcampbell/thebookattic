@@ -2,14 +2,12 @@ import React from 'react';
 import { View, Text, Image, ScrollView } from 'react-native';
 import { Rating } from 'react-native-elements';
 import { useSelector } from 'react-redux';
-import { useNavigation } from '@react-navigation/native';
 
 import style from '../global-styles';
 import { AuthorState, BookState } from '../store/store';
 import BookListComponent from '../book/booklist.component';
 
 export default function AuthorDetailComponent() {
-    const navigation = useNavigation();
     const selectAuthor = (state: AuthorState) => state.author;
     const author = useSelector(selectAuthor);
     const selectBooks = (state: BookState) => state.books;

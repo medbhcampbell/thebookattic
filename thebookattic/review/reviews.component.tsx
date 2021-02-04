@@ -42,7 +42,7 @@ export default function ReviewsComponent(props: ReviewProps) {
 
     return (
         <View>
-            <Text h2 style={{textAlign: 'center'}}>Reviews</Text>
+            <Text h3 style={{textAlign: 'center'}}>Reviews</Text>
             {reviews.length > 0 ? 
             <FlatList data={reviews} renderItem={Reviews} keyExtractor={item => String(item.id)}/> :
             <Text>No Reviews Found!</Text>}  
