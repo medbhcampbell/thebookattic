@@ -87,10 +87,19 @@ export default function BookDetailComponent(props: BookDetailProps) {
             }
         }
 
+        async function getRating() {
+            try {
+                book.rating = await bookService.getBookRating(book.id);
+            } catch(err) {
+                console.log(err);
+            }
+        }
+
+        getRating();
         checkOnList();
         checkAuthor();
 
-    }, [setUserIsAuthor, setToRead, reviews]);
+    }, [book, setUserIsAuthor, setToRead, reviews]);
 
     return (
         <ScrollView>
@@ -150,7 +159,7 @@ export default function BookDetailComponent(props: BookDetailProps) {
             </ View>
             {!haveReviewed && !userIsAuthor && book.approved &&
                 <View style={style.bookDetailContainer}>
-                    <SubmitReviewComponent id={book.id} />
+                    <SubmitReviewComponent id={book.id} setHaveReviewed={setHaveReviewed} />
                 </View>}
             {book.approved &&
                 <View style={style.bookDetailContainer}>
