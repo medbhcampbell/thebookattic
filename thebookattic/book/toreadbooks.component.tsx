@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { ScrollView } from "react-native-gesture-handler";
+import { useDispatch, useSelector } from "react-redux";
 
 import { UserState } from "../store/store";
 import { Book } from "./book";
@@ -16,6 +17,7 @@ export default function ToReadBooksComponent() {
     //   So make a variable with an empty Book[] to keep TS happy
     const temp: Book[] = [];
     const [books, setBooks] = useState(temp);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         //get the user's list of books to read
@@ -25,9 +27,11 @@ export default function ToReadBooksComponent() {
             console.log(JSON.stringify(books));
             setRetrievedBooks(true);
         });
-    }, []);
+    }, [dispatch]);
 
     return (
-        <BookListComponent books={books} retrievedBooks={retrievedBooks} />
+        <ScrollView>
+            <BookListComponent books={books} retrievedBooks={retrievedBooks} />
+        </ScrollView>
     );
 }
