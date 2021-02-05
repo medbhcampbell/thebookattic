@@ -13,7 +13,7 @@ create table authors
 	lastname varchar(25),
 	avgrating float not null,
 	bio varchar(500) not null,
-	picture varchar(100) not null
+	picture varchar(200) not null
 );
 
 create table genres
@@ -30,7 +30,7 @@ create table books
 	cover varchar(150) not null,
 	blurb varchar(500) not null,
 	page_count int not null,
-	link varchar(50),
+	link varchar(200),
 	rating float default 0,
 	approved boolean default false,
 	genreid int not null,
@@ -117,7 +117,7 @@ insert into books (authorid, title, cover, blurb, page_count, genreid) values
 insert into books (authorid, title, cover, blurb, page_count, approved, genreid) values
 	((select id from authors where lastname like 'Shakespeare'),
 	'The Tempest',
-	'https://productimages.worldofbooks.com/185326203X.jpg'
+	'https://productimages.worldofbooks.com/185326203X.jpg',
 	'Shipwrecks, monsters, and the meaning of humanity',
 	'500',
 	true,
@@ -306,3 +306,29 @@ insert into haveread (username, bookid) values ('gmartin', 5);
 insert into haveread (username, bookid) values ('mshelley', 24);
 insert into haveread (username, bookid) values ('mshelley', 23);
 insert into haveread (username, bookid) values ('wshakespeare', 4);
+
+insert into reviews (rating, content, username, bookid, approved) values (2, 'I don''t even remember a character named Abbey', 'Robert', (select id from books where title like 'Northanger Abbey'), true);
+insert into reviews (rating, content, username, bookid, approved) values (1, 'This is a blatant rip-off of the Lion King.', 'Robert', (select id from books where title like 'Hamlet'), true);
+insert into reviews (rating, content, username, bookid, approved) values (5, 'It''s a great book but the factory has TERRIBLE safety standards', 'Robert', (select id from books where title like 'Charlie and the Chocolate Factory'), true);
+insert into reviews (rating, content, username, bookid, approved) values (4, 'James Bond is cool but I think he has a gambling addiction.', 'Robert', (select id from books where title like 'Casino Royale'), true);
+insert into reviews (rating, content, username, bookid, approved) values (5, 'This author included pictures of the dinosaurs and I think that is very cool. 5/5', 'Robert', (select id from books where title like 'Journey to the Center of the Earth'), true);
+insert into reviews (rating, content, username, bookid, approved) values (1, 'Tolkien spent like an entire chapter describing an empty ruin they walked past. Stay on track next time.', 'Robert', (select id from books where title like 'The Fellowship of the Ring'), true);
+insert into reviews (rating, content, username, bookid, approved) values (2, 'I''m still trying to figure out who dun it.', 'Robert', (select id from books where title like 'The Murder of Roger Ackroyd'), true);
+insert into reviews (rating, content, username, bookid, approved) values (4, 'I tried to throw this book at the ground but I missed.', 'Robert', (select id from books where title like 'A Hitchhikers Guide to the Galaxy'), true);
+insert into reviews (rating, content, username, bookid, approved) values (5, 'Classic! Everyone should read this.', 'newguy', (select id from books where title like 'Pride and Prejudice'), false);
+insert into reviews (rating, content, username, bookid, approved) values (4, 'I now want to eat the rich.', 'Linda', (select id from books where title like 'North and South'), true);
+insert into reviews (rating, content, username, bookid, approved) values (1, 'This Shakespear guy is boring and he spiells wirds real bad.', 'Jim', (select id from books where title like 'The Tempest'), true);
+insert into reviews (rating, content, username, bookid, approved) values (4, 'Ronald McDonald got weird but I like it', 'Lilith', (select id from books where title like 'It'), true);
+insert into reviews (rating, content, username, bookid, approved) values (5, 'I want to be just like Carrie!', 'newguy', (select id from books where title like 'Carrie'), true);
+insert into reviews (rating, content, username, bookid, approved) values (4, 'Good but possibly the longest book of all time.', 'Linda', (select id from books where title like 'War and Peace'), true);
+insert into reviews (rating, content, username, bookid, approved) values (4, 'I liked the part with the peach.', 'Jim', (select id from books where title like 'James and the Giant Peach'), true);
+insert into reviews (rating, content, username, bookid, approved) values (3, 'It''s James Bond. The stories are cool but he is problematic.', 'Lilith', (select id from books where title like 'From Russia With Love'), true);
+insert into reviews (rating, content, username, bookid, approved) values (5, 'I like the book.', 'newguy', (select id from books where title like '20000 Leagues Under the Sea'), true);
+insert into reviews (rating, content, username, bookid, approved) values (4, 'Pretty good', 'Linda', (select id from books where title like 'Cosmos'), true);
+insert into reviews (rating, content, username, bookid, approved) values (5, 'Great first entry to a series that will obviously have a timely and satisfying conclusion.', 'Jim', (select id from books where title like 'A Game of Thrones'), true);
+insert into reviews (rating, content, username, bookid, approved) values (1, 'Show was better. Martin should really learn from THOSE writers', 'Lilith', (select id from books where title like 'The Winds of Winter'), false);
+insert into reviews (rating, content, username, bookid, approved) values (5, 'Awesome!', 'newguy', (select id from books where title like 'The Two Towers'), true);
+insert into reviews (rating, content, username, bookid, approved) values (2, 'I was pretty sad when the orcs lost.', 'Linda', (select id from books where title like 'The Return of the King'), true);
+insert into reviews (rating, content, username, bookid, approved) values (4, 'This is a good book. Yessiree.', 'Jim', (select id from books where title like 'A Murder is Announced'), true);
+insert into reviews (rating, content, username, bookid, approved) values (4, 'The real monster was the friends we made along the way.', 'Lilith', (select id from books where title like 'Frankenstein'), true);
+insert into reviews (rating, content, username, bookid, approved) values (5, 'Well written but it gets really weird near the end.', 'newguy', (select id from books where title like 'The Fall of the House of Usher'), true);

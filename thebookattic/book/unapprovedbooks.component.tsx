@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {  useSelector } from "react-redux";
-import { Text, View } from "react-native";
+import { ScrollView, Text } from "react-native";
 
 
 import { BookState } from "../store/store";
@@ -18,9 +18,9 @@ export default function UnapprovedBooksComponent() {
     }, []);
 
     return (
-        <View style={{alignItems: 'center'}}>
+        <ScrollView>
             <Text style={styles.h1}>{unapprovedBooks? 'Books Pending Approval:' : 'No pending approvals!'}</Text>
             <BookListComponent books={unapprovedBooks} retrievedBooks={true}/>
-        </View>
+        </ScrollView>
     );
 }
