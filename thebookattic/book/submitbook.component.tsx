@@ -32,6 +32,9 @@ export default function SubmitBookComponent() {
     // get the user and check that they are an author
     // if they are, get a list of genres for the picker
     useEffect(() => {
+        // Use this to make sure we're not setting state after unmount
+        let isMounted = true;
+
         //only authors can access this page
         if (user.role !== 'author') {
             nav.navigate('Home');
@@ -48,11 +51,16 @@ export default function SubmitBookComponent() {
             //get the user's authorid to complete book info
             authorService.getAuthorByUserId(user.name).then(data => {
                 tempBook.authorid = data.id;
-                setBook(tempBook);
+                if(isMounted) {
+                    setBook(tempBook);
+                }
             }).catch(err => {
                 console.log(err);
             });
         }
+
+        // The cleanup callback (called on unmount)
+        return () => { isMounted = false };
     }, [dispatch]);
 
     const checkInput = () => {

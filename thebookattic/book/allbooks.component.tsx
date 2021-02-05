@@ -16,17 +16,24 @@ export default function AllBooksComponent() {
     const [approved, setApproved] = useState([] as Book[]);
 
     useEffect(()=>{
+        // Use this to make sure we're not setting state after unmount
+        let isMounted = true;
+
         if(books.length <= 0) {
             // If there's no books in the store, use the service to retrieve them
             bookService.getAllBooks().then((result)=>{
-                setApproved(result.filter(item=>{return item.approved}));
                 dispatch(changeBooks(result));
-                setRetrievedBooks(true);
+                if(isMounted) {
+                    setApproved(result.filter(item=>{return item.approved}));
+                    setRetrievedBooks(true);
+                }
             });
         } else {
             setApproved(books.filter(item=>{return item.approved}));
             setRetrievedBooks(true);
         }
+        // The cleanup callback (called on unmount)
+        return () => { isMounted = false };
     }, []);
 
     return (

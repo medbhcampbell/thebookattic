@@ -44,6 +44,8 @@ export default function BookDetailComponent(props: BookDetailProps) {
 
 
     useEffect(() => {
+        // Use this to make sure we're not setting state after unmount
+        let isMounted = true;
 
         // check if the user is the author: deleteBook only appears if true
         authorService.getAuthorById(book.authorid).then((authorres) => {
@@ -61,7 +63,7 @@ export default function BookDetailComponent(props: BookDetailProps) {
                 try {
                     //check if the user is the author
                     const userAuthor = await authorService.getAuthorByUserId(user.name);
-                    if (userAuthor.id === book.authorid) {
+                    if (isMounted && userAuthor.id === book.authorid) {
                         setUserIsAuthor(true);
                     }
                 } catch (err) {
@@ -76,11 +78,13 @@ export default function BookDetailComponent(props: BookDetailProps) {
             try {
                 const toReadnow = await bookService.getBooksToRead(user.name);
                 const haveReadnow = await bookService.getBooksHaveRead(user.name);
-                if (toReadnow.find((thisBook) => thisBook.id === book.id)) {
-                    console.log('found it');
-                    setToRead(true);
-                } else if (haveReadnow.find((thisBook) => thisBook.id === book.id)) {
-                    setHaveRead(true);
+                if(isMounted) {
+                    if (toReadnow.find((thisBook) => thisBook.id === book.id)) {
+                        console.log('found it');
+                        setToRead(true);
+                    } else if (haveReadnow.find((thisBook) => thisBook.id === book.id)) {
+                        setHaveRead(true);
+                    }
                 }
             } catch (err) {
                 console.log(err);
@@ -90,6 +94,8 @@ export default function BookDetailComponent(props: BookDetailProps) {
         checkOnList();
         checkAuthor();
 
+        // The cleanup callback (called on unmount)
+        return () => { isMounted = false };
     }, [setUserIsAuthor, setToRead, reviews]);
 
     return (

@@ -95,13 +95,21 @@ export default function BookRecListComponent() {
     bookRecList.sort((a: any, b: any) => (a.recRating < b.recRating) ? 1 : -1);
    
     useEffect(() => {
+        // Use this to make sure we're not setting state after unmount
+        let isMounted = true;
+
         // get the user's list of books to read
         console.log(`getting haveread list for ${user.name}`);
         bookService.getBooksHaveRead(user.name).then((readBooks) => {
-            setBooks(readBooks);
             console.log(JSON.stringify(books));
-            setRetrievedBooks(true);
+            if(isMounted) {
+                setBooks(readBooks);
+                setRetrievedBooks(true);
+            }
         });
+
+        // The cleanup callback (called on unmount)
+        return () => { isMounted = false };
     }, []);
 
     return (

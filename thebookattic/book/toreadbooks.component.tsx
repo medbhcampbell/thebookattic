@@ -18,13 +18,21 @@ export default function ToReadBooksComponent() {
     const [books, setBooks] = useState(temp);
 
     useEffect(() => {
+        // Use this to make sure we're not setting state after unmount
+        let isMounted = true;
+
         //get the user's list of books to read
         console.log(`getting toread list for ${user.name}`);
         bookService.getBooksToRead(user.name).then((result) => {
-            setBooks(result);
             console.log(JSON.stringify(books));
-            setRetrievedBooks(true);
+            if(isMounted) {
+                setBooks(result);
+                setRetrievedBooks(true);
+            }
         });
+
+        // The cleanup callback (called on unmount)
+        return () => { isMounted = false };
     }, []);
 
     return (
