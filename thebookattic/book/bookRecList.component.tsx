@@ -92,7 +92,7 @@ export default function BookRecListComponent() {
         bookRecList[i].recRating += adjustBookRecRating(genreIndex, authorIndex);
     }
     bookRecList.sort((a: any, b: any) => (a.recRating < b.recRating) ? 1 : -1);
-   
+
     useEffect(() => {
         // get the user's list of books to read
         bookService.getBooksHaveRead(user.name).then((readBooks) => {
