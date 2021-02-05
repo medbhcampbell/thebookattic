@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { ScrollView, Text } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 
 import { ReviewState } from "../store/store";
 import { Review } from "./review";
@@ -17,9 +17,13 @@ export default function UnapprovedReviewsComponent() {
     }, [reviews]);
 
     return (
-        <ScrollView>
+       
+        <ScrollView >
+             <View style={{alignItems: 'center'}}>
             <Text style={styles.h1}>{unapprovedReviews? 'Reviews Pending Approval:' : 'No pending approvals!'}</Text>
             <ReviewsListComponent reviews={unapprovedReviews} retrievedReviews={true}/>
+            </View>
         </ScrollView>
+        
     );
 }
