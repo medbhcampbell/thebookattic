@@ -91,7 +91,7 @@ function RegisterComponent() {
                 onChangeText={(value) =>
                     dispatch(loginAction({ ...user, password: value }))
                 }
-                placeholder='username'
+                placeholder='password'
                 leftIcon={{
                     type: 'font-awesome-5',
                     name: 'key'
