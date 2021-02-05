@@ -87,16 +87,19 @@ export default function BookDetailComponent(props: BookDetailProps) {
             }
         }
 
-        bookService.getBookRating(book.id).then((res) => {
-            book.rating = res;
-        }).catch((err)=> {
-            console.log(err)
-        });
+        async function getRating() {
+            try {
+                book.rating = await bookService.getBookRating(book.id);
+            } catch(err) {
+                console.log(err);
+            }
+        }
 
+        getRating();
         checkOnList();
         checkAuthor();
 
-    }, [setUserIsAuthor, setToRead, reviews]);
+    }, [book, setUserIsAuthor, setToRead, reviews]);
 
     return (
         <ScrollView>
