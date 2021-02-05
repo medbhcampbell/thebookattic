@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { Button } from 'react-native';
+import { Button, Icon } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 
 import { changeBooks } from '../store/actions';
@@ -33,8 +33,14 @@ export default function ApproveBookComponent(props: ApproveBookProps) {
 
     return (
         <Button
-            color='green'
-            title='Approve'
+            buttonStyle={{backgroundColor: 'green'}}
+            icon={
+                <Icon
+                    name='check'
+                    color='white'
+                    type='font-awesome'
+                />
+            }
             onPress={approveBook} />
     )
 }
