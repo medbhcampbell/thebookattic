@@ -87,6 +87,12 @@ export default function BookDetailComponent(props: BookDetailProps) {
             }
         }
 
+        bookService.getBookRating(book.id).then((res) => {
+            book.rating = res;
+        }).catch((err)=> {
+            console.log(err)
+        });
+
         checkOnList();
         checkAuthor();
 
@@ -150,7 +156,7 @@ export default function BookDetailComponent(props: BookDetailProps) {
             </ View>
             {!haveReviewed && !userIsAuthor && book.approved &&
                 <View style={style.bookDetailContainer}>
-                    <SubmitReviewComponent id={book.id} />
+                    <SubmitReviewComponent id={book.id} setHaveReviewed={setHaveReviewed} />
                 </View>}
             {book.approved &&
                 <View style={style.bookDetailContainer}>
