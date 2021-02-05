@@ -19,17 +19,8 @@ interface ReviewProps {
 }
 
 export default function ReviewsListComponent(props: ReviewProps) {
-    const dispatch = useDispatch();
     const user = useSelector((state: UserState) => state.user);
     const reviews = props.reviews;
-
-    useEffect(() => {
-        reviewService.getReviews().then(res => {
-            dispatch(getReviews(res.filter(item => { return !item.approved })));
-        }).catch(err => {
-            console.log(err);
-        });
-    }, [dispatch]);
 
     const Reviews: ListRenderItem<Review> = ({ item }) => {
         return (
