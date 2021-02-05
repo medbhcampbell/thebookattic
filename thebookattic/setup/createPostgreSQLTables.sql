@@ -307,7 +307,7 @@ insert into haveread (username, bookid) values ('mshelley', 24);
 insert into haveread (username, bookid) values ('mshelley', 23);
 insert into haveread (username, bookid) values ('wshakespeare', 4);
 
-insert into reviews (rating, content, username, bookid, approved) values (2, 'I don''t even remember a character named Abbey', 'Robert', (select id from books where title like 'Northanger Abbey'), true);
+--insert into reviews (rating, content, username, bookid, approved) values (2, 'I don''t even remember a character named Abbey', 'Robert', (select id from books where title like 'Northanger Abbey'), true);
 insert into reviews (rating, content, username, bookid, approved) values (1, 'This is a blatant rip-off of the Lion King.', 'Robert', (select id from books where title like 'Hamlet'), true);
 insert into reviews (rating, content, username, bookid, approved) values (5, 'It''s a great book but the factory has TERRIBLE safety standards', 'Robert', (select id from books where title like 'Charlie and the Chocolate Factory'), true);
 insert into reviews (rating, content, username, bookid, approved) values (4, 'James Bond is cool but I think he has a gambling addiction.', 'Robert', (select id from books where title like 'Casino Royale'), true);
@@ -315,8 +315,8 @@ insert into reviews (rating, content, username, bookid, approved) values (5, 'Th
 insert into reviews (rating, content, username, bookid, approved) values (1, 'Tolkien spent like an entire chapter describing an empty ruin they walked past. Stay on track next time.', 'Robert', (select id from books where title like 'The Fellowship of the Ring'), true);
 insert into reviews (rating, content, username, bookid, approved) values (2, 'I''m still trying to figure out who dun it.', 'Robert', (select id from books where title like 'The Murder of Roger Ackroyd'), true);
 insert into reviews (rating, content, username, bookid, approved) values (4, 'I tried to throw this book at the ground but I missed.', 'Robert', (select id from books where title like 'A Hitchhikers Guide to the Galaxy'), true);
-insert into reviews (rating, content, username, bookid, approved) values (5, 'Classic! Everyone should read this.', 'newguy', (select id from books where title like 'Pride and Prejudice'), false);
-insert into reviews (rating, content, username, bookid, approved) values (4, 'I now want to eat the rich.', 'Linda', (select id from books where title like 'North and South'), true);
+--insert into reviews (rating, content, username, bookid, approved) values (5, 'Classic! Everyone should read this.', 'newguy', (select id from books where title like 'Pride and Prejudice'), false);
+--insert into reviews (rating, content, username, bookid, approved) values (4, 'I now want to eat the rich.', 'Linda', (select id from books where title like 'North and South'), true);
 insert into reviews (rating, content, username, bookid, approved) values (1, 'This Shakespear guy is boring and he spiells wirds real bad.', 'Jim', (select id from books where title like 'The Tempest'), true);
 insert into reviews (rating, content, username, bookid, approved) values (4, 'Ronald McDonald got weird but I like it', 'Lilith', (select id from books where title like 'It'), true);
 insert into reviews (rating, content, username, bookid, approved) values (5, 'I want to be just like Carrie!', 'newguy', (select id from books where title like 'Carrie'), true);

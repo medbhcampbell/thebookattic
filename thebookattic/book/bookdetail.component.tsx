@@ -148,7 +148,7 @@ export default function BookDetailComponent(props: BookDetailProps) {
                         />}
                 </View>
             </ View>
-            {!haveReviewed &&
+            {!haveReviewed && book.approved &&
                 <View style={style.bookDetailContainer}>
                     <SubmitReviewComponent id={book.id} />
                 </View>}

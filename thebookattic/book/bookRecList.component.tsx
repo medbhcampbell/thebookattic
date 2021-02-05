@@ -24,6 +24,8 @@ export default function BookRecListComponent() {
     let userGenreRating: any = [];
     let userAuthorRating: any = [];
     let bookRecList: any = [ ...books ];
+
+
   
     function onBookSelect(index: number) {
         let bookRecToBook = bookRecList[index];
@@ -78,6 +80,7 @@ export default function BookRecListComponent() {
     // Adjusts the user's recommendation rating for each genre and author
     for (let i = 0; i < userReviews.length; i++) {
         let bookIndex = books.findIndex(book => book.id == userReviews[i].bookid);
+        console.log(bookIndex);
         let genreIndex = genres.findIndex(genre => genre.id == books[bookIndex].genreid);
         let authorIndex = authors.findIndex(author => author.id == books[bookIndex].authorid);
         userGenreRating[genreIndex].rating += adjustRecRating(userReviews[i].rating);
@@ -92,7 +95,7 @@ export default function BookRecListComponent() {
         bookRecList[i].recRating += adjustBookRecRating(genreIndex, authorIndex);
     }
     bookRecList.sort((a: any, b: any) => (a.recRating < b.recRating) ? 1 : -1);
-   
+
     useEffect(() => {
         // get the user's list of books to read
         bookService.getBooksHaveRead(user.name).then((readBooks) => {
