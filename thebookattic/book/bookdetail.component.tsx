@@ -110,13 +110,13 @@ export default function BookDetailComponent(props: BookDetailProps) {
                 <Text>Average rating:
                     <Rating ratingBackgroundColor='#F9F9F9' imageSize={20} readonly startingValue={book.rating} />
                 </Text>
-                <View style={{ flex: 1, flexDirection: 'row' }}>
+                <View style={{ flex: 1, flexDirection: 'row', justifyContent:'center' }}>
                     {(userIsAuthor || user.role === 'admin') &&
                         <DeleteBookComponent bookid={book.id} approved={book.approved} />}
                     {(!book.approved && user.role === 'admin') &&
                         <ApproveBookComponent id={book.id} />}
                 </View>
-                <View style={{ flex: 1, flexDirection: 'row' }}>
+                <View style={{ flex: 1, flexDirection: 'row', justifyContent:'center' }}>
                     {!userIsAuthor && !toRead && !haveRead && book.approved &&
                         <Button
                             icon={
