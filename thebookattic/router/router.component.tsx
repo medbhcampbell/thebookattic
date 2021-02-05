@@ -19,6 +19,7 @@ import UnapprovedReviewsComponent from '../review/unapprovedreviews.component';
 import { Book } from '../book/book';
 import { Author } from '../author/author';
 import AuthorDetailComponent from '../author/authordetail.component';
+import BookRecListComponent from '../book/bookRecList.component';
 
 
 export type StackParams = {
@@ -91,6 +92,29 @@ function HomeStack() {
                 options={headerOptions}
             />
         </HStack.Navigator>
+    );
+}
+
+const RStack = createStackNavigator();
+function RecommendationStack() {
+    return (
+        <RStack.Navigator>
+            <HStack.Screen
+                name="Recommendation"
+                component={BookRecListComponent}
+                options={headerOptions}
+            />
+            <RStack.Screen
+                name="BookDetail"
+                component={BookDetailComponent}
+                options={headerOptions}
+            />
+            <RStack.Screen
+                name="AuthorDetail"
+                component={AuthorDetailComponent}
+                options={headerOptions}
+            />
+        </RStack.Navigator>
     );
 }
 
@@ -190,7 +214,6 @@ function BottomTab() {
                 component={HomeStack}
                 options={{
                     tabBarLabel: 'Home',
-                    unmountOnBlur: true,
                     tabBarIcon: () => (
                         <Icon
                             name='home'
@@ -200,11 +223,23 @@ function BottomTab() {
                 }}
             />
             <Tab.Screen
+                name="RecStack"
+                component={RecommendationStack}
+                options={{
+                    tabBarLabel: 'Recommendations',
+                    tabBarIcon: () => (
+                        <Icon
+                            name='thumbs-up'
+                            type='font-awesome-5'
+                        />
+                    )
+                }}
+            />
+            <Tab.Screen
                 name="ToRead"
                 component={ToReadStack}
                 options={{
                     tabBarLabel: 'To Read',
-                    unmountOnBlur: true,
                     tabBarIcon: () => (
                         <Icon
                             name='bookmark'
@@ -218,7 +253,6 @@ function BottomTab() {
                 component={HaveReadStack}
                 options={{
                     tabBarLabel: 'Have Read',
-                    unmountOnBlur: true,
                     tabBarIcon: () => (
                         <Icon
                             name='book'
@@ -233,7 +267,6 @@ function BottomTab() {
                     component={AdminAuthorStack}
                     options={{
                         tabBarLabel: 'Functionality',
-                        unmountOnBlur: true,
                         tabBarIcon: () => (
                             <Icon
                                 name='wrench'
