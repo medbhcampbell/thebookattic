@@ -10,11 +10,9 @@ import { Button } from "react-native-elements";
 
 
 export  function LogoutComponent() {
-    const navigation = useNavigation();
     const dispatch = useDispatch();
     function logout() {
         dispatch(getUser(new User()));
-        navigation.navigate('Login');
     }
 
     return(
