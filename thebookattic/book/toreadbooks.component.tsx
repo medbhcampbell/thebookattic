@@ -17,7 +17,6 @@ export default function ToReadBooksComponent() {
     //   So make a variable with an empty Book[] to keep TS happy
     const temp: Book[] = [];
     const [books, setBooks] = useState(temp);
-    const dispatch = useDispatch();
 
     useEffect(() => {
         //get the user's list of books to read
@@ -27,7 +26,7 @@ export default function ToReadBooksComponent() {
             console.log(JSON.stringify(books));
             setRetrievedBooks(true);
         });
-    }, [dispatch]);
+    }, []);
 
     return (
         <ScrollView>
