@@ -65,16 +65,16 @@ create table haveread
 );
 
 -- Populating with some sample entries, feel free to add/remove
-insert into genres (name) values ('action');
-insert into genres (name) values ('adventure');
-insert into genres (name) values ('nonfiction');
-insert into genres (name) values ('classic');
-insert into genres (name) values ('fantasy');
-insert into genres (name) values ('mystery');
-insert into genres (name) values ('romance');
-insert into genres (name) values ('sci-fi');
-insert into genres (name) values ('young adult');
-insert into genres (name) values ('horror');
+insert into genres (name) values ('Action');
+insert into genres (name) values ('Adventure');
+insert into genres (name) values ('Nonfiction');
+insert into genres (name) values ('Classic');
+insert into genres (name) values ('Fantasy');
+insert into genres (name) values ('Mystery');
+insert into genres (name) values ('Romance');
+insert into genres (name) values ('Sci-fi');
+insert into genres (name) values ('Young Adult');
+insert into genres (name) values ('Horror');
 
 insert into authors (userid, firstname, lastname, avgrating, bio, picture) values ('jausten', 'Jane', 'Austen', '4.5', 'English romance author for the gentry', 'https://www.history.com/.image/ar_16:9%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cg_faces:center%2Cq_auto:good%2Cw_768/MTU3OTIzNTc2MTE1NzAxMzk0/why-jane-austen-never-marrieds-featured-photo.jpg');
 insert into authors (userid, firstname, lastname, avgrating, bio, picture) values ('wshakespeare', 'William', 'Shakespeare', '2.7', 'Some unpopular English scriptwriter', 'https://www.bl.uk/britishlibrary/~/media/bl/global/dl%20shakespeare/authors/shakespeare-people-page.jpg');
@@ -99,21 +99,21 @@ insert into books (authorid, title, cover, blurb, page_count, genreid) values
 	'https://images-na.ssl-images-amazon.com/images/I/91HqOO4DmRL.jpg',
 	'Will-they-wont-they in petticoats',
 	'350',
-	(select id from genres where name like 'romance'));
+	(select id from genres where name like 'Romance'));
 insert into books (authorid, title, cover, blurb, page_count, genreid) values
 	((select id from authors where lastname like 'Austen'),
 	'Northanger Abbey',
 	'https://images-na.ssl-images-amazon.com/images/I/817RHZL+9UL.jpg',
 	'How reading too many novels can send delicate young women mildly insane',
 	'190',
-	(select id from genres where name like 'romance'));
+	(select id from genres where name like 'Romance'));
 insert into books (authorid, title, cover, blurb, page_count, genreid) values
 	((select id from authors where lastname like 'Gaskell'),
 	'North and South',
 	'https://images-na.ssl-images-amazon.com/images/I/41JJbGrrsnL._SX323_BO1,204,203,200_.jpg',
 	'Look how awful and exploitative 19th century Northern English cotton mills were! But the main characters got married so its a happy ending',
 	'460',
-	(select id from genres where name like 'romance'));
+	(select id from genres where name like 'Romance'));
 insert into books (authorid, title, cover, blurb, page_count, approved, genreid) values
 	((select id from authors where lastname like 'Shakespeare'),
 	'The Tempest',
@@ -121,7 +121,7 @@ insert into books (authorid, title, cover, blurb, page_count, approved, genreid)
 	'Shipwrecks, monsters, and the meaning of humanity',
 	'500',
 	true,
-	(select id from genres where name like 'classic'));
+	(select id from genres where name like 'Classic'));
 insert into books (authorid, title, cover, blurb, page_count, approved, genreid) values
 	((select id from authors where lastname like 'Shakespeare'),
 	'Hamlet',
@@ -129,7 +129,7 @@ insert into books (authorid, title, cover, blurb, page_count, approved, genreid)
 	'The Lion King but with fewer lions',
 	'500',
 	true,
-	(select id from genres where name like 'classic'));
+	(select id from genres where name like 'Classic'));
 insert into books (authorid, title, cover, blurb, page_count, approved, genreid) values
 	((select id from authors where lastname like 'King'),
 	'It',
@@ -137,7 +137,7 @@ insert into books (authorid, title, cover, blurb, page_count, approved, genreid)
 	'The OG murderclown, and people fleeing their hometowns',
 	'750',
 	true,
-	(select id from genres where name like 'horror'));
+	(select id from genres where name like 'Horror'));
 insert into books (authorid, title, cover, blurb, page_count, approved, genreid) values
 	((select id from authors where lastname like 'King'),
 	'Carrie',
@@ -145,7 +145,7 @@ insert into books (authorid, title, cover, blurb, page_count, approved, genreid)
 	'Being a teenage girl is brutal, but the telekinesis has its use',
 	'100',
 	true,
-	(select id from genres where name like 'horror'));
+	(select id from genres where name like 'Horror'));
 insert into books (authorid, title, cover, blurb, page_count, approved, genreid) values
 	((select id from authors where lastname like 'Tolstoy'),
 	'War and Peace',
@@ -153,7 +153,7 @@ insert into books (authorid, title, cover, blurb, page_count, approved, genreid)
 	'Everyone is going to die',
 	'3000',
 	true,
-	(select id from genres where name like 'classic'));
+	(select id from genres where name like 'Classic'));
 insert into books (authorid, title, cover, blurb, page_count, approved, genreid) values
 	((select id from authors where lastname like 'Dahl'),
 	'Charlie and the Chocolate Factory',
@@ -161,7 +161,7 @@ insert into books (authorid, title, cover, blurb, page_count, approved, genreid)
 	'All childhood flaws are punishable by death',
 	'78',
 	true,
-	(select id from genres where name like 'young adult'));
+	(select id from genres where name like 'Young Adult'));
 insert into books (authorid, title, cover, blurb, page_count, approved, genreid) values
 	((select id from authors where lastname like 'Dahl'),
 	'James and the Giant Peach',
@@ -169,7 +169,7 @@ insert into books (authorid, title, cover, blurb, page_count, approved, genreid)
 	'The benefits of alternative, off-grid, plant-based housing',
 	'120',
 	true,
-	(select id from genres where name like 'young adult'));
+	(select id from genres where name like 'Young Adult'));
 insert into books (authorid, title, cover, blurb, page_count, approved, genreid) values
 	((select id from authors where lastname like 'Fleming'),
 	'Casino Royale',
@@ -177,7 +177,7 @@ insert into books (authorid, title, cover, blurb, page_count, approved, genreid)
 	'The book so good they filmed it twice',
 	'460',
 	true,
-	(select id from genres where name like 'action'));
+	(select id from genres where name like 'Action'));
 insert into books (authorid, title, cover, blurb, page_count, approved, genreid) values
 	((select id from authors where lastname like 'Fleming'),
 	'From Russia With Love',
@@ -185,7 +185,7 @@ insert into books (authorid, title, cover, blurb, page_count, approved, genreid)
 	'Yesh, Mish Moneypenny, I am 007',
 	'500',
 	true,
-	(select id from genres where name like 'action'));
+	(select id from genres where name like 'Action'));
 insert into books (authorid, title, cover, blurb, page_count, approved, genreid) values
 	((select id from authors where lastname like 'Verne'),
 	'20000 Leagues Under the Sea',
@@ -193,7 +193,7 @@ insert into books (authorid, title, cover, blurb, page_count, approved, genreid)
 	'Predicting the existence of submarines, and pointing out a lot of fish',
 	'550',
 	true,
-	(select id from genres where name like 'adventure'));
+	(select id from genres where name like 'Adventure'));
 insert into books (authorid, title, cover, blurb, page_count, approved, genreid) values
 	((select id from authors where lastname like 'Verne'),
 	'Journey to the Center of the Earth',
@@ -201,7 +201,7 @@ insert into books (authorid, title, cover, blurb, page_count, approved, genreid)
 	'Huh, its dark down here',
 	'390',
 	true,
-	(select id from genres where name like 'adventure'));
+	(select id from genres where name like 'Adventure'));
 insert into books (authorid, title, cover, blurb, page_count, approved, genreid) values
 	((select id from authors where lastname like 'Sagan'),
 	'Cosmos',
@@ -209,7 +209,7 @@ insert into books (authorid, title, cover, blurb, page_count, approved, genreid)
 	'The universe is pretty neat',
 	'510',
 	true,
-	(select id from genres where name like 'nonfiction'));
+	(select id from genres where name like 'Nonfiction'));
 insert into books (authorid, title, cover, blurb, page_count, approved, genreid) values
 	((select id from authors where lastname like 'Martin'),
 	'A Game of Thrones',
@@ -217,7 +217,7 @@ insert into books (authorid, title, cover, blurb, page_count, approved, genreid)
 	'The captivating start to an epic fantasy which will be concluded any day now',
 	'1500',
 	true,
-	(select id from genres where name like 'fantasy'));
+	(select id from genres where name like 'Fantasy'));
 insert into books (authorid, title, cover, blurb, page_count, approved, genreid) values
 	((select id from authors where lastname like 'Martin'),
 	'The Winds of Winter',
@@ -225,7 +225,7 @@ insert into books (authorid, title, cover, blurb, page_count, approved, genreid)
 	'The satisfying final chapter of A Song of Ice and Fire',
 	'10000',
 	true,
-	(select id from genres where name like 'fantasy'));
+	(select id from genres where name like 'Fantasy'));
 insert into books (authorid, title, cover, blurb, page_count, approved, genreid) values
 	((select id from authors where lastname like 'Tolkien'),
 	'The Fellowship of the Ring',
@@ -233,7 +233,7 @@ insert into books (authorid, title, cover, blurb, page_count, approved, genreid)
 	'The grandfather of modern high fantasy',
 	'750',
 	true,
-	(select id from genres where name like 'fantasy'));
+	(select id from genres where name like 'Fantasy'));
 insert into books (authorid, title, cover, blurb, page_count, approved, genreid) values
 	((select id from authors where lastname like 'Tolkien'),
 	'The Two Towers',
@@ -241,7 +241,7 @@ insert into books (authorid, title, cover, blurb, page_count, approved, genreid)
 	'Starts partway through a long journey. Ends... slightly further along in the same journey',
 	'800',
 	true,
-	(select id from genres where name like 'fantasy'));
+	(select id from genres where name like 'Fantasy'));
 insert into books (authorid, title, cover, blurb, page_count, approved, genreid) values
 	((select id from authors where lastname like 'Tolkien'),
 	'The Return of the King',
@@ -249,7 +249,7 @@ insert into books (authorid, title, cover, blurb, page_count, approved, genreid)
 	'See this, George RR Martin? THIS is how you finish an epic',
 	'1200',
 	true,
-	(select id from genres where name like 'fantasy'));
+	(select id from genres where name like 'Fantasy'));
 insert into books (authorid, title, cover, blurb, page_count, approved, genreid) values
 	((select id from authors where lastname like 'Christie'),
 	'The Murder of Roger Ackroyd',
@@ -257,7 +257,7 @@ insert into books (authorid, title, cover, blurb, page_count, approved, genreid)
 	'Spoilers: Monsieur Poirot figures it out',
 	'280',
 	true,
-	(select id from genres where name like 'mystery'));
+	(select id from genres where name like 'Mystery'));
 insert into books (authorid, title, cover, blurb, page_count, approved, genreid) values
 	((select id from authors where lastname like 'Christie'),
 	'A Murder is Announced',
@@ -265,7 +265,7 @@ insert into books (authorid, title, cover, blurb, page_count, approved, genreid)
 	'Spoilers: Miss Marple figures it out',
 	'500',
 	true,
-	(select id from genres where name like 'mystery'));
+	(select id from genres where name like 'Mystery'));
 insert into books (authorid, title, cover, blurb, page_count, approved, genreid) values
 	((select id from authors where lastname like 'Shelley'),
 	'Frankenstein',
@@ -273,7 +273,7 @@ insert into books (authorid, title, cover, blurb, page_count, approved, genreid)
 	'Who is the true monster here?',
 	'510',
 	true,
-	(select id from genres where name like 'sci-fi'));
+	(select id from genres where name like 'Sci-fi'));
 insert into books (authorid, title, cover, blurb, page_count, approved, genreid) values
 	((select id from authors where lastname like 'Adams'),
 	'A Hitchhikers Guide to the Galaxy',
@@ -281,7 +281,7 @@ insert into books (authorid, title, cover, blurb, page_count, approved, genreid)
 	'Where spaceships hang in the air in the exact way that bricks do not',
 	'300',
 	true,
-	(select id from genres where name like 'sci-fi'));
+	(select id from genres where name like 'Sci-fi'));
 insert into books (authorid, title, cover, blurb, page_count, approved, genreid) values
 	((select id from authors where lastname like 'Poe'),
 	'The Fall of the House of Usher',
@@ -289,7 +289,7 @@ insert into books (authorid, title, cover, blurb, page_count, approved, genreid)
 	'Take care of your family estate, lest it fall into disrepair',
 	'50',
 	true,
-	(select id from genres where name like 'horror'));
+	(select id from genres where name like 'Horror'));
 
 insert into toread (username, bookid) values ('jausten', 3);
 insert into toread (username, bookid) values ('jausten', 4);

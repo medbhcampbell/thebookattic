@@ -11,7 +11,7 @@ import bookService from './book.service';
 import authorService from '../author/author.service';
 import DeleteBookComponent from './deletebook.component';
 import ReviewsComponent from '../review/reviews.component';
-import { Text, Rating, Button } from 'react-native-elements';
+import { Text, Rating, Button, Icon } from 'react-native-elements';
 import ApproveBookComponent from './approvebook.component';
 import SubmitReviewComponent from '../review/submitReview.component';
 import { StackParams } from '../router/router.component';
@@ -96,10 +96,10 @@ export default function BookDetailComponent(props: BookDetailProps) {
         <ScrollView>
             <View style={style.bookDetailContainer}>
                 {!book.approved &&
-                    <Text style={{color: 'red'}}>This book needs approval before it becomes public!</Text>}
+                    <Text style={{ color: 'red' }}>This book needs approval before it becomes public!</Text>}
                 <Text h3 style={{ textAlign: 'center' }}>{book.title}</Text>
                 <Image source={{ uri: book.cover }}></Image>
-                <Pressable onPress={()=>nav.navigate('AuthorDetail')}>
+                <Pressable onPress={() => nav.navigate('AuthorDetail')}>
                     <Text h3 style={{ textAlign: 'center' }}>{author.firstname + ' ' + author.lastname}</Text>
                 </Pressable>
                 {!!book.link &&
@@ -111,16 +111,20 @@ export default function BookDetailComponent(props: BookDetailProps) {
                     <Rating ratingBackgroundColor='#F9F9F9' imageSize={20} readonly startingValue={book.rating} />
                 </Text>
                 <View style={{ flex: 1, flexDirection: 'row' }}>
-                    {userIsAuthor || user.role === 'admin' ?
-                        <DeleteBookComponent bookid={book.id} approved={book.approved} />
-                        : <Text>My rating: TODO getRatingByUser</Text>}
+                    {(userIsAuthor || user.role === 'admin') &&
+                        <DeleteBookComponent bookid={book.id} approved={book.approved} />}
                     {(!book.approved && user.role === 'admin') &&
                         <ApproveBookComponent id={book.id} />}
                 </View>
                 <View style={{ flex: 1, flexDirection: 'row' }}>
                     {!userIsAuthor && !toRead && !haveRead &&
                         <Button
-                            title='Add to "To Read" list'
+                            icon={
+                                <Icon
+                                    name='bookmark'
+                                    type='font-awesome'
+                                />
+                            }
                             type='outline'
                             onPress={async () => {
                                 await bookService.addBookToRead(user.name, book.id);
@@ -129,7 +133,12 @@ export default function BookDetailComponent(props: BookDetailProps) {
                         />}
                     {!userIsAuthor && !haveRead &&
                         <Button
-                            title='Add to "Have Read" list'
+                            icon={
+                                <Icon
+                                    name='book'
+                                    type='font-awesome'
+                                />
+                            }
                             type='outline'
                             onPress={async () => {
                                 await bookService.addBookHaveRead(user.name, book.id);
