@@ -172,14 +172,17 @@ function AdminAuthorStack() {
                     <AAStack.Screen
                         name="Admin"
                         component={AdminComponent}
+                        options={headerOptions}
                     />
                     <AAStack.Screen
                         name="UnapprovedBooks"
                         component={UnapprovedBooksComponent}
+                        options={headerOptions}
                     />
                     <AAStack.Screen
                         name="UnapprovedReviews"
                         component={UnapprovedReviewsComponent}
+                        options={headerOptions}
                     />
                     <AAStack.Screen
                         name="BookDetail"
