@@ -9,16 +9,15 @@ import { BookAtticState } from '../store/store';
 import { Review } from '../review/review';
 import { Book } from './book';
 import bookService from "./book.service";
+import { ScrollView } from 'react-native-gesture-handler';
 
 export default function BookRecListComponent() {
     const navigation = useNavigation();
-    const books = useSelector((state: BookAtticState) => state.books);
+    const books = useSelector((state: BookAtticState) => state.books).filter(book=>book.approved);
     const authors = useSelector((state: BookAtticState) => state.authors);
     const user = useSelector((state: BookAtticState) => state.user);
     const genres = useSelector((state: BookAtticState) => state.genres);
     const reviews = useSelector((state: BookAtticState) => state.reviews);
-    const [retrievedBooks, setRetrievedBooks] = useState(false);
-    const [approved, setApproved] = useState([] as Book[]);
     const temp: Book[] = [];
     const [readBooks, setBooks] = useState(temp);
     let userReviews: Review[] = [];
@@ -96,26 +95,21 @@ export default function BookRecListComponent() {
    
     useEffect(() => {
         // get the user's list of books to read
-        console.log(`getting haveread list for ${user.name}`);
         bookService.getBooksHaveRead(user.name).then((readBooks) => {
             setBooks(readBooks);
-            console.log(JSON.stringify(books));
-            setRetrievedBooks(true);
         });
     }, []);
 
     return (
-        <View style={{alignItems: 'center'}}>
+        <ScrollView>
             {(() => {
                 if (bookRecList[0]) {
                     return (
-                        <View>
+                        <View style={{alignItems: 'center'}}>
                             {bookRecList.map((book: any, index: number) => {
-                                console.log(book);
                                 if ((readBooks.filter(readBook => readBook.id == book.id)).length < 1) {
-                                    console.log(book.title + ' does not have a review from this user.');
                                     return (
-                                        <View>
+                                        <View key={index}>
                                             <Pressable onPress={()=> onBookSelect(index)}>
                                                 <Card>
                                                     <Text style={style.bookPreviewText}>{bookRecList[index].title}</Text>
@@ -125,7 +119,6 @@ export default function BookRecListComponent() {
                                         </View>
                                     );
                                 } else {
-                                    console.log(book.title + ' does have a review from this user.');
                                     return null;
                                 }
                             })}
@@ -141,6 +134,6 @@ export default function BookRecListComponent() {
                     )
                 }
             })()}
-        </View>
+        </ScrollView>
     )
 }
