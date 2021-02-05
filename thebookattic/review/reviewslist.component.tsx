@@ -21,9 +21,6 @@ interface ReviewProps {
 export default function ReviewsListComponent(props: ReviewProps) {
     const user = useSelector((state: UserState) => state.user);
     const reviews = props.reviews;
-   
-    
-                     
     const Reviews: ListRenderItem<Review> = ({item}) => {
         return (
             <>

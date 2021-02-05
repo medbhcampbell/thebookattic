@@ -17,12 +17,11 @@ export default function HomeComponent() {
         genreService.getGenres().then((genres) => {
             dispatch(getGenres(genres));
         });
-    }, []);
 
-    useEffect(() => {
         reviewService.getReviews().then((reviewsres) => {
             dispatch(getReviews(reviewsres));
         });
+
         authorService.getAllAuthors().then((authors) => {
             dispatch(getAllAuthors(authors));
         });
