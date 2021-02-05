@@ -10,7 +10,7 @@ function NavBarComponent() {
     const user = useSelector((state: BookAtticState) => state.user);
     return (
         <View>
-            {user.name && 
+            {!!user.name && 
                 <View>
                     <Text>Welcome, {user.name}</Text>
                     <LogoutComponent/>
