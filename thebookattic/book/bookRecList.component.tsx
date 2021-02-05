@@ -101,7 +101,6 @@ export default function BookRecListComponent() {
     }
     bookRecList.sort((a: any, b: any) => (a.recRating < b.recRating) ? 1 : -1);
     bookRecList = bookRecList.filter((book: any) => ((readBooks.filter(readBook => readBook.id == book.id)).length < 1));
-    console.log(bookRecList);
 
     const bookPreview = (params: any) => {
         return (
