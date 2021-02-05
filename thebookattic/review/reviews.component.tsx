@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FlatList, ListRenderItem, View } from "react-native";
 import { Card, Rating, Text } from "react-native-elements";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,14 +17,21 @@ interface ReviewProps {
 
 export default function ReviewsComponent(props: ReviewProps) {
     const dispatch = useDispatch();
-    const reviews : Review[] = useSelector((state: ReviewState) => state.reviews);
+    const allReviews : Review[] = useSelector((state: ReviewState) => state.reviews);
+    const [reviews, setReviews] = useState([] as Review[]);
     const book = props.book;
     useEffect(()=>{
-        reviewService.getReviews().then(res=>{
-            dispatch(getReviews(res.filter(item=>item.approved && item.bookid == book.id)));
-        }).catch(err=>{
-            console.log(err);
-        });
+        // If the store is empty, try to fetch them from the db
+        if (allReviews.length <= 0) {
+            reviewService.getReviews().then(data => {
+                dispatch(getReviews(data));
+            }).catch(err => {
+                console.log(err);
+            });
+        }
+
+        // Only get the approved reviews for this book
+        setReviews(allReviews.filter(item=>item.approved && item.bookid == book.id));
     }, [dispatch]);
 
     const Reviews: ListRenderItem<Review> = ({item}) => {
