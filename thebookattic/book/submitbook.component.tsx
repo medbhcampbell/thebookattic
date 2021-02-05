@@ -6,7 +6,7 @@ import { Text, Input, Button } from 'react-native-elements';
 import { useDispatch, useSelector } from 'react-redux';
 
 import genreService from '../genre/genre.service';
-import { getGenres } from '../store/actions';
+import { changeBooks, getGenres } from '../store/actions';
 import { GenreState, UserState } from '../store/store';
 import style from '../global-styles';
 import { Book } from './book';
@@ -77,7 +77,12 @@ export default function SubmitBookComponent() {
 
     const submitBook = () => {
         console.log(JSON.stringify(book));
-        bookService.addBook(book);
+        bookService.addBook(book).then(() => {
+            // Update the store
+            bookService.getAllBooks().then((result) => {
+                dispatch(changeBooks(result));
+            }).catch((err) => console.log(err));
+        }).catch((err) => console.log(err));
         nav.navigate('Home');
     }
 

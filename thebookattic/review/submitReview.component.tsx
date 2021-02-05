@@ -2,7 +2,7 @@ import React from 'react';
 import { AirbnbRating, Button, Input, Text } from 'react-native-elements';
 import { useDispatch, useSelector } from 'react-redux';
 import bookService from '../book/book.service';
-import { changeReview } from '../store/actions';
+import { changeReview, getReviews } from '../store/actions';
 import { ReviewState, UserState } from '../store/store';
 import { Review } from './review';
 import reviewService from './review.service';
@@ -23,6 +23,11 @@ export default function SubmitReviewComponent(props: SubmitReviewProps) {
         rew.bookid = props.id;
         if (rew.content) {
             reviewService.addReview(rew).then(() => {
+                // Update the store
+                reviewService.getReviews().then((results) => {
+                    dispatch(getReviews(results));
+                }).catch(err => console.log(err));
+
                 dispatch(changeReview(new Review()));
                 bookService.addBookHaveRead(user.name, rew.bookid).then(() => { })
                     .catch(err => console.log(err));
