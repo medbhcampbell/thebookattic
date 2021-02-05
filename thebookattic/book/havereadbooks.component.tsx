@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { ScrollView } from "react-native-gesture-handler";
 import { useSelector } from "react-redux";
 
 import { UserState } from "../store/store";
@@ -28,6 +29,8 @@ export default function HaveReadBooksComponent() {
     }, []);
 
     return (
+        <ScrollView>
         <BookListComponent books={books} retrievedBooks={retrievedBooks} />
+        </ScrollView>
     );
 }
