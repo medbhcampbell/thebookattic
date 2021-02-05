@@ -9,7 +9,8 @@ import reviewService from './review.service';
 
 
 interface SubmitReviewProps {
-    id: number
+    id: number,
+    setHaveReviewed: Function
 }
 
 export default function SubmitReviewComponent(props: SubmitReviewProps) {
@@ -29,7 +30,8 @@ export default function SubmitReviewComponent(props: SubmitReviewProps) {
                 }).catch(err => console.log(err));
 
                 dispatch(changeReview(new Review()));
-                bookService.addBookHaveRead(user.name, rew.bookid).then(() => { })
+                bookService.addBookHaveRead(user.name, rew.bookid)
+                    .then(() => props.setHaveReviewed(true))
                     .catch(err => console.log(err));
             }).catch(err => {
                 console.log(err);
