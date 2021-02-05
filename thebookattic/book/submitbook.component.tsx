@@ -12,6 +12,7 @@ import style from '../global-styles';
 import { Book } from './book';
 import bookService from './book.service';
 import authorService from '../author/author.service';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export default function SubmitBookComponent() {
     const nav = useNavigation();
@@ -87,6 +88,7 @@ export default function SubmitBookComponent() {
     }
 
     return (
+        <ScrollView>
         <View style={style.bookDetailContainer}>
             <Text h1 style={{textAlign:'center'}}>Submit your book</Text>
             <View>
@@ -150,5 +152,6 @@ export default function SubmitBookComponent() {
             </View>
             <Button disabled={!validInput} type='outline' title='Publish!' onPress={submitBook} />
         </View>
+        </ScrollView>
     )
 }
