@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from "react";
-<<<<<<< HEAD
-import { ScrollView } from "react-native-gesture-handler";
-=======
 import { ScrollView } from "react-native";
->>>>>>> f457a7b2f6626abc4415af667511abc9405d6557
 import { useSelector } from "react-redux";
 
 import { UserState } from "../store/store";

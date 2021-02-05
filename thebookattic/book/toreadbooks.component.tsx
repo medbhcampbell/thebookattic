@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from "react";
-<<<<<<< HEAD
-import { ScrollView } from "react-native-gesture-handler";
-import { useSelector } from "react-redux";
-=======
 import { ScrollView } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
->>>>>>> f457a7b2f6626abc4415af667511abc9405d6557
+import { useSelector } from "react-redux";
 
 import { UserState } from "../store/store";
 import { Book } from "./book";
