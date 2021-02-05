@@ -213,6 +213,7 @@ function BottomTab() {
                 name="Home"
                 component={HomeStack}
                 options={{
+                    unmountOnBlur: true,
                     tabBarLabel: 'Home',
                     tabBarIcon: () => (
                         <Icon
@@ -226,6 +227,7 @@ function BottomTab() {
                 name="RecStack"
                 component={RecommendationStack}
                 options={{
+                    unmountOnBlur: true,
                     tabBarLabel: 'Recommendations',
                     tabBarIcon: () => (
                         <Icon
@@ -239,6 +241,7 @@ function BottomTab() {
                 name="ToRead"
                 component={ToReadStack}
                 options={{
+                    unmountOnBlur: true,
                     tabBarLabel: 'To Read',
                     tabBarIcon: () => (
                         <Icon
@@ -252,6 +255,7 @@ function BottomTab() {
                 name="HaveRead"
                 component={HaveReadStack}
                 options={{
+                    unmountOnBlur: true,
                     tabBarLabel: 'Have Read',
                     tabBarIcon: () => (
                         <Icon
@@ -266,6 +270,7 @@ function BottomTab() {
                     name="AdminAuthor"
                     component={AdminAuthorStack}
                     options={{
+                        unmountOnBlur: true,
                         tabBarLabel: 'Functionality',
                         tabBarIcon: () => (
                             <Icon
