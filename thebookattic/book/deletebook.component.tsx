@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { Button } from 'react-native';
+import { Button, Icon } from 'react-native-elements';
 import { useDispatch } from 'react-redux';
 import { changeBooks } from '../store/actions';
 import bookService from './book.service';
@@ -33,8 +33,14 @@ export default function DeleteBookComponent(props: DeleteBookProps) {
 
     return (
         <Button
-            color='red'
-            title={props.approved? 'Delete':'Reject'}
+            buttonStyle={{ backgroundColor: 'red' }}
+            icon={
+                <Icon
+                    name='times'
+                    color='white'
+                    type='font-awesome'
+                />
+            }
             onPress={deleteBook} />
     )
 }

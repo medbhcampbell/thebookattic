@@ -91,7 +91,7 @@ function RegisterComponent() {
                 onChangeText={(value) =>
                     dispatch(loginAction({ ...user, password: value }))
                 }
-                placeholder='username'
+                placeholder='password'
                 leftIcon={{
                     type: 'font-awesome-5',
                     name: 'key'
@@ -141,7 +141,6 @@ function RegisterComponent() {
                     <Input
                         label='Link to your photo/logo'
                         defaultValue='(optional url)'
-                        style={style.input}
                         onChangeText={(value) => {
                             tempAuthor.picture = value;
                             setAuthor(tempAuthor);
