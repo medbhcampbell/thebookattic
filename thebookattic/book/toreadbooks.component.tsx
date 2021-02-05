@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { ScrollView } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 
 import { UserState } from "../store/store";
 import { Book } from "./book";
@@ -28,6 +29,8 @@ export default function ToReadBooksComponent() {
     }, []);
 
     return (
-        <BookListComponent books={books} retrievedBooks={retrievedBooks} />
+        <ScrollView>
+            <BookListComponent books={books} retrievedBooks={retrievedBooks} />
+        </ScrollView>
     );
 }
