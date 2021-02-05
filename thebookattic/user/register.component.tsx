@@ -141,7 +141,6 @@ function RegisterComponent() {
                     <Input
                         label='Link to your photo/logo'
                         defaultValue='(optional url)'
-                        style={style.input}
                         onChangeText={(value) => {
                             tempAuthor.picture = value;
                             setAuthor(tempAuthor);

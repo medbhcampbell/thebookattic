@@ -117,7 +117,7 @@ export default function BookDetailComponent(props: BookDetailProps) {
                         <ApproveBookComponent id={book.id} />}
                 </View>
                 <View style={{ flex: 1, flexDirection: 'row' }}>
-                    {!userIsAuthor && !toRead && !haveRead &&
+                    {!userIsAuthor && !toRead && !haveRead && book.approved &&
                         <Button
                             icon={
                                 <Icon
@@ -131,7 +131,7 @@ export default function BookDetailComponent(props: BookDetailProps) {
                                 setToRead(true);
                             }}
                         />}
-                    {!userIsAuthor && !haveRead &&
+                    {!userIsAuthor && !haveRead && book.approved &&
                         <Button
                             icon={
                                 <Icon
@@ -148,13 +148,14 @@ export default function BookDetailComponent(props: BookDetailProps) {
                         />}
                 </View>
             </ View>
-            {!haveReviewed &&
+            {!haveReviewed && !userIsAuthor && book.approved &&
                 <View style={style.bookDetailContainer}>
                     <SubmitReviewComponent id={book.id} />
                 </View>}
-            <View style={style.bookDetailContainer}>
-                <ReviewsComponent book={book} />
-            </View>
+            {book.approved &&
+                <View style={style.bookDetailContainer}>
+                    <ReviewsComponent book={book} />
+                </View>}
         </ScrollView>
     )
 }
