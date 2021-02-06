@@ -7,7 +7,6 @@ import { BookState } from "../store/store";
 import { Book } from "./book";
 import BookListComponent from "./booklist.component";
 import styles from '../global-styles';
-import { useFocusEffect } from "@react-navigation/native";
 
 export default function UnapprovedBooksComponent() {
     const books = useSelector((state: BookState) => state.books);
