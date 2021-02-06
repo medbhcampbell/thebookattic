@@ -45,7 +45,7 @@ export default function SubmitReviewComponent(props: SubmitReviewProps) {
             <AirbnbRating
                 count={5}
                 reviews={["1", "2", "3", "4", "5"]}
-                defaultRating={5}
+                defaultRating={0}
                 size={20}
                 onFinishRating={(value) => dispatch(changeReview({ ...review, rating: value }))}
             />
