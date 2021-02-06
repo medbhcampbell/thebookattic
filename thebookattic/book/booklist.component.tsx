@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, Image, ActivityIndicator, Pressable } from 'react-native';
 import { Card } from 'react-native-elements';
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { Picker } from '@react-native-picker/picker';
 
 import style from '../global-styles';
@@ -43,7 +43,7 @@ export default function BookListComponent(props: BookListProps) {
         }
     }
 
-    useEffect(() => {
+    useFocusEffect(React.useCallback(()=>{
         if (genres.length <= 0) {
             genreService.getGenres().then(data => {
                 dispatch(getGenres(data));
@@ -52,7 +52,7 @@ export default function BookListComponent(props: BookListProps) {
             });
         }
         //setList(approved);
-    }, [dispatch]);
+    }, [dispatch]));
 
     // The component to be rendered for every book
     const BookPreview = (params: any) => {

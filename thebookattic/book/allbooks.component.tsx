@@ -1,5 +1,5 @@
 import { useFocusEffect, useIsFocused } from "@react-navigation/native";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { changeBooks } from "../store/actions";
@@ -14,7 +14,7 @@ export default function AllBooksComponent() {
 
     const books = useSelector((state: BookState) => state.books);
     // Have the books been retrieved?
-    const [retrievedBooks, setRetrievedBooks] = useState(isFocused);
+    const [retrievedBooks, setRetrievedBooks] = useState(false);
     const [approved, setApproved] = useState([] as Book[]);
 
     useFocusEffect(React.useCallback(()=>{
