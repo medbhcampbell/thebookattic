@@ -109,7 +109,7 @@ export default function BookDetailComponent(props: BookDetailProps) {
                 <Text h3 style={{ textAlign: 'center' }}>{book.title}</Text>
                 <Image source={{ uri: book.cover }}></Image>
                 <Pressable onPress={() => nav.navigate('AuthorDetail')}>
-                    <Text h3 style={{ textAlign: 'center' }}>{author.firstname + ' ' + author.lastname}</Text>
+                    <Text h4 style={{ textAlign: 'center' }}>{author.firstname + ' ' + author.lastname}</Text>
                 </Pressable>
                 {!!book.link &&
                     <Text>Access it here: {book.link}</Text>}
