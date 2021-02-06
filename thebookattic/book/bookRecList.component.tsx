@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, Pressable } from 'react-native';
+import { View, Text, Image, Pressable, ActivityIndicator } from 'react-native';
 import { Card } from 'react-native-elements';
+import { FlatList } from 'react-native-gesture-handler';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 
@@ -24,6 +25,13 @@ export default function BookRecListComponent() {
     let userGenreRating: any = [];
     let userAuthorRating: any = [];
     let bookRecList: any = [ ...books ];
+
+    useEffect(() => {
+        // get the user's list of books to read
+        bookService.getBooksHaveRead(user.name).then((readBooks) => {
+            setBooks(readBooks);
+        });
+    }, []);
   
     function onBookSelect(index: number) {
         let bookRecToBook = bookRecList[index];
@@ -92,13 +100,22 @@ export default function BookRecListComponent() {
         bookRecList[i].recRating += adjustBookRecRating(genreIndex, authorIndex);
     }
     bookRecList.sort((a: any, b: any) => (a.recRating < b.recRating) ? 1 : -1);
+    bookRecList = bookRecList.filter((book: any) => ((readBooks.filter(readBook => readBook.id == book.id)).length < 1));
 
-    useEffect(() => {
-        // get the user's list of books to read
-        bookService.getBooksHaveRead(user.name).then((readBooks) => {
-            setBooks(readBooks);
-        });
-    }, []);
+    const bookPreview = (params: any) => {
+        return (
+            <View key={params.index}>
+                <Pressable onPress={()=> onBookSelect(params.index)}>
+                    <Card>
+                        <Text style={style.bookPreviewText}>{params.item.title}</Text>
+                        <Image style={style.bookPreviewImg} source={{uri: params.item.cover}}/>
+                    </Card>
+                </Pressable>
+            </View>
+        )
+    }
+    
+    const keyExtractor = (item: object, index: number) => { return index.toString(); }
 
     return (
         <ScrollView>
@@ -106,31 +123,12 @@ export default function BookRecListComponent() {
                 if (bookRecList[0]) {
                     return (
                         <View style={{alignItems: 'center'}}>
-                            {bookRecList.map((book: any, index: number) => {
-                                if ((readBooks.filter(readBook => readBook.id == book.id)).length < 1) {
-                                    return (
-                                        <View key={index}>
-                                            <Pressable onPress={()=> onBookSelect(index)}>
-                                                <Card>
-                                                    <Text style={style.bookPreviewText}>{bookRecList[index].title}</Text>
-                                                    <Image style={style.bookPreviewImg} source={{uri: bookRecList[index].cover}}/>
-                                                </Card>
-                                            </Pressable>
-                                        </View>
-                                    );
-                                } else {
-                                    return null;
-                                }
-                            })}
+                            <FlatList data={bookRecList} renderItem={bookPreview} keyExtractor={keyExtractor}/>
                         </View>
                     )
                 } else {
                     return (
-                        <View>
-                            <Text>
-                                Loading...
-                            </Text>
-                        </View>
+                        <ActivityIndicator/>
                     )
                 }
             })()}
