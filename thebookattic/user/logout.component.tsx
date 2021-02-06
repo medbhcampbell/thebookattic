@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, View } from "react-native";
 import { useDispatch } from "react-redux";
-import { useNavigation } from '@react-navigation/native';
+
 
 import style from '../global-styles';
 import { getUser } from "../store/actions";

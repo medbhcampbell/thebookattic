@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Image, ActivityIndicator, Pressable } from 'react-native';
 import { Card } from 'react-native-elements';
-import { FlatList, ScrollView } from 'react-native-gesture-handler';
+import { FlatList} from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 import { Picker } from '@react-native-picker/picker';
 
