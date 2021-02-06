@@ -22,7 +22,7 @@ export  function LogoutComponent() {
         <View style={style.container}  >
             
            <Button  
-           buttonStyle={{backgroundColor: 'grey'} }
+           buttonStyle={{backgroundColor: 'clear'} }
            
            icon={
                <><Icon
