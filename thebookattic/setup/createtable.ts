@@ -62,12 +62,13 @@ ddb.deleteTable(removeUsers, function (err, data) {
 });
 
 function populateUsersTable() {
-    //used for demo
+    userService.addUser({name: 'jim', password: 'pass', role: 'admin'}).then(()=>{});
+    userService.addUser({name: 'linda', password: 'pass', role: 'admin'}).then(()=>{});
+    userService.addUser({name: 'newguy', password: 'pass', role: 'user'}).then(()=>{});
     userService.addUser({name: 'robert', password: 'pass', role: 'user'}).then(()=>{});
     userService.addUser({name: 'lilith', password: 'pass', role: 'user'}).then(()=>{});
     userService.addUser({name: 'ifleming', password: 'pass', role: 'author'}).then(()=>{});
     userService.addUser({name: 'emma', password: 'pass', role: 'admin'}).then(()=>{});
-    //rest of authors
     userService.addUser({name: 'jausten', password: 'pass', role: 'author'}).then(()=>{});
     userService.addUser({name: 'ltolstoy', password: 'pass', role: 'author'}).then(()=>{});
     userService.addUser({name: 'sking', password: 'pass', role: 'author'}).then(()=>{});
