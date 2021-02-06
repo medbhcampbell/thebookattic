@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -24,17 +24,36 @@ function RegisterComponent() {
     const [author, setAuthor] = useState(new Author());
     let tempAuthor = author;
 
+    const [validInput, setValidInput] = useState(false);
+
     const pickRole = (itemValue: React.ReactText) => {
         setRole(itemValue as string);
         dispatch(loginAction({ ...user, role: role }));
+        checkInput();
+    }
+
+    //validate input
+    const checkInput = () => {
+        if (!user.role) {
+            dispatch(loginAction({ ...user, role: 'user' }));
+        }
+
+        if ((user.name && user.password) &&
+            ((role === 'author' && author.firstname && author.lastname && author.bio) ||
+            role === 'user')) {
+            setValidInput(true);
+        } else {
+            setValidInput(false);
+        }
     }
 
     function registerForm() {
         user.role = role;
+
         userService.addUser(user).then((userres) => {
             console.log(userres);
 
-            if(role === 'author') {
+            if (role === 'author') {
                 authorService.addAuthor(author).then(() => {
                     console.log(`added author ${JSON.stringify(author)}`);
                 }).catch((err) => {
@@ -47,24 +66,36 @@ function RegisterComponent() {
         });
     }
 
+    useEffect(() => {
+        checkInput();
+    }, [user]);
+
     return (
         <View style={style.container}>
             <Input
                 label='Username (no spaces)'
-                style={style.input}
                 onChangeText={(value) => {
-                    dispatch(loginAction({ ...user, name: value }))
+                    dispatch(loginAction({ ...user, name: value }));
                     tempAuthor.userid = value;
                     setAuthor(tempAuthor);
+                }}
+                placeholder='username'
+                leftIcon={{
+                    type: 'font-awesome-5',
+                    name: 'user-alt'
                 }}
             />
             <Input
                 label='Password'
-                style={style.input}
                 secureTextEntry={true}
                 onChangeText={(value) =>
                     dispatch(loginAction({ ...user, password: value }))
                 }
+                placeholder='password'
+                leftIcon={{
+                    type: 'font-awesome-5',
+                    name: 'key'
+                }}
             />
             <Picker
                 selectedValue={role}
@@ -81,23 +112,22 @@ function RegisterComponent() {
                 <>
                     <Input
                         label='First name'
-                        style={style.input}
                         onChangeText={(value) => {
                             tempAuthor.firstname = value;
                             setAuthor(tempAuthor);
+                            checkInput();
                         }}
                     />
                     <Input
                         label='Last name'
-                        style={style.input}
                         onChangeText={(value) => {
                             tempAuthor.lastname = value;
                             setAuthor(tempAuthor);
+                            checkInput();
                         }}
                     />
                     <Input
                         label='Tell us about yourself'
-                        style={style.input}
                         multiline
                         numberOfLines={2}
                         scrollEnabled
@@ -105,19 +135,20 @@ function RegisterComponent() {
                         onChangeText={(value) => {
                             tempAuthor.bio = value;
                             setAuthor(tempAuthor);
+                            checkInput();
                         }}
                     />
                     <Input
                         label='Link to your photo/logo'
-                        defaultValue='url'
-                        style={style.input}
+                        defaultValue='(optional url)'
                         onChangeText={(value) => {
                             tempAuthor.picture = value;
                             setAuthor(tempAuthor);
+                            checkInput();
                         }}
                     />
                 </>}
-            <Button onPress={registerForm} title='Register' type='outline' />
+            <Button disabled={!validInput} onPress={registerForm} title='Register' type='outline' />
         </View>
     )
 }

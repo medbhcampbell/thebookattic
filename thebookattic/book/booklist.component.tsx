@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Image, ActivityIndicator, Pressable } from 'react-native';
 import { Card } from 'react-native-elements';
-import { FlatList } from 'react-native-gesture-handler';
+import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 import { Picker } from '@react-native-picker/picker';
 
@@ -71,6 +71,7 @@ export default function BookListComponent(props: BookListProps) {
 
     return (
         <View style={{ alignItems: 'center' }}>
+         
             <Picker
                 selectedValue={filter}
                 onValueChange={handleFilter}>
@@ -89,6 +90,9 @@ export default function BookListComponent(props: BookListProps) {
                     <FlatList data={filter == '' ? props.books : list} renderItem={BookPreview} keyExtractor={keyExtractor}/>
                 : <Text style={style.h1}> No books found!</Text>
             : <ActivityIndicator/>}
+            
+            
         </View>
+        
     )
 }

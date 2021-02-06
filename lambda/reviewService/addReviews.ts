@@ -25,24 +25,6 @@ export const handler = async (event: MyEvent) => {
         review.username,
         review.bookid
     ]);
-    
-    // Calculate and update author rating
-    q = `update authors set avgrating = 
-            (select avg(r.rating) from reviews r inner join books b on (r.bookid = b.id) where b.authorid=
-                (select authorid from books where id=$1::int))
-        where id = 
-            (select authorid from books where id=$2::int);`;
-    await client.query(q, [
-        review.bookid,
-        review.bookid
-    ]).catch((err: any) => console.error(err));
-
-    // Calculate and update book rating
-    q = `update books set rating = (select avg(rating) from reviews where bookid=$1::int) where id=$2::int;`;
-    await client.query(q, [
-        review.bookid,
-        review.bookid
-    ]).catch((err: any) => console.error(err));
 
     await client.end();
     const head = {

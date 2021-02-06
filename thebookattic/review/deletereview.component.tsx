@@ -1,9 +1,8 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { Button } from 'react-native';
+import { Button, Icon } from 'react-native-elements';
 import { useDispatch } from 'react-redux';
-import { changeReview} from '../store/actions';
-import { Review } from './review';
+import { getReviews } from '../store/actions';
 import reviewService from './review.service';
 
 interface DeleteReviewProps {
@@ -19,7 +18,7 @@ export default function DeleteReviewComponent(props: DeleteReviewProps) {
     function deleteReview() {
         reviewService.deleteReviewById(props.reviewid).then(() => {
             reviewService.getReviews().then((review) => {
-                dispatch(changeReview(new Review));
+                dispatch(getReviews(review));
             }).catch((err) => {
                 console.log(err);
             });
@@ -27,14 +26,20 @@ export default function DeleteReviewComponent(props: DeleteReviewProps) {
             console.log(err);
         }).finally(() => {
             //take us home
-            nav.navigate('Home');
+            nav.navigate('UnapprovedReviews');
         })
     }
 
     return (
         <Button
-            color='red'
-            title={props.approved? 'Delete':'Reject'}
+            buttonStyle={{ backgroundColor: 'red' }}
+            icon={
+                <Icon
+                    name='times'
+                    color='white'
+                    type='font-awesome'
+                />
+            }
             onPress={deleteReview} />
     )
 }

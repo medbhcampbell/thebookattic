@@ -1,9 +1,9 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { Button } from 'react-native';
+import { Button, Icon } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 
-import {  getReviews } from '../store/actions';
+import { getReviews } from '../store/actions';
 import reviewService from './review.service';
 
 
@@ -18,8 +18,7 @@ export default function ApproveReviewComponent(props: ApproveReviewProps) {
 
     function approveReview() {
         reviewService.approveReviewById(props.id).then(() => {
-            // Refresh the store with the update book set
-            reviewService.getReviews().then((review) => {
+             reviewService.getReviews().then((review) => {
                 dispatch(getReviews(review));
             }).catch((err) => {
                 console.log(err);
@@ -27,14 +26,20 @@ export default function ApproveReviewComponent(props: ApproveReviewProps) {
         }).catch((err) => {
             console.log(err);
         }).finally(() => {
-              nav.navigate('UnapprovedReviews');
+            nav.navigate('UnapprovedReviews');
         })
     }
 
     return (
         <Button
-            color='green'
-            title='Approve'
+            buttonStyle={{ backgroundColor: 'green' }}
+            icon={
+                <Icon
+                    name='check'
+                    color='white'
+                    type='font-awesome'
+                />
+            }
             onPress={approveReview} />
     )
 }

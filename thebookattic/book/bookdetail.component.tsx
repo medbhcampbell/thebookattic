@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { View, Image } from 'react-native';
-import { RouteProp } from '@react-navigation/native';
+import { View, Image, Pressable, ScrollView } from 'react-native';
+import { RouteProp, useNavigation } from '@react-navigation/native';
 import style from '../global-styles';
-import { StackParams } from '../router/router.component';
 
 import { getAuthor } from '../store/actions';
 import { Book } from './book';
@@ -12,22 +11,25 @@ import bookService from './book.service';
 import authorService from '../author/author.service';
 import DeleteBookComponent from './deletebook.component';
 import ReviewsComponent from '../review/reviews.component';
-import { Text, Rating, Button } from 'react-native-elements';
+import { Text, Rating, Button, Icon } from 'react-native-elements';
 import ApproveBookComponent from './approvebook.component';
 import SubmitReviewComponent from '../review/submitReview.component';
+import { StackParams } from '../router/router.component';
 
 interface BookDetailProps {
     route: RouteProp<StackParams, 'BookDetail'>
 }
 
 export default function BookDetailComponent(props: BookDetailProps) {
+    const nav = useNavigation();
+
     const dispatch = useDispatch();
     const book: Book = props.route.params;
 
     const selectAuthor = (state: AuthorState) => state.author;
     const author = useSelector(selectAuthor);
     const genres = useSelector((state: GenreState) => state.genres);
-    
+
     //check if this user is the book's author
     const user = useSelector((state: UserState) => state.user);
     const [userIsAuthor, setUserIsAuthor] = useState(false);
@@ -85,19 +87,30 @@ export default function BookDetailComponent(props: BookDetailProps) {
             }
         }
 
+        async function getRating() {
+            try {
+                book.rating = await bookService.getBookRating(book.id);
+            } catch(err) {
+                console.log(err);
+            }
+        }
+
+        getRating();
         checkOnList();
         checkAuthor();
 
-    }, [setUserIsAuthor, setToRead, reviews]);
+    }, [book, setUserIsAuthor, setToRead, reviews]);
 
     return (
-        <View>
+        <ScrollView>
             <View style={style.bookDetailContainer}>
                 {!book.approved &&
-                    <Text style={style.dangerText}>This book needs approval before it becomes public!</Text>}
-                <Text h1 style={{ textAlign: 'center' }}>{book.title}</Text>
+                    <Text style={{ color: 'red' }}>This book needs approval before it becomes public!</Text>}
+                <Text h3 style={{ textAlign: 'center' }}>{book.title}</Text>
                 <Image source={{ uri: book.cover }}></Image>
-                <Text>Author: {author.firstname + ' ' + author.lastname}</Text>
+                <Pressable onPress={() => nav.navigate('AuthorDetail')}>
+                    <Text h4 style={{ textAlign: 'center' }}>{author.firstname + ' ' + author.lastname}</Text>
+                </Pressable>
                 {!!book.link &&
                     <Text>Access it here: {book.link}</Text>}
                 <Text>{book.blurb}</Text>
@@ -106,26 +119,35 @@ export default function BookDetailComponent(props: BookDetailProps) {
                 <Text>Average rating:
                     <Rating ratingBackgroundColor='#F9F9F9' imageSize={20} readonly startingValue={book.rating} />
                 </Text>
-                <View style={{ flex: 1, flexDirection: 'row' }}>
-                    {userIsAuthor || user.role === 'admin' ?
-                        <DeleteBookComponent bookid={book.id} approved={book.approved} />
-                        : <Text>My rating: TODO getRatingByUser</Text>}
+                <View style={{ flex: 1, flexDirection: 'row', justifyContent:'center' }}>
+                    {(userIsAuthor || user.role === 'admin') &&
+                        <DeleteBookComponent bookid={book.id} />}
                     {(!book.approved && user.role === 'admin') &&
                         <ApproveBookComponent id={book.id} />}
                 </View>
-                <View style={{ flex: 1, flexDirection: 'row' }}>
-                    {!userIsAuthor && !toRead && !haveRead &&
+                <View style={{ flex: 1, flexDirection: 'row', justifyContent:'center' }}>
+                    {!userIsAuthor && !toRead && !haveRead && book.approved &&
                         <Button
-                            title='Add to "To Read" list'
+                            icon={
+                                <Icon
+                                    name='bookmark'
+                                    type='font-awesome'
+                                />
+                            }
                             type='outline'
                             onPress={async () => {
                                 await bookService.addBookToRead(user.name, book.id);
                                 setToRead(true);
                             }}
                         />}
-                    {!userIsAuthor && !haveRead &&
+                    {!userIsAuthor && !haveRead && book.approved &&
                         <Button
-                            title='Add to "Have Read" list'
+                            icon={
+                                <Icon
+                                    name='book'
+                                    type='font-awesome'
+                                />
+                            }
                             type='outline'
                             onPress={async () => {
                                 await bookService.addBookHaveRead(user.name, book.id);
@@ -135,13 +157,14 @@ export default function BookDetailComponent(props: BookDetailProps) {
                         />}
                 </View>
             </ View>
-            {!haveReviewed &&
+            {!haveReviewed && !userIsAuthor && book.approved &&
                 <View style={style.bookDetailContainer}>
-                    <SubmitReviewComponent id={book.id} />
+                    <SubmitReviewComponent id={book.id} setHaveReviewed={setHaveReviewed} />
                 </View>}
-            <View style={style.bookDetailContainer}>
-                <ReviewsComponent book={book} />
-            </View>
-        </View>
+            {book.approved &&
+                <View style={style.bookDetailContainer}>
+                    <ReviewsComponent book={book} />
+                </View>}
+        </ScrollView>
     )
 }

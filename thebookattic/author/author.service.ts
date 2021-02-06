@@ -1,11 +1,13 @@
 import axios from 'axios';
 
 import { Author } from './author';
+import env from '../environment';
+
 class AuthorService {
     private URI: string;
     constructor() {
         // Existing URI to be replaced with AWS Lambda URI
-        this.URI = process.env.THEBOOKATTIC_URI + 'authors';
+        this.URI = env.THEBOOKATTIC_URI + 'authors';
     }
 
     getAllAuthors(): Promise<Author[]> {
@@ -37,7 +39,12 @@ class AuthorService {
     }
 
     getAuthorRating(authorId: number): Promise<number> {
-        return axios.get(this.URI+ '/ratings/' + authorId).then(result => result.data).catch(error => {console.error(error)});
+        return axios
+            .get(this.URI + '/ratings/' + authorId)
+            .then((result) => result.data)
+            .catch((error) => {
+                console.error(error);
+            });
     }
 
     addAuthor(author: Author): Promise<null> {

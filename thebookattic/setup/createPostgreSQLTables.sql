@@ -13,7 +13,7 @@ create table authors
 	lastname varchar(25),
 	avgrating float not null,
 	bio varchar(500) not null,
-	picture varchar(100) not null
+	picture varchar(200) not null
 );
 
 create table genres
@@ -30,12 +30,12 @@ create table books
 	cover varchar(150) not null,
 	blurb varchar(500) not null,
 	page_count int not null,
-	link varchar(50),
+	link varchar(200),
 	rating float default 0,
 	approved boolean default false,
 	genreid int not null,
-	constraint fk_authorid foreign key (authorid) references authors (id),
-	constraint fk_genreid foreign key (genreid) references genres (id)
+	constraint fk_authorid foreign key (authorid) references authors (id) on delete cascade,
+	constraint fk_genreid foreign key (genreid) references genres (id) on delete cascade
 );
 
 create table reviews
@@ -44,8 +44,9 @@ create table reviews
     rating int not null,
     content text not null,
     username varchar(25) not null,
-    bookid int not null references books(id) not null,
-    approved boolean default false
+    bookid int not null,
+    approved boolean default false,
+    constraint fk_bookid foreign key (bookid) references books (id) on delete cascade
 );
 
 create table toread
@@ -53,7 +54,7 @@ create table toread
 	username varchar(25) not null,
 	bookid int not null,
 	primary key(username, bookid),
-	constraint fk_bookid foreign key (bookid) references books (id)
+	constraint fk_bookid foreign key (bookid) references books (id) on delete cascade
 );
 
 create table haveread
@@ -61,20 +62,20 @@ create table haveread
 	username varchar(25) not null,
 	bookid int not null,
 	primary key(username, bookid),
-	constraint fk_bookid foreign key (bookid) references books (id)
+	constraint fk_bookid foreign key (bookid) references books (id) on delete cascade
 );
 
 -- Populating with some sample entries, feel free to add/remove
-insert into genres (name) values ('action');
-insert into genres (name) values ('adventure');
-insert into genres (name) values ('nonfiction');
-insert into genres (name) values ('classic');
-insert into genres (name) values ('fantasy');
-insert into genres (name) values ('mystery');
-insert into genres (name) values ('romance');
-insert into genres (name) values ('sci-fi');
-insert into genres (name) values ('young adult');
-insert into genres (name) values ('horror');
+insert into genres (name) values ('Action');
+insert into genres (name) values ('Adventure');
+insert into genres (name) values ('Nonfiction');
+insert into genres (name) values ('Classic');
+insert into genres (name) values ('Fantasy');
+insert into genres (name) values ('Mystery');
+insert into genres (name) values ('Romance');
+insert into genres (name) values ('Sci-fi');
+insert into genres (name) values ('Young Adult');
+insert into genres (name) values ('Horror');
 
 insert into authors (userid, firstname, lastname, avgrating, bio, picture) values ('jausten', 'Jane', 'Austen', '4.5', 'English romance author for the gentry', 'https://www.history.com/.image/ar_16:9%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cg_faces:center%2Cq_auto:good%2Cw_768/MTU3OTIzNTc2MTE1NzAxMzk0/why-jane-austen-never-marrieds-featured-photo.jpg');
 insert into authors (userid, firstname, lastname, avgrating, bio, picture) values ('wshakespeare', 'William', 'Shakespeare', '2.7', 'Some unpopular English scriptwriter', 'https://www.bl.uk/britishlibrary/~/media/bl/global/dl%20shakespeare/authors/shakespeare-people-page.jpg');
@@ -99,29 +100,29 @@ insert into books (authorid, title, cover, blurb, page_count, genreid) values
 	'https://images-na.ssl-images-amazon.com/images/I/91HqOO4DmRL.jpg',
 	'Will-they-wont-they in petticoats',
 	'350',
-	(select id from genres where name like 'romance'));
+	(select id from genres where name like 'Romance'));
 insert into books (authorid, title, cover, blurb, page_count, genreid) values
 	((select id from authors where lastname like 'Austen'),
 	'Northanger Abbey',
 	'https://images-na.ssl-images-amazon.com/images/I/817RHZL+9UL.jpg',
 	'How reading too many novels can send delicate young women mildly insane',
 	'190',
-	(select id from genres where name like 'romance'));
+	(select id from genres where name like 'Romance'));
 insert into books (authorid, title, cover, blurb, page_count, genreid) values
 	((select id from authors where lastname like 'Gaskell'),
 	'North and South',
 	'https://images-na.ssl-images-amazon.com/images/I/41JJbGrrsnL._SX323_BO1,204,203,200_.jpg',
 	'Look how awful and exploitative 19th century Northern English cotton mills were! But the main characters got married so its a happy ending',
 	'460',
-	(select id from genres where name like 'romance'));
+	(select id from genres where name like 'Romance'));
 insert into books (authorid, title, cover, blurb, page_count, approved, genreid) values
 	((select id from authors where lastname like 'Shakespeare'),
 	'The Tempest',
-	'https://productimages.worldofbooks.com/185326203X.jpg'
+	'https://productimages.worldofbooks.com/185326203X.jpg',
 	'Shipwrecks, monsters, and the meaning of humanity',
 	'500',
 	true,
-	(select id from genres where name like 'classic'));
+	(select id from genres where name like 'Classic'));
 insert into books (authorid, title, cover, blurb, page_count, approved, genreid) values
 	((select id from authors where lastname like 'Shakespeare'),
 	'Hamlet',
@@ -129,7 +130,7 @@ insert into books (authorid, title, cover, blurb, page_count, approved, genreid)
 	'The Lion King but with fewer lions',
 	'500',
 	true,
-	(select id from genres where name like 'classic'));
+	(select id from genres where name like 'Classic'));
 insert into books (authorid, title, cover, blurb, page_count, approved, genreid) values
 	((select id from authors where lastname like 'King'),
 	'It',
@@ -137,7 +138,7 @@ insert into books (authorid, title, cover, blurb, page_count, approved, genreid)
 	'The OG murderclown, and people fleeing their hometowns',
 	'750',
 	true,
-	(select id from genres where name like 'horror'));
+	(select id from genres where name like 'Horror'));
 insert into books (authorid, title, cover, blurb, page_count, approved, genreid) values
 	((select id from authors where lastname like 'King'),
 	'Carrie',
@@ -145,7 +146,7 @@ insert into books (authorid, title, cover, blurb, page_count, approved, genreid)
 	'Being a teenage girl is brutal, but the telekinesis has its use',
 	'100',
 	true,
-	(select id from genres where name like 'horror'));
+	(select id from genres where name like 'Horror'));
 insert into books (authorid, title, cover, blurb, page_count, approved, genreid) values
 	((select id from authors where lastname like 'Tolstoy'),
 	'War and Peace',
@@ -153,7 +154,7 @@ insert into books (authorid, title, cover, blurb, page_count, approved, genreid)
 	'Everyone is going to die',
 	'3000',
 	true,
-	(select id from genres where name like 'classic'));
+	(select id from genres where name like 'Classic'));
 insert into books (authorid, title, cover, blurb, page_count, approved, genreid) values
 	((select id from authors where lastname like 'Dahl'),
 	'Charlie and the Chocolate Factory',
@@ -161,7 +162,7 @@ insert into books (authorid, title, cover, blurb, page_count, approved, genreid)
 	'All childhood flaws are punishable by death',
 	'78',
 	true,
-	(select id from genres where name like 'young adult'));
+	(select id from genres where name like 'Young Adult'));
 insert into books (authorid, title, cover, blurb, page_count, approved, genreid) values
 	((select id from authors where lastname like 'Dahl'),
 	'James and the Giant Peach',
@@ -169,7 +170,7 @@ insert into books (authorid, title, cover, blurb, page_count, approved, genreid)
 	'The benefits of alternative, off-grid, plant-based housing',
 	'120',
 	true,
-	(select id from genres where name like 'young adult'));
+	(select id from genres where name like 'Young Adult'));
 insert into books (authorid, title, cover, blurb, page_count, approved, genreid) values
 	((select id from authors where lastname like 'Fleming'),
 	'Casino Royale',
@@ -177,7 +178,7 @@ insert into books (authorid, title, cover, blurb, page_count, approved, genreid)
 	'The book so good they filmed it twice',
 	'460',
 	true,
-	(select id from genres where name like 'action'));
+	(select id from genres where name like 'Action'));
 insert into books (authorid, title, cover, blurb, page_count, approved, genreid) values
 	((select id from authors where lastname like 'Fleming'),
 	'From Russia With Love',
@@ -185,7 +186,7 @@ insert into books (authorid, title, cover, blurb, page_count, approved, genreid)
 	'Yesh, Mish Moneypenny, I am 007',
 	'500',
 	true,
-	(select id from genres where name like 'action'));
+	(select id from genres where name like 'Action'));
 insert into books (authorid, title, cover, blurb, page_count, approved, genreid) values
 	((select id from authors where lastname like 'Verne'),
 	'20000 Leagues Under the Sea',
@@ -193,7 +194,7 @@ insert into books (authorid, title, cover, blurb, page_count, approved, genreid)
 	'Predicting the existence of submarines, and pointing out a lot of fish',
 	'550',
 	true,
-	(select id from genres where name like 'adventure'));
+	(select id from genres where name like 'Adventure'));
 insert into books (authorid, title, cover, blurb, page_count, approved, genreid) values
 	((select id from authors where lastname like 'Verne'),
 	'Journey to the Center of the Earth',
@@ -201,7 +202,7 @@ insert into books (authorid, title, cover, blurb, page_count, approved, genreid)
 	'Huh, its dark down here',
 	'390',
 	true,
-	(select id from genres where name like 'adventure'));
+	(select id from genres where name like 'Adventure'));
 insert into books (authorid, title, cover, blurb, page_count, approved, genreid) values
 	((select id from authors where lastname like 'Sagan'),
 	'Cosmos',
@@ -209,7 +210,7 @@ insert into books (authorid, title, cover, blurb, page_count, approved, genreid)
 	'The universe is pretty neat',
 	'510',
 	true,
-	(select id from genres where name like 'nonfiction'));
+	(select id from genres where name like 'Nonfiction'));
 insert into books (authorid, title, cover, blurb, page_count, approved, genreid) values
 	((select id from authors where lastname like 'Martin'),
 	'A Game of Thrones',
@@ -217,7 +218,7 @@ insert into books (authorid, title, cover, blurb, page_count, approved, genreid)
 	'The captivating start to an epic fantasy which will be concluded any day now',
 	'1500',
 	true,
-	(select id from genres where name like 'fantasy'));
+	(select id from genres where name like 'Fantasy'));
 insert into books (authorid, title, cover, blurb, page_count, approved, genreid) values
 	((select id from authors where lastname like 'Martin'),
 	'The Winds of Winter',
@@ -225,7 +226,7 @@ insert into books (authorid, title, cover, blurb, page_count, approved, genreid)
 	'The satisfying final chapter of A Song of Ice and Fire',
 	'10000',
 	true,
-	(select id from genres where name like 'fantasy'));
+	(select id from genres where name like 'Fantasy'));
 insert into books (authorid, title, cover, blurb, page_count, approved, genreid) values
 	((select id from authors where lastname like 'Tolkien'),
 	'The Fellowship of the Ring',
@@ -233,7 +234,7 @@ insert into books (authorid, title, cover, blurb, page_count, approved, genreid)
 	'The grandfather of modern high fantasy',
 	'750',
 	true,
-	(select id from genres where name like 'fantasy'));
+	(select id from genres where name like 'Fantasy'));
 insert into books (authorid, title, cover, blurb, page_count, approved, genreid) values
 	((select id from authors where lastname like 'Tolkien'),
 	'The Two Towers',
@@ -241,7 +242,7 @@ insert into books (authorid, title, cover, blurb, page_count, approved, genreid)
 	'Starts partway through a long journey. Ends... slightly further along in the same journey',
 	'800',
 	true,
-	(select id from genres where name like 'fantasy'));
+	(select id from genres where name like 'Fantasy'));
 insert into books (authorid, title, cover, blurb, page_count, approved, genreid) values
 	((select id from authors where lastname like 'Tolkien'),
 	'The Return of the King',
@@ -249,7 +250,7 @@ insert into books (authorid, title, cover, blurb, page_count, approved, genreid)
 	'See this, George RR Martin? THIS is how you finish an epic',
 	'1200',
 	true,
-	(select id from genres where name like 'fantasy'));
+	(select id from genres where name like 'Fantasy'));
 insert into books (authorid, title, cover, blurb, page_count, approved, genreid) values
 	((select id from authors where lastname like 'Christie'),
 	'The Murder of Roger Ackroyd',
@@ -257,7 +258,7 @@ insert into books (authorid, title, cover, blurb, page_count, approved, genreid)
 	'Spoilers: Monsieur Poirot figures it out',
 	'280',
 	true,
-	(select id from genres where name like 'mystery'));
+	(select id from genres where name like 'Mystery'));
 insert into books (authorid, title, cover, blurb, page_count, approved, genreid) values
 	((select id from authors where lastname like 'Christie'),
 	'A Murder is Announced',
@@ -265,7 +266,7 @@ insert into books (authorid, title, cover, blurb, page_count, approved, genreid)
 	'Spoilers: Miss Marple figures it out',
 	'500',
 	true,
-	(select id from genres where name like 'mystery'));
+	(select id from genres where name like 'Mystery'));
 insert into books (authorid, title, cover, blurb, page_count, approved, genreid) values
 	((select id from authors where lastname like 'Shelley'),
 	'Frankenstein',
@@ -273,7 +274,7 @@ insert into books (authorid, title, cover, blurb, page_count, approved, genreid)
 	'Who is the true monster here?',
 	'510',
 	true,
-	(select id from genres where name like 'sci-fi'));
+	(select id from genres where name like 'Sci-fi'));
 insert into books (authorid, title, cover, blurb, page_count, approved, genreid) values
 	((select id from authors where lastname like 'Adams'),
 	'A Hitchhikers Guide to the Galaxy',
@@ -281,7 +282,7 @@ insert into books (authorid, title, cover, blurb, page_count, approved, genreid)
 	'Where spaceships hang in the air in the exact way that bricks do not',
 	'300',
 	true,
-	(select id from genres where name like 'sci-fi'));
+	(select id from genres where name like 'Sci-fi'));
 insert into books (authorid, title, cover, blurb, page_count, approved, genreid) values
 	((select id from authors where lastname like 'Poe'),
 	'The Fall of the House of Usher',
@@ -289,7 +290,7 @@ insert into books (authorid, title, cover, blurb, page_count, approved, genreid)
 	'Take care of your family estate, lest it fall into disrepair',
 	'50',
 	true,
-	(select id from genres where name like 'horror'));
+	(select id from genres where name like 'Horror'));
 
 insert into toread (username, bookid) values ('jausten', 3);
 insert into toread (username, bookid) values ('jausten', 4);
@@ -306,3 +307,52 @@ insert into haveread (username, bookid) values ('gmartin', 5);
 insert into haveread (username, bookid) values ('mshelley', 24);
 insert into haveread (username, bookid) values ('mshelley', 23);
 insert into haveread (username, bookid) values ('wshakespeare', 4);
+insert into haveread (username, bookid) values ('Robert', (select id from books where title like 'Hamlet'));
+insert into haveread (username, bookid) values ('Robert', (select id from books where title like 'Charlie and the Chocolate Factory'));
+insert into haveread (username, bookid) values ('Robert', (select id from books where title like 'Casino Royale'));
+insert into haveread (username, bookid) values ('Robert', (select id from books where title like 'Journey to the Center of the Earth'));
+insert into haveread (username, bookid) values ('Robert', (select id from books where title like 'The Fellowship of the Ring'));
+insert into haveread (username, bookid) values ('Robert', (select id from books where title like 'The Murder of Roger Ackroyd'));
+insert into haveread (username, bookid) values ('Robert', (select id from books where title like 'A Hitchhikers Guide to the Galaxy'));
+insert into haveread (username, bookid) values ('newguy', (select id from books where title like 'Carrie'));
+insert into haveread (username, bookid) values ('newguy', (select id from books where title like '20000 Leagues Under the Sea'));
+insert into haveread (username, bookid) values ('newguy', (select id from books where title like 'The Two Towers'));
+insert into haveread (username, bookid) values ('newguy', (select id from books where title like 'The Fall of the House of Usher'));
+insert into haveread (username, bookid) values ('Linda', (select id from books where title like 'War and Peace'));
+insert into haveread (username, bookid) values ('Linda', (select id from books where title like 'Cosmos'));
+insert into haveread (username, bookid) values ('Linda', (select id from books where title like 'The Return of the King'));
+insert into haveread (username, bookid) values ('Jim', (select id from books where title like 'The Tempest'));
+insert into haveread (username, bookid) values ('Jim', (select id from books where title like 'James and the Giant Peach'));
+insert into haveread (username, bookid) values ('Jim', (select id from books where title like 'A Game of Thrones'));
+insert into haveread (username, bookid) values ('Jim', (select id from books where title like 'A Murder is Announced'));
+insert into haveread (username, bookid) values ('Lilith', (select id from books where title like 'It'));
+insert into haveread (username, bookid) values ('Lilith', (select id from books where title like 'From Russia With Love'));
+insert into haveread (username, bookid) values ('Lilith', (select id from books where title like 'The Winds of Winter'));
+insert into haveread (username, bookid) values ('Lilith', (select id from books where title like 'Frankenstein'));
+
+
+--insert into reviews (rating, content, username, bookid, approved) values (2, 'I don''t even remember a character named Abbey', 'Robert', (select id from books where title like 'Northanger Abbey'), true);
+insert into reviews (rating, content, username, bookid, approved) values (1, 'This is a blatant rip-off of the Lion King.', 'Robert', (select id from books where title like 'Hamlet'), true);
+insert into reviews (rating, content, username, bookid, approved) values (5, 'It''s a great book but the factory has TERRIBLE safety standards', 'Robert', (select id from books where title like 'Charlie and the Chocolate Factory'), true);
+insert into reviews (rating, content, username, bookid, approved) values (4, 'James Bond is cool but I think he has a gambling addiction.', 'Robert', (select id from books where title like 'Casino Royale'), true);
+insert into reviews (rating, content, username, bookid, approved) values (5, 'This author included pictures of the dinosaurs and I think that is very cool. 5/5', 'Robert', (select id from books where title like 'Journey to the Center of the Earth'), true);
+insert into reviews (rating, content, username, bookid, approved) values (1, 'Tolkien spent like an entire chapter describing an empty ruin they walked past. Stay on track next time.', 'Robert', (select id from books where title like 'The Fellowship of the Ring'), true);
+insert into reviews (rating, content, username, bookid, approved) values (2, 'I''m still trying to figure out who dun it.', 'Robert', (select id from books where title like 'The Murder of Roger Ackroyd'), true);
+insert into reviews (rating, content, username, bookid, approved) values (4, 'I tried to throw this book at the ground but I missed.', 'Robert', (select id from books where title like 'A Hitchhikers Guide to the Galaxy'), true);
+--insert into reviews (rating, content, username, bookid, approved) values (5, 'Classic! Everyone should read this.', 'newguy', (select id from books where title like 'Pride and Prejudice'), false);
+--insert into reviews (rating, content, username, bookid, approved) values (4, 'I now want to eat the rich.', 'Linda', (select id from books where title like 'North and South'), true);
+insert into reviews (rating, content, username, bookid, approved) values (1, 'This Shakespear guy is boring and he spiells wirds real bad.', 'Jim', (select id from books where title like 'The Tempest'), true);
+insert into reviews (rating, content, username, bookid, approved) values (4, 'Ronald McDonald got weird but I like it', 'Lilith', (select id from books where title like 'It'), true);
+insert into reviews (rating, content, username, bookid, approved) values (5, 'I want to be just like Carrie!', 'newguy', (select id from books where title like 'Carrie'), true);
+insert into reviews (rating, content, username, bookid, approved) values (4, 'Good but possibly the longest book of all time.', 'Linda', (select id from books where title like 'War and Peace'), true);
+insert into reviews (rating, content, username, bookid, approved) values (4, 'I liked the part with the peach.', 'Jim', (select id from books where title like 'James and the Giant Peach'), true);
+insert into reviews (rating, content, username, bookid, approved) values (3, 'It''s James Bond. The stories are cool but he is problematic.', 'Lilith', (select id from books where title like 'From Russia With Love'), true);
+insert into reviews (rating, content, username, bookid, approved) values (5, 'I like the book.', 'newguy', (select id from books where title like '20000 Leagues Under the Sea'), true);
+insert into reviews (rating, content, username, bookid, approved) values (4, 'Pretty good', 'Linda', (select id from books where title like 'Cosmos'), true);
+insert into reviews (rating, content, username, bookid, approved) values (5, 'Great first entry to a series that will obviously have a timely and satisfying conclusion.', 'Jim', (select id from books where title like 'A Game of Thrones'), true);
+insert into reviews (rating, content, username, bookid, approved) values (1, 'Show was better. Martin should really learn from THOSE writers', 'Lilith', (select id from books where title like 'The Winds of Winter'), false);
+insert into reviews (rating, content, username, bookid, approved) values (5, 'Awesome!', 'newguy', (select id from books where title like 'The Two Towers'), true);
+insert into reviews (rating, content, username, bookid, approved) values (2, 'I was pretty sad when the orcs lost.', 'Linda', (select id from books where title like 'The Return of the King'), true);
+insert into reviews (rating, content, username, bookid, approved) values (4, 'This is a good book. Yessiree.', 'Jim', (select id from books where title like 'A Murder is Announced'), true);
+insert into reviews (rating, content, username, bookid, approved) values (4, 'The real monster was the friends we made along the way.', 'Lilith', (select id from books where title like 'Frankenstein'), true);
+insert into reviews (rating, content, username, bookid, approved) values (5, 'Well written but it gets really weird near the end.', 'newguy', (select id from books where title like 'The Fall of the House of Usher'), true);

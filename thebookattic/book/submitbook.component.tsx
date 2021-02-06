@@ -1,17 +1,18 @@
 import { Picker } from '@react-native-picker/picker';
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { View, Text, Button } from 'react-native';
-import { TextInput } from 'react-native-gesture-handler';
+import { View } from 'react-native';
+import { Text, Input, Button } from 'react-native-elements';
 import { useDispatch, useSelector } from 'react-redux';
 
 import genreService from '../genre/genre.service';
-import { getGenres } from '../store/actions';
+import { changeBooks, getGenres } from '../store/actions';
 import { GenreState, UserState } from '../store/store';
 import style from '../global-styles';
 import { Book } from './book';
 import bookService from './book.service';
 import authorService from '../author/author.service';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export default function SubmitBookComponent() {
     const nav = useNavigation();
@@ -22,10 +23,12 @@ export default function SubmitBookComponent() {
 
     const [book, setBook] = useState(new Book());
     //genreId needs its own state because otherwise the picker doesn't update
-    const [genreId, setGenreId] = useState(1);
+    const [genreId, setGenreId] = useState(0);
     // have a temporary variable that stores new info about the book before calling setBook
     //    because directly setting state variables can be unpredictable
     const tempBook = book;
+
+    const [validInput, setValidInput] = useState(false);
 
     // get the user and check that they are an author
     // if they are, get a list of genres for the picker
@@ -43,11 +46,6 @@ export default function SubmitBookComponent() {
                 });
             }
 
-            //set the book's genre to the automatically selected genre
-            setGenreId(genres[0].id);
-            tempBook.genreid = genreId;
-            setBook(tempBook);
-
             //get the user's authorid to complete book info
             authorService.getAuthorByUserId(user.name).then(data => {
                 tempBook.authorid = data.id;
@@ -58,43 +56,60 @@ export default function SubmitBookComponent() {
         }
     }, [dispatch]);
 
+    const checkInput = () => {
+        if (book.title &&
+            book.page_count &&
+            book.cover &&
+            book.blurb &&
+            book.genreid) {
+            setValidInput(true);
+        } else {
+            setValidInput(false);
+        }
+    }
+
     //function for the genre picker in the form
-    //TODO should there be a separate genrepicker component shared by this and booklist?
     const pickGenre = (itemValue: React.ReactText) => {
         tempBook.genreid = Number(itemValue);
         setBook(tempBook);
         setGenreId(Number(itemValue));
+        checkInput();
     }
 
     const submitBook = () => {
         console.log(JSON.stringify(book));
-        bookService.addBook(book);
+        bookService.addBook(book).then(() => {
+            // Update the store
+            bookService.getAllBooks().then((result) => {
+                dispatch(changeBooks(result));
+            }).catch((err) => console.log(err));
+        }).catch((err) => console.log(err));
         nav.navigate('Home');
     }
 
     return (
-        <View>
-            <Text>Submit your book</Text>
+        <ScrollView>
+        <View style={style.bookDetailContainer}>
+            <Text h1 style={{textAlign:'center'}}>Submit your book</Text>
             <View>
-                <TextInput
-                    style={style.input}
-                    placeholder='Title'
+                <Input
+                    label='Title'
                     autoCapitalize='words'
                     returnKeyType='next'
                     onChangeText={text => {
                         tempBook.title = text;
                         setBook(tempBook);
+                        checkInput();
                     }} />
-                <TextInput
-                    style={style.input}
-                    placeholder='Link to cover page image'
+                <Input
+                    label='Link to cover page image'
                     onChangeText={text => {
                         tempBook.cover = text;
                         setBook(tempBook);
+                        checkInput();
                     }} />
-                <TextInput
-                    style={style.input}
-                    placeholder='Book description'
+                <Input
+                    label='Book description'
                     multiline
                     numberOfLines={4}
                     scrollEnabled
@@ -102,26 +117,31 @@ export default function SubmitBookComponent() {
                     onChangeText={text => {
                         tempBook.blurb = text;
                         setBook(tempBook);
+                        checkInput();
                     }} />
-                <TextInput
-                    style={style.input}
-                    placeholder='Pages'
+                <Input
+                    label='Pages'
                     keyboardType={'number-pad'}
                     onChangeText={text => {
                         tempBook.page_count = Number(text);
                         setBook(tempBook);
+                        checkInput();
                     }} />
-                <TextInput
-                    style={style.input}
-                    placeholder='Link for access to book'
+                <Input
+                    label='Link for access to book'
+                    placeholder='(optional url)'
                     onChangeText={text => {
                         tempBook.link = text;
                         setBook(tempBook);
+                        checkInput();
                     }} />
                 {genres.length > 0 && <Picker
                     selectedValue={genreId}
                     style={{ height: 50, width: 100 }}
                     onValueChange={pickGenre}>
+                    <Picker.Item
+                        label='Choose genre'
+                        value='' />
                     {genres.map((genre) => {
                         return <Picker.Item
                             key={genre.id}
@@ -130,7 +150,8 @@ export default function SubmitBookComponent() {
                     })}
                 </Picker>}
             </View>
-            <Button title='Publish!' onPress={submitBook} />
+            <Button disabled={!validInput} type='outline' title='Publish!' onPress={submitBook} />
         </View>
+        </ScrollView>
     )
 }

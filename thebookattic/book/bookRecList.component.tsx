@@ -1,64 +1,35 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, Pressable } from 'react-native';
+import { View, Text, Image, Pressable, ActivityIndicator } from 'react-native';
 import { Card } from 'react-native-elements';
+import { FlatList } from 'react-native-gesture-handler';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 
 import style from '../global-styles';
 import { BookAtticState } from '../store/store';
-import { changeBooks, getGenres, getReviews, getAllAuthors } from "../store/actions";
 import { Review } from '../review/review';
 import { Book } from './book';
 import bookService from "./book.service";
-import genreService from '../genre/genre.service';
-import reviewService from '../review/review.service';
-import authorService from '../author/author.service';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export default function BookRecListComponent() {
     const navigation = useNavigation();
-    const dispatch = useDispatch();
-    const books = useSelector((state: BookAtticState) => state.books);
+    const books = useSelector((state: BookAtticState) => state.books).filter(book=>book.approved);
     const authors = useSelector((state: BookAtticState) => state.authors);
     const user = useSelector((state: BookAtticState) => state.user);
     const genres = useSelector((state: BookAtticState) => state.genres);
     const reviews = useSelector((state: BookAtticState) => state.reviews);
-    const [retrievedBooks, setRetrievedBooks] = useState(false);
-    const [approved, setApproved] = useState([] as Book[]);
+    const temp: Book[] = [];
+    const [readBooks, setBooks] = useState(temp);
     let userReviews: Review[] = [];
     let userGenreRating: any = [];
     let userAuthorRating: any = [];
     let bookRecList: any = [ ...books ];
-    
-    // I don't actually know if the useEffects help, but they're not hurting, so...
-    useEffect(()=>{
-        if(books.length <= 0) {
-            // If there's no books in the store, use the service to retrieve them
-            bookService.getAllBooks().then((result)=>{
-                setApproved(result.filter(item=>{return item.approved}));
-                dispatch(changeBooks(result));
-                setRetrievedBooks(true);
-            });
-        } else {
-            setApproved(books.filter(item=>{return item.approved}));
-            setRetrievedBooks(true);
-        }
-    }, []);
 
     useEffect(() => {
-        genreService.getGenres().then((genresres) => {
-            dispatch(getGenres(genresres));
-        });
-    }, []);
-
-    useEffect(() => {
-        reviewService.getReviews().then((reviewsres) => {
-            dispatch(getReviews(reviewsres));
-        });
-    }, []);
-
-    useEffect(() => {
-        authorService.getAllAuthors().then((authorsres) => {
-            dispatch(getAllAuthors(authorsres));
+        // get the user's list of books to read
+        bookService.getBooksHaveRead(user.name).then((readBooks) => {
+            setBooks(readBooks);
         });
     }, []);
   
@@ -80,7 +51,6 @@ export default function BookRecListComponent() {
                 ratingChange = -1;
                 break;
             case 3:
-                ratingChange = 0;
                 break;
             case 4:
                 ratingChange = 1;
@@ -89,7 +59,6 @@ export default function BookRecListComponent() {
                 ratingChange = 2;
                 break;
         }
-        console.log('ratingChange: ' + ratingChange);
         return ratingChange;
     }
 
@@ -131,37 +100,38 @@ export default function BookRecListComponent() {
         bookRecList[i].recRating += adjustBookRecRating(genreIndex, authorIndex);
     }
     bookRecList.sort((a: any, b: any) => (a.recRating < b.recRating) ? 1 : -1);
+    bookRecList = bookRecList.filter((book: any) => ((readBooks.filter(readBook => readBook.id == book.id)).length < 1));
+
+    const bookPreview = (params: any) => {
+        return (
+            <View key={params.index}>
+                <Pressable onPress={()=> onBookSelect(params.index)}>
+                    <Card>
+                        <Text style={style.bookPreviewText}>{params.item.title}</Text>
+                        <Image style={style.bookPreviewImg} source={{uri: params.item.cover}}/>
+                    </Card>
+                </Pressable>
+            </View>
+        )
+    }
+    
+    const keyExtractor = (item: object, index: number) => { return index.toString(); }
 
     return (
-        <View style={{alignItems: 'center'}}>
+        <ScrollView>
             {(() => {
                 if (bookRecList[0]) {
                     return (
-                        <View>
-                                {bookRecList.map((value, index: number) => {
-                                    return (
-                                        <View>
-                                            <Pressable onPress={()=> onBookSelect(index)}>
-                                                <Card>
-                                                    <Text style={style.bookPreviewText}>{bookRecList[index].title}</Text>
-                                                    <Image style={style.bookPreviewImg} source={{uri: bookRecList[index].cover}}/>
-                                                </Card>
-                                            </Pressable>
-                                        </View>
-                                    );
-                                })}
+                        <View style={{alignItems: 'center'}}>
+                            <FlatList data={bookRecList} renderItem={bookPreview} keyExtractor={keyExtractor}/>
                         </View>
                     )
                 } else {
                     return (
-                        <View>
-                            <Text>
-                                Loading...
-                            </Text>
-                        </View>
+                        <ActivityIndicator/>
                     )
                 }
             })()}
-        </View>
+        </ScrollView>
     )
 }

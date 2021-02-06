@@ -62,9 +62,24 @@ ddb.deleteTable(removeUsers, function (err, data) {
 });
 
 function populateUsersTable() {
-    userService.addUser({name: 'Linda', password: '1234', role: 'user'}).then(()=>{});
-    userService.addUser({name: 'Maddie', password: '1234', role: 'user'}).then(()=>{});
-    userService.addUser({name: 'Jim', password: 'pass', role: 'admin'}).then(()=>{});
-    
-   
+    //used for demo
+    userService.addUser({name: 'robert', password: 'pass', role: 'user'}).then(()=>{});
+    userService.addUser({name: 'lilith', password: 'pass', role: 'user'}).then(()=>{});
+    userService.addUser({name: 'ifleming', password: 'pass', role: 'author'}).then(()=>{});
+    userService.addUser({name: 'emma', password: 'pass', role: 'admin'}).then(()=>{});
+    //rest of authors
+    userService.addUser({name: 'jausten', password: 'pass', role: 'author'}).then(()=>{});
+    userService.addUser({name: 'ltolstoy', password: 'pass', role: 'author'}).then(()=>{});
+    userService.addUser({name: 'sking', password: 'pass', role: 'author'}).then(()=>{});
+    userService.addUser({name: 'rdahl', password: 'pass', role: 'author'}).then(()=>{});
+    userService.addUser({name: 'jverne', password: 'pass', role: 'author'}).then(()=>{});
+    userService.addUser({name: 'csagan', password: 'pass', role: 'author'}).then(()=>{});
+    userService.addUser({name: 'gmartin', password: 'pass', role: 'author'}).then(()=>{});
+    userService.addUser({name: 'jtolkien', password: 'pass', role: 'author'}).then(()=>{});
+    userService.addUser({name: 'achristie', password: 'pass', role: 'author'}).then(()=>{});
+    userService.addUser({name: 'mshelley', password: 'pass', role: 'author'}).then(()=>{});
+    userService.addUser({name: 'dadams', password: 'pass', role: 'author'}).then(()=>{});
+    userService.addUser({name: 'egaskell', password: 'pass', role: 'author'}).then(()=>{});
+    userService.addUser({name: 'wshakespeare', password: 'pass', role: 'author'}).then(()=>{});
+    userService.addUser({name: 'epoe', password: 'pass', role: 'author'}).then(()=>{});    
 }
