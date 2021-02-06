@@ -19,11 +19,11 @@ export const handler = async (event: MyEvent): Promise<any> => {
     let bookid = bookQuery.rows[0].bookid;
     
     // Delete the review
-    q = 'delete from reviews where id=$1::integer';
+    q = 'delete from reviews where id=$1::int';
     let res = await client.query(q, [reviewid]);
 
     // Check if that was the last review
-    q = 'select * from reviews where bookid=$1::integer';
+    q = 'select * from reviews where bookid=$1::int';
     let reviewsLeftQuery = await client.query(q, [bookid]);
 
     if(reviewsLeftQuery.rows.length > 0) {

@@ -143,7 +143,7 @@ class BookService {
 
         let res;
         try {
-            res = await client.query('select avg(rating) from reviews where bookid=$1::integer', [bookid]);
+            res = await client.query('select avg(rating) from reviews where bookid=$1::integer and approved=true', [bookid]);
             client.end();
             return Number(res.rows[0].avg);
         } catch (err) {
