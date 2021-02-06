@@ -1,15 +1,15 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { FlatList, ListRenderItem, ScrollView, View } from "react-native";
 import { Card, Rating, Text } from "react-native-elements";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 
-import { getReviews } from "../store/actions";
+
 import { UserState } from "../store/store";
 import ApproveReviewComponent from "./approvereview.component";
 import DeleteReviewComponent from "./deletereview.component";
 import { Review } from "./review";
-import reviewService from "./review.service";
+
 
 
 interface ReviewProps {

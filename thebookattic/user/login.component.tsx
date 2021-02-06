@@ -13,7 +13,7 @@ import { User } from './user';
 // Function Component
 interface LoginProp {
     navigation: any
-    loginFailed: Boolean;
+    loginFailed: boolean;
 }
 function LoginComponent({navigation}: LoginProp) {
     const userSelector = (state: UserState) => state.loginUser;
