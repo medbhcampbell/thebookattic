@@ -30,7 +30,7 @@ export default function AllBooksComponent() {
             setApproved(books.filter(item=>{return item.approved}));
             setRetrievedBooks(true);
         }
-    }, []));
+    }, [books]));
 
     return (
         <BookListComponent books={approved} retrievedBooks={retrievedBooks}/>

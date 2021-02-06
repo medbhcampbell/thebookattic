@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, Image, Pressable, ActivityIndicator } from 'react-native';
 import { Card } from 'react-native-elements';
 import { FlatList } from 'react-native-gesture-handler';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 
 import style from '../global-styles';
@@ -28,8 +28,8 @@ export default function BookRecListComponent() {
 
     useEffect(() => {
         // get the user's list of books to read
-        bookService.getBooksHaveRead(user.name).then((readBooks) => {
-            setBooks(readBooks);
+        bookService.getBooksHaveRead(user.name).then((readBooksRes) => {
+            setBooks(readBooksRes);
         });
     }, []);
   
