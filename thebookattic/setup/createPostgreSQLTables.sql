@@ -34,8 +34,8 @@ create table books
 	rating float default 0,
 	approved boolean default false,
 	genreid int not null,
-	constraint fk_authorid foreign key (authorid) references authors (id),
-	constraint fk_genreid foreign key (genreid) references genres (id)
+	constraint fk_authorid foreign key (authorid) references authors (id) on delete cascade,
+	constraint fk_genreid foreign key (genreid) references genres (id) on delete cascade
 );
 
 create table reviews
@@ -44,8 +44,9 @@ create table reviews
     rating int not null,
     content text not null,
     username varchar(25) not null,
-    bookid int not null references books(id) not null,
-    approved boolean default false
+    bookid int not null,
+    approved boolean default false,
+    constraint fk_bookid foreign key (bookid) references books (id) on delete cascade
 );
 
 create table toread
@@ -53,7 +54,7 @@ create table toread
 	username varchar(25) not null,
 	bookid int not null,
 	primary key(username, bookid),
-	constraint fk_bookid foreign key (bookid) references books (id)
+	constraint fk_bookid foreign key (bookid) references books (id) on delete cascade
 );
 
 create table haveread
@@ -61,7 +62,7 @@ create table haveread
 	username varchar(25) not null,
 	bookid int not null,
 	primary key(username, bookid),
-	constraint fk_bookid foreign key (bookid) references books (id)
+	constraint fk_bookid foreign key (bookid) references books (id) on delete cascade
 );
 
 -- Populating with some sample entries, feel free to add/remove

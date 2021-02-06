@@ -8,7 +8,6 @@ import bookService from './book.service';
 
 interface DeleteBookProps {
     bookid: number;
-    approved: boolean;
 }
 
 export default function DeleteBookComponent(props: DeleteBookProps) {
@@ -17,18 +16,20 @@ export default function DeleteBookComponent(props: DeleteBookProps) {
 
     //Delete the book and update the books kept in the store
     function deleteBook() {
+        console.log(`deleting book ${props.bookid}`);
         bookService.deleteBookById(props.bookid).then(() => {
+            console.log('deleted');
             bookService.getAllBooks().then((allBooks) => {
+                console.log('updating store');
                 dispatch(changeBooks(allBooks));
             }).catch((err) => {
                 console.log(err);
+            }).finally(()=> {
+                nav.navigate('AllBooks');
             });
         }).catch((err) => {
             console.log(err);
-        }).finally(() => {
-            //take us home
-            nav.navigate('Home');
-        })
+        });
     }
 
     return (

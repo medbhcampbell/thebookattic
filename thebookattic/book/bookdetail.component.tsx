@@ -121,7 +121,7 @@ export default function BookDetailComponent(props: BookDetailProps) {
                 </Text>
                 <View style={{ flex: 1, flexDirection: 'row', justifyContent:'center' }}>
                     {(userIsAuthor || user.role === 'admin') &&
-                        <DeleteBookComponent bookid={book.id} approved={book.approved} />}
+                        <DeleteBookComponent bookid={book.id} />}
                     {(!book.approved && user.role === 'admin') &&
                         <ApproveBookComponent id={book.id} />}
                 </View>
