@@ -25,7 +25,7 @@ export default function DeleteBookComponent(props: DeleteBookProps) {
             }).catch((err) => {
                 console.log(err);
             }).finally(()=> {
-                nav.navigate('AllBooks');
+                nav.goBack();
             });
         }).catch((err) => {
             console.log(err);
