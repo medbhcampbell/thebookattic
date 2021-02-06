@@ -13,10 +13,10 @@ export default function UnapprovedBooksComponent() {
     const books = useSelector((state: BookState) => state.books);
     const [unapprovedBooks, setUnapprovedBooks] = useState([] as Book[]);
     
-    useFocusEffect(React.useCallback(()=>{
+    useEffect(()=>{
         // Get unapproved books
         setUnapprovedBooks(books.filter(item=>{return !item.approved}));
-    }, [books]));
+    }, [books]);
 
     return (
         <ScrollView>

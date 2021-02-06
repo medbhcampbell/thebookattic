@@ -43,7 +43,7 @@ export default function BookListComponent(props: BookListProps) {
         }
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         if (genres.length <= 0) {
             genreService.getGenres().then(data => {
                 dispatch(getGenres(data));
