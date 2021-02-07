@@ -15,7 +15,7 @@ export default function UnapprovedBooksComponent() {
     useEffect(()=>{
         // Get unapproved books
         setUnapprovedBooks(books.filter(item=>{return !item.approved}));
-    }, []);
+    }, [books]);
 
     return (
         <ScrollView>

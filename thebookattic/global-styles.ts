@@ -40,8 +40,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row-reverse'
     },
     bookDetailContainer: {
-        display: 'flex',
-        marginHorizontal: 'auto',
+        flex: 1,
+        alignSelf: 'center',
         marginVertical: '4%',
         width: '80%',
         backgroundColor: '#fff',
@@ -49,14 +49,13 @@ const styles = StyleSheet.create({
         padding: '3%'
     },
     authorDetailContainer: {
-        display: 'flex',
-        marginHorizontal: 'auto',
+        flex: 1,
+        alignSelf: 'center',
         marginVertical: '4%',
         width: '80%',
         backgroundColor: '#fff',
         borderRadius: 12,
         padding: '3%',
-        alignItems: 'center'
     }
 });
 

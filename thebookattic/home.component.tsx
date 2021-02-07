@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect} from 'react';
 import { ScrollView } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 
 import { getGenres, getReviews, getAllAuthors } from './store/actions';
@@ -10,8 +9,7 @@ import reviewService from './review/review.service';
 import authorService from './author/author.service';
 
 export default function HomeComponent() {
-    const nav = useNavigation();
-    const dispatch = useDispatch();
+      const dispatch = useDispatch();
 
     useEffect(() => {
         genreService.getGenres().then((genres) => {

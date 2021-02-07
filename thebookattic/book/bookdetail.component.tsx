@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { View, Image, Pressable, ScrollView } from 'react-native';
-import { RouteProp, useNavigation } from '@react-navigation/native';
+import { RouteProp, useFocusEffect, useNavigation } from '@react-navigation/native';
 import style from '../global-styles';
 
 import { getAuthor } from '../store/actions';
@@ -43,7 +43,7 @@ export default function BookDetailComponent(props: BookDetailProps) {
     const [haveReviewed, setHaveReviewed] = useState(false);
 
 
-    useEffect(() => {
+    useFocusEffect(React.useCallback(() => {
 
         // check if the user is the author: deleteBook only appears if true
         authorService.getAuthorById(book.authorid).then((authorres) => {
@@ -99,7 +99,7 @@ export default function BookDetailComponent(props: BookDetailProps) {
         checkOnList();
         checkAuthor();
 
-    }, [book, setUserIsAuthor, setToRead, reviews]);
+    }, [book, setUserIsAuthor, setToRead, reviews]));
 
     return (
         <ScrollView>
