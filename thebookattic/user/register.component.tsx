@@ -101,11 +101,11 @@ function RegisterComponent() {
                 selectedValue={role}
                 style={{ height: 50, width: 100 }}
                 onValueChange={pickRole}>
-                {roles.map((role) => {
+                {roles.map((pickerrole) => {
                     return <Picker.Item
-                        key={role}
-                        label={role}
-                        value={role} />
+                        key={pickerrole}
+                        label={pickerrole}
+                        value={pickerrole} />
                 })}
             </Picker>
             {role === 'author' &&
