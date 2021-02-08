@@ -22,13 +22,13 @@ export default function ApproveBookComponent(props: ApproveBookProps) {
                 dispatch(changeBooks(allBooks));
             }).catch((err) => {
                 console.log(err);
+            }).finally(() => {
+                // Return to unapproved books
+                nav.navigate('UnapprovedBooks');
             });
         }).catch((err) => {
             console.log(err);
-        }).finally(() => {
-            // Return to unapproved books
-            nav.navigate('UnapprovedBooks');
-        })
+        });
     }
 
     return (
