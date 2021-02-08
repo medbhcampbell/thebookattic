@@ -27,7 +27,6 @@ export default function HomeComponent() {
 
     return (
         <ScrollView>
-            {/* TODO: Put other stuff here, links, reccomendations, to-read list, etc (maybe move allbooks to a separate page)*/}
             <AllBooksComponent/>
         </ScrollView>
     )
