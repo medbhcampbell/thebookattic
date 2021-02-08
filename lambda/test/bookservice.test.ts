@@ -1,11 +1,10 @@
-const { handler } = require('../bookService/addBook');
-
 jest.mock('bookservicelayer', () => ({
     BookService: {
         addBook: jest.fn()
     }
 }));
 const mockBSL = require('bookservicelayer');
+const { handler } = require('../bookService/addBook');
 
 describe('Tests for addBook', () => {
     test('That addBook returns the added book when layer returns true', async ()=> {
