@@ -42,6 +42,8 @@ export default function BookDetailComponent(props: BookDetailProps) {
     const reviews = useSelector((state: ReviewState) => state.reviews);
     const [haveReviewed, setHaveReviewed] = useState(false);
 
+    //book rating isn't updating reliably
+    const [rating, setRating] = useState(0);
 
     useFocusEffect(React.useCallback(() => {
 
@@ -89,7 +91,7 @@ export default function BookDetailComponent(props: BookDetailProps) {
 
         async function getRating() {
             try {
-                book.rating = await bookService.getBookRating(book.id);
+                setRating(await bookService.getBookRating(book.id));
             } catch(err) {
                 console.log(err);
             }
@@ -117,7 +119,7 @@ export default function BookDetailComponent(props: BookDetailProps) {
                 <Text>{genres.length && genres.find(item => item.id == book.genreid)?.name}</Text>
                 <Text>Page count: {book.page_count}</Text>
                 <Text>Average rating:
-                    <Rating ratingBackgroundColor='#F9F9F9' imageSize={20} readonly startingValue={book.rating} />
+                    <Rating ratingBackgroundColor='#F9F9F9' imageSize={20} readonly startingValue={rating} />
                 </Text>
                 <View style={{ flex: 1, flexDirection: 'row', justifyContent:'center' }}>
                     {(userIsAuthor || user.role === 'admin') &&

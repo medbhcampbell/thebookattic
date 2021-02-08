@@ -14,7 +14,7 @@ export default function AllBooksComponent() {
 
     const books = useSelector((state: BookState) => state.books);
     // Have the books been retrieved?
-    const [retrievedBooks, setRetrievedBooks] = useState(isFocused);
+    const [retrievedBooks, setRetrievedBooks] = useState(false);
     const [approved, setApproved] = useState([] as Book[]);
 
     useFocusEffect(React.useCallback(()=>{
@@ -30,7 +30,7 @@ export default function AllBooksComponent() {
             setApproved(books.filter(item=>{return item.approved}));
             setRetrievedBooks(true);
         }
-    }, []));
+    }, [books]));
 
     return (
         <BookListComponent books={approved} retrievedBooks={retrievedBooks}/>
