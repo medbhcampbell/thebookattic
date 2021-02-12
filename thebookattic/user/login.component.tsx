@@ -7,6 +7,7 @@ import { View } from 'react-native';
 import style from '../global-styles';
 import { Button, Input, Text } from 'react-native-elements';
 import { User } from './user';
+import { color } from 'react-native-reanimated';
 
 
 
@@ -50,7 +51,7 @@ function LoginComponent({navigation}: LoginProp) {
     
      return (
         <View style={style.container}>
-            <Input
+            <Input 
                 label='Username'
                 onChangeText={(value) =>
                     dispatch(loginAction({ ...login, name: value }))
@@ -63,7 +64,7 @@ function LoginComponent({navigation}: LoginProp) {
                 }}
             />
             
-            <Input
+            <Input 
                 label='Password'
                 secureTextEntry={true}
                 onChangeText={(value) =>
