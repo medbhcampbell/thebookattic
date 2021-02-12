@@ -1,4 +1,4 @@
-import { useFocusEffect, useIsFocused } from "@react-navigation/native";
+import { useFocusEffect } from "@react-navigation/native";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -10,7 +10,6 @@ import BookListComponent from "./booklist.component";
 
 export default function AllBooksComponent() {
     const dispatch = useDispatch();
-    const isFocused = useIsFocused();
 
     const books = useSelector((state: BookState) => state.books);
     // Have the books been retrieved?
