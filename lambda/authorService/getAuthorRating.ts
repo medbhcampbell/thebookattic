@@ -37,7 +37,7 @@ export const handler = async (event: AuthorEvent): Promise<any> => {
 }
 
 async function getAuthorRatingById(authorId: number): Promise<number | null> {
-    const query = `select avg(rating) from reviews r inner join books b on (r.bookid = b.id) where b.authorid = '${authorId}'`;
+    const query = `select avg(r.rating) from reviews r inner join books b on (r.bookid = b.id) where b.authorid = '${authorId}' and r.approved = true and b.approved = true`;
     console.log(query);
     let result: any;
     const client = new Client();
