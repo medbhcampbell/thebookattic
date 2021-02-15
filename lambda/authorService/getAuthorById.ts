@@ -38,7 +38,7 @@ export const handler = async (event: AuthorEvent): Promise<any> => {
 }
 
 async function getAuthorById(authorId: number): Promise<Author | null> {
-    const query = `select * from authors where id = '${authorId}'`;
+    const query = `select id, userid, firstname, lastname, avgrating, bio, picture from authors where id = '${authorId}'`;
     console.log(query);
     let result: any;
     const client = new Client();
