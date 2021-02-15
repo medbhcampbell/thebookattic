@@ -71,6 +71,7 @@ function LoginComponent({navigation}: LoginProp) {
                     dispatch(loginAction({ ...login, password: value }))
                 }
                 
+                
                 value={login.password}
                 placeholder='password'
                 leftIcon={{
