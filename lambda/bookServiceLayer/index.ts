@@ -9,7 +9,7 @@ class BookService {
 
         let res;
         try {
-            res = await client.query('select * from books');
+            res = await client.query('select b.id, b.authorid, b.title, b.cover, b.blurb, b.page_count, b.approved, b.genreid, b.link from books b');
             return res.rows as Book[];
         } catch (err) {
             console.log(err);
@@ -24,7 +24,14 @@ class BookService {
         await client.connect();
 
         let res;
-        const q = `select b.id, b.authorid, b.title, b.cover, b.blurb, b.page_count, b.approved, b.genreid from books b join ${joinTable} t on b.id = t.bookid where t.username=$1::text`;
+        const q_toread = `select b.id, b.authorid, b.title, b.cover, b.blurb, b.page_count, b.approved, b.link, b.genreid from books b join toread t on b.id = t.bookid where t.username=$1::text`;
+        const q_haveread = `select b.id, b.authorid, b.title, b.cover, b.blurb, b.page_count, b.approved, b.link, b.genreid from books b join haveread t on b.id = t.bookid where t.username=$1::text`;
+        let q;
+        if(joinTable === 'toread') {
+            q = q_toread;
+        } else if(joinTable === 'haveread') {
+            q = q_haveread;
+        }
         const args = [username];
         try {
             res = await client.query(q, args);
@@ -43,7 +50,7 @@ class BookService {
 
         let res;
         try {
-            res = await client.query('select * from books where id=$1::integer', [bookid]);
+            res = await client.query('select b.id, b.authorid, b.title, b.cover, b.blurb, b.page_count, b.approved, b.genreid, b.link from books b where id=$1::integer', [bookid]);
             return res.rows[0] as Book;
         } catch (err) {
             console.log(err);
@@ -76,9 +83,18 @@ class BookService {
         const client = new Client();
         await client.connect();
 
+        const q_toread = `insert into toread (username, bookid) values ($1::text, $2::integer)`;
+        const q_haveread = `insert into haveread (username, bookid) values ($1::text, $2::integer)`;
+        let q;
+        if(joinTable === 'toread') {
+            q = q_toread;
+        } else if(joinTable === 'haveread') {
+            q = q_haveread;
+        }
+
+        const args = [username, bookid];
+
         try {
-            const q = `insert into ${joinTable} (username, bookid) values ($1::text, $2::integer)`;
-            const args = [username, bookid];
             await client.query(q, args);
             return true;
         } catch(err) {
@@ -93,9 +109,18 @@ class BookService {
         const client = new Client();
         await client.connect();
 
+        const q_toread = `delete from toread where username=$1::text and bookid=$2::integer`;
+        const q_haveread = `delete from haveread where username=$1::text and bookid=$2::integer`;
+        let q;
+        if(joinTable === 'toread') {
+            q = q_toread;
+        } else if(joinTable === 'haveread') {
+            q = q_haveread;
+        }
+    
+        const args = [username, bookid];
+
         try {
-            const q = `delete from ${joinTable} where username=$1::text and bookid=$2::integer`;
-            const args = [username, bookid];
             await client.query(q, args);
             return true;
         } catch(err) {
