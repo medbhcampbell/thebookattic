@@ -171,8 +171,10 @@ Resource path: /books/{book}
 ### Frontend:
 
 1. `cd thebookattic`
-2. `npm i`
-3. `npm run start`
+2. `cp environment.example.ts environment.ts`
+   1. replace temporary URI with your AWS API Gateway Stage's invoke URL
+3. `npm i`
+4. `npm run start`
 
 ### Contributors:
 1. Medbh Campbell
