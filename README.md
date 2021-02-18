@@ -50,11 +50,133 @@ Each Lambda function has a separate TypeScript file which needs to be transpiled
 6. Repeat step 4 for each JavaScript file in `lambda/genreService`, but include both the `nodepostgreslayer` and the `genreservicelayer`.
 7. Repeat step 4 for each JavaScript file in `lambda/reviewService`
 8. Repeat step 4 for each JavaScript file in `lambda/userService`, but use the LambdaDynamoRole for your lambda functions instead of the LambdaVPC role.
+ 
 
 #### API Gateway
+
+### Users:
+Function:getUserByName
+Method: POST
+Resource path: /users/login
+
+Function:getUsers
+Method: GET
+Resource path: /users
+
+Function:addNewUser
+Method: POST
+Resource path: /users
+
+### Authors:
+Function: getAllAuthors
+Method: GET
+Resource path: /authors
+
+Function:getAuthorById
+Method: GET
+Resource path: /authors/{author}
+
+Function: updateAuthor
+Method: PUT
+Resource path: /authors
+
+Function: addAuthor
+Method: POST
+Resource path: /authors
+
+Function: removeAuthor
+Method: DELETE
+Resource path: /authors/{author}
+
+Function: getAuthorByRating
+Method: GET
+Resource path: /authors/ratings/{author}
+
+### Genres:
+
+Function: getGenres
+Method: GET
+Resource path: /genres
+
+Function: getGenreById
+Method: GET
+Resource path: /genres/{genre}
+
+Function: addGenre
+Method: POST
+Resource path: /genres
+
+Function: removeGenre
+Method: DELETE
+Resource path: /genres/{genre}
+
+### Reviews:
+
+Function: getReviews
+Method: GET
+Resource path: /reviews
+
+Function: addReview
+Method: POST
+Resource path: /reviews
+
+Function: approveReviewById
+Method: PUT
+Resource path: /reviews/{review}
+
+Function: deleteReviewById
+Method: DELETE
+Resource path: /reviews/{review}
+
+### Books:
+
+Function: getBooks
+Method: GET
+Resource path: /books
+
+Function: getBookById
+Method: GET
+Resource path: /books/{book}
+
+Function: getBookToRead (combine function for to read and have read)
+Method: GET
+Resource path: /books/toread/{user} or
+Resource path: /books/haveread/{user}
+
+Function:addBook
+Method: POST
+Resource path: /books
+
+Function:approveBookById
+Method: PATCH
+Resource path: /books/{book}
+
+Function:addBookToRead ( combine function for to read and have read)
+Method: POST
+Resource path: /books/toread/{user} or
+Resource path: /books/haveread/{user}
+
+Function : getBookRating
+Method: GET
+Resource path: /books/ratings/{book}
+
+Function : deleteBookById
+Method: DELETE
+Resource path: /books/{book}
+
+
+
+
 
 ### Frontend:
 
 1. `cd thebookattic`
 2. `npm i`
 3. `npm run start`
+
+### Contributors:
+1. Medbh Campbell
+2. Yuqing Wang (Emma Wang)
+3. Lilith Moore
+4. Robert Thompson
+5. Madhavi Thurlapati

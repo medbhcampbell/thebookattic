@@ -23,7 +23,7 @@ export const handler = async (): Promise<any> => {
 
 async function getAllAuthors(): Promise<Author[] | null> {
     const client = new Client();
-    const query = 'select * from authors;';
+    const query = 'select id, userid, firstname, lastname, avgrating, bio, picture from authors;';
     client.connect();
     let result: any;
     try {
