@@ -2,6 +2,8 @@
 
 ## Project Description
 
+The Book Attic is a full-stack hybrid application for web and mobile which allows readers, authors, and admins to interact with a list of books. Readers can view books, add them to lists, review them and view recommendations based on those reviews. Authors can additionally submit new books and delete their own work, and admins can moderate reviews and books that have been submitted.
+
 ## Technologies Used
 
 ## Features
