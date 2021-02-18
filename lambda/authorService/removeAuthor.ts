@@ -9,7 +9,7 @@ export const handler = async (event: AuthorEvent): Promise<any> => {
     let authorId = Number(event.path.substring(event.path.lastIndexOf('/')+1, event.path.length));
     console.log(authorId);
     const author = await removeAuthor(authorId);
-    Client.end();
+    client.end();
     const head = {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*'
