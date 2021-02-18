@@ -7,6 +7,14 @@ The Book Attic is a full-stack hybrid application for web and mobile which allow
 ## Technologies Used
 
 ## Features
+* Users can register new accounds as both a standard user and as an author
+* Users can view all approved books in the database and filter them by genre
+* Users can view detailed information for individual books and authors
+* Users can add books to "To Read" and "Have Read" lists to keep track of their reading history
+* Users can submit book reviews with text and a 5-star point rating
+* Users can view a list of recommended books based on previous reviews
+* Author accounts can submit their own books to the system and delete books that belong to them
+* Admin accounts can approve or reject pending books and reviews before either are made public
 
 ## Getting Started
 
